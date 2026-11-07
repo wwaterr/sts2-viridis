@@ -6,7 +6,7 @@ using STS2RitsuLib.Keywords;
 namespace Viridis.Cultivate;
 
 /// <summary>模组关键词“栽培”：注册定义，并暴露原版 <see cref="CardKeyword"/> 铸造值供卡牌引用。</summary>
-[RegisterOwnedCardKeyword("Cultivate", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.AfterCardDescription)]
+[RegisterOwnedCardKeyword("Cultivate", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.None)]
 public sealed class CultivateKeyword
 {
     public static readonly CardKeyword Value =

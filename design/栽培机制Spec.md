@@ -22,7 +22,7 @@
 
 ## 3. 展示方式
 
-栽培是模组关键词（`VIRIDIS_KEYWORD_CULTIVATE`），由 RitsuLib 注册，标题和说明放在 `card_keywords.json`。真正执行栽培的动词卡在描述末尾显示「栽培」，悬停可看关键词说明；收益、触发类卡牌不挂这个词。
+栽培是模组关键词（`VIRIDIS_KEYWORD_CULTIVATE`），由 RitsuLib 注册，标题和说明放在 `card_keywords.json`。注册时 `CardDescriptionPlacement = None`，不向描述追加独立关键词行；真正执行栽培的动词卡在效果文本里用 `[gold]栽培[/gold]` 标出动作词。关键词值仍在 `CardModel.Keywords` 中，`IncludeInCardHoverTip` 默认开启，卡牌悬停提示会显示关键词说明。收益、触发类卡牌不挂这个词。
 
 - 初始遗物（例如：每回合第一次……）
 - 药水
