@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using Viridis.Cards;
 using Viridis.Pools;
 
 namespace Viridis.Cultivate;
@@ -319,6 +320,10 @@ public static class CultivateSystem
             power.Pending.Add(planting);
             CultivatePileUI.Refresh(player);
             await NotifyCultivated(ctx, player);
+
+            if (target is CultivateCard cultivatedCard)
+                await cultivatedCard.OnCultivated(ctx, player);
+
             Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
         }
         catch (Exception e)

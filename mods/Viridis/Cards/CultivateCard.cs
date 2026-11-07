@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Scaffolding.Content;
@@ -24,6 +25,9 @@ public abstract class CultivateCard : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         ShowsCultivateKeyword ? new[] { CultivateKeyword.Value } : base.CanonicalKeywords;
+
+    /// <summary>这张牌被栽培时触发；默认无效果。</summary>
+    public virtual Task OnCultivated(PlayerChoiceContext ctx, Player player) => Task.CompletedTask;
 
     /// <summary>当前栽培牌库中的牌数。</summary>
     protected static int Pile(CardPlay play) => CultivateSystem.PileCount(play.Player);

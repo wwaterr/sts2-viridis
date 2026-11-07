@@ -33,13 +33,13 @@ sharp_focus, motion_blur, card_art, fantasy, painterly, dark_background, dramati
 1girl, solo, viridis_(character), green_hair, leaf_hair_ornament, guarding, crossed_arms,
 bark_armor, protective_stance, card_art, fantasy, painterly, dark_background, dramatic_lighting
 
-育苗 / Seedling
-1girl, solo, viridis_(character), green_hair, kneeling, holding_seed, soil, planting,
+种植 / Plant
+1girl, solo, viridis_(character), green_hair, kneeling, planting_seed, soil,
 tender_expression, tiny_sprout, soft_light, card_art, fantasy, painterly, dark_background
 
-落叶 / Fallen Leaf
-1girl, solo, viridis_(character), green_hair, autumn_leaves, falling_leaves, reaching_out,
-wind, single_leaf_in_hand, card_art, fantasy, painterly, dark_background, dramatic_lighting
+微小种子 / Tiny Seed
+1girl, solo, viridis_(character), green_hair, cupped_hands, holding_seed, tiny_sprout,
+soft_light, card_art, fantasy, painterly, dark_background
 
 ==================================================
 普通牌
