@@ -75,6 +75,7 @@ public sealed class Plant : CultivateCard
 /// <summary>微小种子：1 费，获得 3（5）格挡并随机造成 3（5）伤害；被栽培时也触发。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
+[RegisterArchaicToothTranscendence(typeof(SmallPine))]
 public sealed class TinySeed : CultivateCard
 {
     public TinySeed() : base(1, CardType.Attack, CardRarity.Basic, TargetType.RandomEnemy) { }

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
 using Viridis.Cards;
 using Viridis.Pools;
 
@@ -69,7 +70,7 @@ public static class CultivateSystem
         {
             var power = player.Creature?.GetPower<CultivateFieldPower>();
             var last = power?.Pending.LastOrDefault();
-            if (last is not null)
+            if (last is not null && !last.Permanent)
             {
                 last.TurnsLeft += extraTurns;
                 CultivatePileUI.Refresh(player);
@@ -139,7 +140,7 @@ public static class CultivateSystem
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending)
+        foreach (var p in power.Pending.Where(p => !p.Permanent))
             p.TurnsLeft = Math.Max(0, p.TurnsLeft - n);
 
         Log.Info($"[Cultivate] grow {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
@@ -155,7 +156,7 @@ public static class CultivateSystem
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending)
+        foreach (var p in power.Pending.Where(p => !p.Permanent))
             p.TurnsLeft = Math.Max(0, turns);
 
         await HarvestAll(ctx, player, power);
@@ -187,7 +188,7 @@ public static class CultivateSystem
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending)
+        foreach (var p in power.Pending.Where(p => !p.Permanent))
             p.TurnsLeft += n;
 
         CultivatePileUI.Refresh(player);
@@ -202,7 +203,7 @@ public static class CultivateSystem
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending)
+        foreach (var p in power.Pending.Where(p => !p.Permanent))
             p.TurnsLeft = (int)Math.Ceiling(p.TurnsLeft / 2.0);
 
         await HarvestAll(ctx, player, power);
@@ -216,7 +217,11 @@ public static class CultivateSystem
         if (power is null || power.Pending.Count == 0)
             return 0;
 
-        var src = power.Pending[Random.Shared.Next(power.Pending.Count)];
+        var candidates = power.Pending.Where(p => !p.Permanent).ToList();
+        if (candidates.Count == 0)
+            return 0;
+
+        var src = candidates[Random.Shared.Next(candidates.Count)];
         var copy = new Planting(src.SourceId, src.TargetRarity, 1, src.Count, src.SourceRarity, src.Upgraded, src.Title);
         power.Pending.Add(copy);
         CultivatePileUI.Refresh(player);
@@ -270,6 +275,9 @@ public static class CultivateSystem
             return false;
 
         var last = power.Pending[^1];
+        if (last.Permanent)
+            return true;
+
         power.Pending.Remove(last);
         last.TurnsLeft = 0;
         power.Pending.Add(last);
@@ -284,6 +292,19 @@ public static class CultivateSystem
             if (!CultivateFlags.CanCultivate(player))
             {
                 Log.Info("[Cultivate] blocked by NoCultivatePower");
+                return;
+            }
+
+            // 永久栽培：不进收获倒计时，而是留在栽培区里
+            if (target is CultivateCard { CultivatesPermanently: true } permanent)
+            {
+                await CultivatePermanent(
+                    ctx,
+                    player,
+                    target,
+                    permanent.PermanentBlockValue,
+                    permanent.PermanentDamageValue,
+                    triggerNow: false);
                 return;
             }
 
@@ -332,6 +353,107 @@ public static class CultivateSystem
         }
     }
 
+    /// <summary>
+    /// 永久栽培：把牌移入栽培区并永久保留，不参与倒计时和收获。
+    /// triggerNow 为 true 时立刻结算一次卡牌效果（卡牌打出时）。
+    /// </summary>
+    public static async Task<bool> CultivatePermanent(
+        PlayerChoiceContext ctx,
+        Player player,
+        CardModel target,
+        decimal block,
+        decimal damage,
+        bool triggerNow)
+    {
+        try
+        {
+            if (!CultivateFlags.CanCultivate(player))
+            {
+                Log.Info("[Cultivate] blocked by NoCultivatePower");
+                return false;
+            }
+
+            var planting = new Planting(
+                target.Id,
+                null,
+                1,
+                1,
+                target.Rarity,
+                target.IsUpgraded,
+                target.Title + (target.IsUpgraded ? "+" : ""))
+            {
+                Permanent = true,
+                TurnsLeft = int.MaxValue,
+                StoredBlock = block,
+                StoredDamage = damage,
+                Card = target,
+            };
+
+            await CardPileCmd.RemoveFromCombat(target);
+
+            var power = await GetOrApply(ctx, player, target);
+            if (power is null)
+            {
+                Log.Error("[Cultivate] failed to get field power");
+                return false;
+            }
+
+            power.Pending.Add(planting);
+            CultivatePileUI.Refresh(player);
+            await NotifyCultivated(ctx, player);
+
+            if (triggerNow)
+                await TriggerPermanent(ctx, player, planting);
+
+            CultivatePileUI.Refresh(player);
+            Log.Info($"[Cultivate] permanently planted {target.Id} block={block} damage={damage}");
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.Error($"[Cultivate] permanent plant failed: {e}");
+            return false;
+        }
+    }
+
+    /// <summary>触发栽培区中所有永久栽培牌的效果。</summary>
+    public static async Task TriggerPermanents(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+    {
+        foreach (var p in power.Pending.Where(p => p.Permanent).ToList())
+        {
+            try
+            {
+                await TriggerPermanent(ctx, player, p);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Cultivate] permanent trigger failed: {e}");
+            }
+        }
+
+        CultivatePileUI.Refresh(player);
+    }
+
+    private static async Task TriggerPermanent(PlayerChoiceContext ctx, Player player, Planting p)
+    {
+        await CreatureCmd.GainBlock(player.Creature, p.StoredBlock, BlockProps.card, null);
+
+        var state = player.Creature.CombatState;
+        if (state is not null && p.Card is not null)
+        {
+            await DamageCmd.Attack(p.StoredDamage)
+                .FromCard(p.Card, null)
+                .TargetingRandomOpponents(state)
+                .WithHitFx("vfx/vfx_attack_slash")
+                .Execute(ctx);
+        }
+
+        p.StoredBlock *= 2m;
+        p.StoredDamage *= 2m;
+
+        Log.Info($"[Cultivate] permanent trigger {p.Title}: block={p.StoredBlock / 2} damage={p.StoredDamage / 2} -> next {p.StoredBlock}/{p.StoredDamage}");
+    }
+
     private static async Task<CultivateFieldPower?> GetOrApply(PlayerChoiceContext ctx, Player player, CardModel source)
     {
         var existing = player.Creature.GetPower<CultivateFieldPower>();
@@ -345,7 +467,7 @@ public static class CultivateSystem
 
     public static async Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
     {
-        foreach (var p in power.Pending.Where(p => p.TurnsLeft <= 0).ToList())
+        foreach (var p in power.Pending.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
         {
             power.Pending.Remove(p);
             for (int i = 0; i < p.Count; i++)
@@ -505,4 +627,16 @@ public sealed class Planting
     public bool Upgraded { get; }
     public string Title { get; }
     public int TurnsLeft { get; set; }
+
+    /// <summary>永久栽培：不参与倒计时和收获。</summary>
+    public bool Permanent { get; set; }
+
+    /// <summary>永久栽培当前使用的格挡值，每次触发后翻倍。</summary>
+    public decimal StoredBlock { get; set; }
+
+    /// <summary>永久栽培当前使用的伤害值，每次触发后翻倍。</summary>
+    public decimal StoredDamage { get; set; }
+
+    /// <summary>永久栽培对应的卡牌实例，用于伤害来源与卡面信息。</summary>
+    public CardModel? Card { get; set; }
 }

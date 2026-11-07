@@ -9,6 +9,9 @@ public class ModEntry
 {
     public const string ModId = "Viridis";
 
+    /// <summary>模组 PCK 内的资源根路径。</summary>
+    public const string ResPath = $"res://{ModId}";
+
     public static void Initialize()
     {
         Log.Info($"[{ModId}] Initialize() called - character scaffold loaded.");

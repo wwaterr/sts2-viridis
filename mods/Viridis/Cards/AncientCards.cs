@@ -1,6 +1,9 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 using Viridis.Cultivate;
 using Viridis.Pools;
 
@@ -8,24 +11,52 @@ namespace Viridis.Cards;
 
 // ---------- 先古牌 ----------
 
+/// <summary>
+/// 小松绿：永久栽培。获得 3（5）格挡，随机造成 3（5）伤害，然后这两个数字翻倍。
+/// 在栽培区时每个回合结束再触发一次。
+/// </summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class WorldTree : CultivateCard
+public sealed class SmallPine : CultivateCard
 {
-    public WorldTree() : base(3, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
+    public SmallPine() : base(1, CardType.Attack, CardRarity.Ancient, TargetType.RandomEnemy) { }
 
-    protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "世界树";
+    public override bool GainsBlock => true;
+
+    public override string Title => "小松绿";
+
+    public override CardAssetProfile AssetProfile =>
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/small_pine.ctex");
+
+    protected override bool ShowsCultivateKeyword => false;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { PermanentCultivateKeyword.Value };
+
+    public override bool CultivatesPermanently => true;
+
+    public override decimal PermanentBlockValue => DynamicVars.Block.BaseValue;
+
+    public override decimal PermanentDamageValue => DynamicVars.Damage.BaseValue;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new BlockVar(3m, ValueProp.Move),
+            new DamageVar(3m, ValueProp.Move),
+        };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<WorldTreePower>(ctx, play, play.Player.Creature, 1m);
-}
+        => await CultivateSystem.CultivatePermanent(
+            ctx,
+            play.Player,
+            this,
+            DynamicVars.Block.BaseValue,
+            DynamicVars.Damage.BaseValue,
+            triggerNow: true);
 
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class PrimordialSpore : CultivateCard
-{
-    public PrimordialSpore() : base(2, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
-    public override string Title => "始祖孢子";
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<PrimordialSporePower>(ctx, play, play.Player.Creature, 1m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
+    }
 }

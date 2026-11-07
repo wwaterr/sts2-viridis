@@ -130,7 +130,7 @@ public static class CultivatePileUI
             {
                 var label = new Label
                 {
-                    Text = $"{p.Title}  剩余 {p.TurnsLeft} 回合",
+                    Text = p.Permanent ? $"{p.Title}  永久" : $"{p.Title}  剩余 {p.TurnsLeft} 回合",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 };
                 label.AddThemeFontSizeOverride("font_size", 16);

@@ -29,6 +29,15 @@ public abstract class CultivateCard : ModCardTemplate
     /// <summary>这张牌被栽培时触发；默认无效果。</summary>
     public virtual Task OnCultivated(PlayerChoiceContext ctx, Player player) => Task.CompletedTask;
 
+    /// <summary>这张牌是否走“永久栽培”路径（不进入收获倒计时）。</summary>
+    public virtual bool CultivatesPermanently => false;
+
+    /// <summary>永久栽培时首次触发使用的格挡值。</summary>
+    public virtual decimal PermanentBlockValue => 0m;
+
+    /// <summary>永久栽培时首次触发使用的伤害值。</summary>
+    public virtual decimal PermanentDamageValue => 0m;
+
     /// <summary>当前栽培牌库中的牌数。</summary>
     protected static int Pile(CardPlay play) => CultivateSystem.PileCount(play.Player);
 
