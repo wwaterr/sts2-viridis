@@ -23,5 +23,8 @@ public sealed class CultivateFieldPower : PowerModel
             p.TurnsLeft--;
 
         await CultivateSystem.HarvestAll(choiceContext, player, this);
+
+        // 倒计时变化后刷新牌堆显示
+        Ui.CultivatePileUI.Refresh(player);
     }
 }

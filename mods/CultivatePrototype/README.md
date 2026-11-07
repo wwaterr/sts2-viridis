@@ -40,9 +40,10 @@ Select-String -Path "$env:APPDATA\SlayTheSpire2\logs\godot.log" -Pattern "Cultiv
 - [x] 栽培动作：目标移出战斗 + 状态记录
 - [x] 回合开始倒计时
 - [x] 收获：按稀有度/费用筛选 → 生成 → 置入手牌
-- [ ] X>1 的费用折扣（`AddUntilPlayed`）
-- [ ] 选牌 UI（目前自动选第一张可打出的牌）
-- [ ] 升级继承
+- [x] X>1 的费用折扣（`AddUntilPlayed`）
+- [x] 选牌 UI（游戏原生手牌选择）
+- [x] 升级继承（`CurrentUpgradeLevel` + `FinalizeUpgradeInternal`）
+- [ ] 手牌满时溢出到弃牌堆
 - [ ] 先古牌收获同名牌 ×2
 - [ ] 本地化（卡名/描述/能力图标）
 
@@ -50,21 +51,24 @@ Select-String -Path "$env:APPDATA\SlayTheSpire2\logs\godot.log" -Pattern "Cultiv
 
 | 项 | 状态 |
 |---|---|
-| 选牌 UI | 未做，自动选第一张费用 ≥0 的牌 |
-| 升级继承 | 未做 |
+| 选牌 UI | 已在用游戏原生手牌选择；取消则无效果 |
+| 升级继承 | 已实现（收获牌恢复 `+` 状态） |
 | 卡面文字 | 占位（描述为空，显示 loc key） |
-| 先古 ×2 | 已实现（收同名牌 2 张） |
-| 费用折扣 | 已实现（X>1 时 `AddUntilPlayed(1-X)`），未验证 |
+| 先古 ×2 | 已实现（收同名牌 2 张），未验证 |
+| 费用折扣 | 已实现并验证（X>1 收获牌首张 1 费） |
 | 手牌满 | 依赖游戏的 `AddGeneratedCardToCombat` 行为，待验证 |
 
 ## 代码结构
 
 | 文件 | 作用 |
 |---|---|
-| `ModEntry.cs` | 注册测试卡进铁甲池 |
-| `Cards/CultivateTestCard.cs` | 测试卡，打出后随机栽培一张手牌 |
+| `ModEntry.cs` | 注册测试卡进铁甲池、逐类型打补丁 |
+| `Cards/CultivateTestCard.cs` | 测试卡，打出后选手牌中的一张栽培 |
 | `CultivateSystem.cs` | 栽培/收获核心逻辑、稀有度映射、池筛选 |
 | `Powers/CultivateFieldPower.cs` | 场地能力，记倒计时，回合开始结算 |
+| `Patches/IroncladStartingDeckPatch.cs` | 给初始牌组加测试卡 |
+| `Patches/StarterUpgradePatch.cs` | 战斗开始时升级打击/痛击各一张（测试用） |
+| `Patches/BashInnatePatch.cs` | 给测试用牌加固有 |
 
 ## 构建
 

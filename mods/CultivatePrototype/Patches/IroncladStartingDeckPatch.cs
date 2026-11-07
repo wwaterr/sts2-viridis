@@ -7,30 +7,45 @@ using CultivatePrototype.Cards;
 
 namespace CultivatePrototype;
 
-/// <summary>把测试卡塞进铁甲的初始牌组，省得去刷卡牌奖励。</summary>
+/// <summary>用设计好的起始牌组替换铁甲初始牌组，方便直接测小松绿的卡。</summary>
 [HarmonyPatch(typeof(Ironclad), "get_StartingDeck")]
 public static class IroncladStartingDeckPatch
 {
-    public const int Copies = 3;
+    /// <summary>起始牌组：4 松针击 / 4 护根 / 1 育苗 / 1 落叶。</summary>
+    private static readonly (Type Type, int Copies)[] Deck =
+    {
+        (typeof(PineNeedle), 4),
+        (typeof(RootGuard), 4),
+        (typeof(Seedling), 1),
+        (typeof(FallenLeaf), 1)
+    };
 
     [HarmonyPostfix]
     public static void Postfix(ref IEnumerable<CardModel> __result)
     {
         try
         {
-            var cards = __result?.ToList() ?? new List<CardModel>();
-            int before = cards.Count;
+            var pool = ModelDb.CardPool<IroncladCardPool>().AllCards;
+            var cards = new List<CardModel>();
 
-            var canonical = FindCanonical() ?? new CultivateTestCard();
-
-            for (int i = 0; i < Copies; i++)
+            foreach (var (type, copies) in Deck)
             {
-                // 每张给独立实例，避免同一引用被去重
-                cards.Add(i == 0 ? canonical : SafeClone(canonical));
+                var canonical = pool.FirstOrDefault(c => c.GetType() == type);
+                if (canonical is null)
+                {
+                    Log.Warn($"[CultivatePrototype] starting deck: {type.Name} not in pool");
+                    continue;
+                }
+
+                for (int i = 0; i < copies; i++)
+                    cards.Add(i == 0 ? canonical : SafeClone(canonical));
             }
 
+            if (cards.Count == 0)
+                return;
+
             __result = cards;
-            Log.Info($"[CultivatePrototype] StartingDeck patched: {before} -> {cards.Count} (+{Copies})");
+            Log.Info($"[CultivatePrototype] StartingDeck = {cards.Count} cards ({string.Join(", ", cards.Select(c => c.GetType().Name))})");
         }
         catch (Exception e)
         {
@@ -42,18 +57,5 @@ public static class IroncladStartingDeckPatch
     {
         try { return card.CreateClone(); }
         catch { return card; }
-    }
-
-    private static CardModel? FindCanonical()
-    {
-        try
-        {
-            return ModelDb.CardPool<IroncladCardPool>().AllCards.OfType<CultivateTestCard>().FirstOrDefault();
-        }
-        catch (Exception e)
-        {
-            Log.Warn($"[CultivatePrototype] pool lookup failed, falling back to new(): {e.GetType().Name}");
-            return null;
-        }
     }
 }

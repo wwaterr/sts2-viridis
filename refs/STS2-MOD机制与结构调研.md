@@ -188,6 +188,13 @@ Capabilities/  Keywords/  Patches/  Utils/  Systems/
 | 栽培诅咒后收获为空 | 状态/诅咒/任务/衍生牌在**独立牌池** | 查询要并上 `StatusCardPool`/`CurseCardPool`/`QuestCardPool`/`TokenCardPool` |
 | 用了 `[ModInitializer]` 但 Harmony 没生效 | 有该特性时加载器**不会**自动 `PatchAll` | 在初始化函数里手动 `new Harmony(id).PatchAll(asm)` |
 | 测试卡刷不到 | 只进卡池要等随机奖励 | Harmony 补丁改 `CharacterModel.StartingDeck`（属性 getter，如 `Ironclad.get_StartingDeck`） |
+| 补丁挂 `NCombatPileCardSelectScreen._Ready` 完全不执行 | Godot 回调 `_Ready` 在**每个子类各自重写**，子类不会调用 `base._Ready()` | 改挂所有选牌界面共用、且子类未重写的 `NCardGridSelectionScreen.CardsSelected()` |
+| `Harmony.PatchAll(Type)` 不存在（只有 `PatchAll(Assembly)`） | HarmonyX 的 API 限制 | 用 `harmony.CreateClassProcessor(type).Patch()` 逐类型打补丁，一个失败不影响其它 |
+| 补丁类里一处报错导致其它补丁全失效 | `PatchAll` 是整批处理，抛异常即中断 | 逐类型 try/catch |
+| `CardPlay.ResultPile` 无法赋值（CS8852） | 属性是 `init`-only | 反射写 `<ResultPile>k__BackingField`；或事后 `CardPileCmd.Add(card, PileType.Hand)` |
+| 想退回能量但不知道玩家实际花了多少 | — | `cardPlay.Resources.EnergySpent` 记录实际花费 |
+| `MutableModelException: Mutable model ... used in incorrect place` + 开局卡死 | `CharacterModel.StartingDeck` 只接受**规范（不可变）模型**，引擎自己克隆 | 不要往 StartingDeck 塞 `ToMutable()`；改用 `Hook.BeforeCombatStart` 在抽牌堆里升级 |
+| 手牌选择没有可取消的界面 | 手牌选择不是独立界面，而是 `NPlayerHand.SelectCards` 在原手牌上做的 | 相关节点：`%SelectModeBackstop`、`%SelectModeConfirmButton`、`%SelectionHeader`；完成/取消靠 `_selectionCompletionSource` |
 
 有用的 API：
 

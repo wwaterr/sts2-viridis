@@ -1,7 +1,9 @@
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
@@ -24,6 +26,89 @@ public static class CultivateSystem
         _ => null
     };
 
+    /// <summary>弹出手牌选择并栽培选中的那张；没有可选目标时返回 false。</summary>
+    public static async Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source)
+    {
+        var hand = player.PlayerCombatState?.Hand.Cards;
+        var candidates = hand?
+            .Where(c => c.Pile?.Type == PileType.Hand)
+            .ToList() ?? new List<CardModel>();
+
+        if (candidates.Count == 0)
+        {
+            Log.Info("[Cultivate] no cultivable card in hand");
+            return false;
+        }
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+
+        var selected = await CardSelectCmd.FromHand(ctx, player, prefs, c => candidates.Contains(c), source);
+        var target = selected?.FirstOrDefault();
+
+        if (target is null)
+        {
+            Log.Info("[Cultivate] nothing selected");
+            return false;
+        }
+
+        await Cultivate(ctx, player, target);
+        return true;
+    }
+
+    // ---------- 库数 / 生长 / 清库 ----------
+
+    /// <summary>栽培牌库中的牌数（无上限）。</summary>
+    public static int PileCount(Player player)
+        => player.Creature?.GetPower<CultivateFieldPower>()?.Pending.Count ?? 0;
+
+    /// <summary>生长 N：所有栽培牌剩余回合 -N，到 0 立即收获。</summary>
+    public static async Task Grow(PlayerChoiceContext ctx, Player player, int n)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft = Math.Max(0, p.TurnsLeft - n);
+
+        Log.Info($"[Cultivate] grow {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
+
+        await HarvestAll(ctx, player, power);
+        Ui.CultivatePileUI.Refresh(player);
+    }
+
+    /// <summary>把所有栽培牌的剩余回合设为指定值。</summary>
+    public static async Task SetAllTurns(PlayerChoiceContext ctx, Player player, int turns)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft = Math.Max(0, turns);
+
+        await HarvestAll(ctx, player, power);
+        Ui.CultivatePileUI.Refresh(player);
+    }
+
+    /// <summary>清空栽培牌库（不收获），返回清掉的张数。</summary>
+    public static int ClearPile(Player player)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null)
+            return 0;
+
+        int n = power.Pending.Count;
+        power.Pending.Clear();
+        Ui.CultivatePileUI.Refresh(player);
+        Log.Info($"[Cultivate] pile cleared ({n} cards)");
+        return n;
+    }
+
     public static async Task Cultivate(PlayerChoiceContext ctx, Player player, CardModel target)
     {
         try
@@ -37,7 +122,9 @@ public static class CultivateSystem
                 TargetRarity(target.Rarity),
                 x,
                 isAncient ? 2 : 1,
-                target.Rarity);
+                target.Rarity,
+                target.IsUpgraded,
+                target.Title + (target.IsUpgraded ? "+" : ""));
 
             await CardPileCmd.RemoveFromCombat(target);
 
@@ -49,6 +136,7 @@ public static class CultivateSystem
             }
 
             power.Pending.Add(planting);
+            Ui.CultivatePileUI.Refresh(player);
             Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
         }
         catch (Exception e)
@@ -86,6 +174,8 @@ public static class CultivateSystem
                 }
             }
         }
+
+        Ui.CultivatePileUI.Refresh(player);
     }
 
     private static async Task HarvestOne(PlayerChoiceContext ctx, Player player, Planting p)
@@ -115,11 +205,33 @@ public static class CultivateSystem
         Log.Info($"[Cultivate] step2 created = {card?.Id} owner={(card?.Owner is null ? "null" : "ok")}");
         if (card is null) return;
 
+        // 升级继承：被栽培的牌是升级版，收获的牌也是升级版
+        if (p.Upgraded && !card.IsUpgraded)
+        {
+            try
+            {
+                CardCmd.Upgrade(card);
+                Log.Info($"[Cultivate] inherited upgrade -> {card.Id} upgraded={card.IsUpgraded}");
+            }
+            catch (Exception e)
+            {
+                Log.Warn($"[Cultivate] upgrade inherit failed: {e.GetType().Name}");
+            }
+        }
+
         if (p.X > 1)
             card.EnergyCost.AddUntilPlayed(1 - p.X, reduceOnly: true);
 
-        await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
-        Log.Info($"[Cultivate] harvested {card.Id} (X={p.X}, target={p.TargetRarity})");
+        // 手牌满则溢出到弃牌堆
+        var hand = player.PlayerCombatState?.Hand;
+        bool handHasRoom = hand is not null && hand.Cards.Count < CardPile.MaxCardsInHand;
+        var dest = handHasRoom ? PileType.Hand : PileType.Discard;
+
+        if (!handHasRoom)
+            Log.Info($"[Cultivate] hand full ({hand?.Cards.Count}/{CardPile.MaxCardsInHand}) -> overflow to discard");
+
+        await CardPileCmd.AddGeneratedCardToCombat(card, dest, player);
+        Log.Info($"[Cultivate] harvested {card.Id} (X={p.X}, target={p.TargetRarity}, pile={dest})");
     }
 
     private static IEnumerable<CardModel> Pool()
@@ -160,13 +272,15 @@ public static class CultivateSystem
 
 public sealed class Planting
 {
-    public Planting(ModelId sourceId, CardRarity? targetRarity, int x, int count, CardRarity sourceRarity)
+    public Planting(ModelId sourceId, CardRarity? targetRarity, int x, int count, CardRarity sourceRarity, bool upgraded = false, string title = "")
     {
         SourceId = sourceId;
         TargetRarity = targetRarity;
         X = x;
         Count = count;
         SourceRarity = sourceRarity;
+        Upgraded = upgraded;
+        Title = title;
         TurnsLeft = x;
     }
 
@@ -175,5 +289,7 @@ public sealed class Planting
     public CardRarity SourceRarity { get; }
     public int X { get; }
     public int Count { get; }
+    public bool Upgraded { get; }
+    public string Title { get; }
     public int TurnsLeft { get; set; }
 }

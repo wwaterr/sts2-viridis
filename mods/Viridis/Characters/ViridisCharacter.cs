@@ -47,7 +47,7 @@ public sealed class ViridisCharacter
     /// 为空会抛 ArgumentOutOfRange。暂借用原版"燃烧之血"占位。
     /// </summary>
     protected override IEnumerable<Type> StartingRelicTypes
-        => new[] { typeof(MegaCrit.Sts2.Core.Models.Relics.BurningBlood) };
+        => new[] { typeof(Viridis.Relics.GardeningTools) };
 
     public override List<string> GetArchitectAttackVfx() => new();
 }

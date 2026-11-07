@@ -1,0 +1,300 @@
+using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
+
+namespace Viridis.Cultivate;
+
+/// <summary>栽培机制核心逻辑（原型版）。</summary>
+public static class CultivateSystem
+{
+    public static int XOf(CardModel card) => Math.Clamp(card.EnergyCost.Canonical, 1, 3);
+
+    public static CardRarity? TargetRarity(CardRarity r) => r switch
+    {
+        CardRarity.Basic or CardRarity.Common or CardRarity.Event or CardRarity.Token => CardRarity.Uncommon,
+        CardRarity.Uncommon => CardRarity.Rare,
+        CardRarity.Rare => CardRarity.Ancient,
+        CardRarity.Ancient => CardRarity.Ancient,
+        CardRarity.Status or CardRarity.Quest => CardRarity.Common,
+        CardRarity.Curse => CardRarity.Status,
+        _ => null
+    };
+
+    /// <summary>弹出手牌选择并栽培选中的那张；没有可选目标时返回 false。</summary>
+    public static async Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source)
+    {
+        var hand = player.PlayerCombatState?.Hand.Cards;
+        var candidates = hand?
+            .Where(c => c.Pile?.Type == PileType.Hand)
+            .ToList() ?? new List<CardModel>();
+
+        if (candidates.Count == 0)
+        {
+            Log.Info("[Cultivate] no cultivable card in hand");
+            return false;
+        }
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+
+        var selected = await CardSelectCmd.FromHand(ctx, player, prefs, c => candidates.Contains(c), source);
+        var target = selected?.FirstOrDefault();
+
+        if (target is null)
+        {
+            Log.Info("[Cultivate] nothing selected");
+            return false;
+        }
+
+        await Cultivate(ctx, player, target);
+        return true;
+    }
+
+    // ---------- 库数 / 生长 / 清库 ----------
+
+    /// <summary>栽培牌库中的牌数（无上限）。</summary>
+    public static int PileCount(Player player)
+        => player.Creature?.GetPower<CultivateFieldPower>()?.Pending.Count ?? 0;
+
+    /// <summary>生长 N：所有栽培牌剩余回合 -N，到 0 立即收获。</summary>
+    public static async Task Grow(PlayerChoiceContext ctx, Player player, int n)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft = Math.Max(0, p.TurnsLeft - n);
+
+        Log.Info($"[Cultivate] grow {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
+
+        await HarvestAll(ctx, player, power);
+        CultivatePileUI.Refresh(player);
+    }
+
+    /// <summary>把所有栽培牌的剩余回合设为指定值。</summary>
+    public static async Task SetAllTurns(PlayerChoiceContext ctx, Player player, int turns)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft = Math.Max(0, turns);
+
+        await HarvestAll(ctx, player, power);
+        CultivatePileUI.Refresh(player);
+    }
+
+    /// <summary>清空栽培牌库（不收获），返回清掉的张数。</summary>
+    public static int ClearPile(Player player)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null)
+            return 0;
+
+        int n = power.Pending.Count;
+        power.Pending.Clear();
+        CultivatePileUI.Refresh(player);
+        Log.Info($"[Cultivate] pile cleared ({n} cards)");
+        return n;
+    }
+
+    public static async Task Cultivate(PlayerChoiceContext ctx, Player player, CardModel target)
+    {
+        try
+        {
+            int canonical = target.EnergyCost.Canonical;
+            int x = Math.Clamp(canonical, 1, 3);
+            bool isAncient = target.Rarity == CardRarity.Ancient;
+
+            var planting = new Planting(
+                target.Id,
+                TargetRarity(target.Rarity),
+                x,
+                isAncient ? 2 : 1,
+                target.Rarity,
+                target.IsUpgraded,
+                target.Title + (target.IsUpgraded ? "+" : ""));
+
+            await CardPileCmd.RemoveFromCombat(target);
+
+            var power = await GetOrApply(ctx, player, target);
+            if (power is null)
+            {
+                Log.Error("[Cultivate] failed to get field power");
+                return;
+            }
+
+            power.Pending.Add(planting);
+            CultivatePileUI.Refresh(player);
+            Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
+        }
+        catch (Exception e)
+        {
+            Log.Error($"[Cultivate] plant failed: {e}");
+        }
+    }
+
+    private static async Task<CultivateFieldPower?> GetOrApply(PlayerChoiceContext ctx, Player player, CardModel source)
+    {
+        var existing = player.Creature.GetPower<CultivateFieldPower>();
+        if (existing is not null)
+            return existing;
+
+        // 用泛型 Apply 让引擎从 ModelDb 克隆实例；自己 new 会触发 DuplicateModelException
+        await PowerCmd.Apply<CultivateFieldPower>(ctx, player.Creature, 1m, player.Creature, source);
+        return player.Creature.GetPower<CultivateFieldPower>();
+    }
+
+    public static async Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+    {
+        foreach (var p in power.Pending.Where(p => p.TurnsLeft <= 0).ToList())
+        {
+            power.Pending.Remove(p);
+            for (int i = 0; i < p.Count; i++)
+            {
+                // 钩子里抛异常会直接搞死战斗循环，必须自己吞掉
+                try
+                {
+                    await HarvestOne(ctx, player, p);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"[Cultivate] harvest failed: {e}");
+                }
+            }
+        }
+
+        CultivatePileUI.Refresh(player);
+    }
+
+    private static async Task HarvestOne(PlayerChoiceContext ctx, Player player, Planting p)
+    {
+        var canonical = p.SourceRarity == CardRarity.Ancient
+            ? FindById(player, p.SourceId)
+            : Pick(player, p.TargetRarity, p.X);
+
+        if (canonical is null)
+        {
+            Log.Warn($"[Cultivate] empty pool: target={p.TargetRarity} X={p.X}");
+            return;
+        }
+
+        Log.Info($"[Cultivate] step1 canonical = {canonical.Id}");
+
+        // 不能用 ToMutable + CreateCloneForPlayer：规范卡的 CardScope 为 null，会 NRE
+        // 正确做法是让战斗的 card scope 按规范卡创建实例
+        var combat = player.Creature.CombatState;
+        if (combat is null)
+        {
+            Log.Warn("[Cultivate] no combat state");
+            return;
+        }
+
+        var card = combat.CreateCard(canonical, player);
+        Log.Info($"[Cultivate] step2 created = {card?.Id} owner={(card?.Owner is null ? "null" : "ok")}");
+        if (card is null) return;
+
+        // 升级继承：被栽培的牌是升级版，收获的牌也是升级版
+        if (p.Upgraded && !card.IsUpgraded)
+        {
+            try
+            {
+                CardCmd.Upgrade(card);
+                Log.Info($"[Cultivate] inherited upgrade -> {card.Id} upgraded={card.IsUpgraded}");
+            }
+            catch (Exception e)
+            {
+                Log.Warn($"[Cultivate] upgrade inherit failed: {e.GetType().Name}");
+            }
+        }
+
+        if (p.X > 1)
+            card.EnergyCost.AddUntilPlayed(1 - p.X, reduceOnly: true);
+
+        // 手牌满则溢出到弃牌堆
+        var hand = player.PlayerCombatState?.Hand;
+        bool handHasRoom = hand is not null && hand.Cards.Count < CardPile.MaxCardsInHand;
+        var dest = handHasRoom ? PileType.Hand : PileType.Discard;
+
+        if (!handHasRoom)
+            Log.Info($"[Cultivate] hand full ({hand?.Cards.Count}/{CardPile.MaxCardsInHand}) -> overflow to discard");
+
+        await CardPileCmd.AddGeneratedCardToCombat(card, dest, player);
+        Log.Info($"[Cultivate] harvested {card.Id} (X={p.X}, target={p.TargetRarity}, pile={dest})");
+    }
+
+    /// <summary>收获候选池：角色自己的卡池 + 事件/状态/诅咒/任务/衍生。</summary>
+    private static IEnumerable<CardModel> Pool(Player player)
+    {
+        // 角色自己的卡池放最前面：收获出来的牌应该是本角色的牌
+        var own = player?.Character?.CardPool;
+        if (own is not null)
+            foreach (var c in own.AllCards) yield return c;
+
+        foreach (var c in ModelDb.CardPool<EventCardPool>().AllCards) yield return c;
+        // 状态/诅咒/任务/衍生牌各自在独立池里，栽培它们才收得到
+        foreach (var c in ModelDb.CardPool<StatusCardPool>().AllCards) yield return c;
+        foreach (var c in ModelDb.CardPool<CurseCardPool>().AllCards) yield return c;
+        foreach (var c in ModelDb.CardPool<QuestCardPool>().AllCards) yield return c;
+        foreach (var c in ModelDb.CardPool<TokenCardPool>().AllCards) yield return c;
+    }
+
+    private static CardModel? FindById(Player player, ModelId id) => Pool(player).FirstOrDefault(c => c.Id == id);
+
+    private static CardModel? Pick(Player player, CardRarity? rarity, int x)
+    {
+        var all = Pool(player).Where(c => c.Rarity == rarity).ToList();
+
+        // 先要求可生成，实在没有就放宽（原型期避免因为标志位导致空池）
+        var generatable = all.Where(c => c.CanBeGeneratedInCombat).ToList();
+        var source = generatable.Count > 0 ? generatable : all;
+
+        var exact = source.Where(c => c.EnergyCost.Canonical == x).ToList();
+        if (exact.Count > 0)
+            return exact[Random.Shared.Next(exact.Count)];
+
+        // 回退：同稀有度任意费用
+        if (source.Count > 0)
+        {
+            Log.Warn($"[Cultivate] no {rarity} card with cost {x}, falling back to any cost");
+            return source[Random.Shared.Next(source.Count)];
+        }
+
+        return null;
+    }
+}
+
+public sealed class Planting
+{
+    public Planting(ModelId sourceId, CardRarity? targetRarity, int x, int count, CardRarity sourceRarity, bool upgraded = false, string title = "")
+    {
+        SourceId = sourceId;
+        TargetRarity = targetRarity;
+        X = x;
+        Count = count;
+        SourceRarity = sourceRarity;
+        Upgraded = upgraded;
+        Title = title;
+        TurnsLeft = x;
+    }
+
+    public ModelId SourceId { get; }
+    public CardRarity? TargetRarity { get; }
+    public CardRarity SourceRarity { get; }
+    public int X { get; }
+    public int Count { get; }
+    public bool Upgraded { get; }
+    public string Title { get; }
+    public int TurnsLeft { get; set; }
+}

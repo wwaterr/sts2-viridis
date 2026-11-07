@@ -27,7 +27,7 @@ public sealed class CultivateTestCard : CardModel
             var player = cardPlay.Player;
             var hand = player.PlayerCombatState?.Hand.Cards;
 
-            // 兜底：没有可选目标时直接空放，不弹选择界面、不报错
+            // 兜底：没有可选目标时直接空放，不弹选择、不报错
             var candidates = hand?
                 .Where(c => c != this && c.Pile?.Type == PileType.Hand)
                 .ToList() ?? new List<CardModel>();
@@ -42,37 +42,18 @@ public sealed class CultivateTestCard : CardModel
 
             var prefs = new CardSelectorPrefs(new LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
             {
-                Cancelable = true,
+                Cancelable = false,
                 RequireManualConfirmation = false
             };
 
-            IEnumerable<CardModel>? selected;
-            CancelButtonPatch.RequestCancelable = true;
-            try
-            {
-                selected = await CardSelectCmd.FromHand(
-                    choiceContext, player, prefs, c => candidates.Contains(c), this);
-            }
-            finally
-            {
-                CancelButtonPatch.RequestCancelable = false;
-            }
+            var selected = await CardSelectCmd.FromHand(
+                choiceContext, player, prefs, c => candidates.Contains(c), this);
 
             var target = selected?.FirstOrDefault();
             if (target is null)
             {
-                // 取消选择：这张牌回到手牌，并把已花费的能量退回去
-                int refund = cardPlay.Resources.EnergySpent;
-
-                // ResultPile 是 init-only，只能反射写回退字段
-                bool redirected = TrySetResultPile(cardPlay, PileType.Hand);
-                if (!redirected)
-                    await CardPileCmd.Add(this, PileType.Hand, CardPilePosition.Top);
-
-                if (refund > 0)
-                    await PlayerCmd.GainEnergy(refund, player);
-
-                Log.Info($"[Cultivate] selection cancelled -> returned to hand (redirect={redirected}), refunded {refund} energy");
+                // 没有选中任何牌：牌正常消耗，栽培无效
+                Log.Info("[Cultivate] nothing selected -> played with no effect");
                 return;
             }
 
@@ -83,30 +64,6 @@ public sealed class CultivateTestCard : CardModel
         {
             // 兜底：栽培链路出任何问题都不让这张牌把战斗搞崩
             Log.Error($"[Cultivate] play failed, treated as no-op: {e}");
-        }
-    }
-
-    private static bool TrySetResultPile(CardPlay play, PileType pile)
-    {
-        try
-        {
-            var field = typeof(CardPlay).GetField(
-                "<ResultPile>k__BackingField",
-                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            if (field is null)
-            {
-                Log.Warn("[Cultivate] ResultPile backing field not found");
-                return false;
-            }
-
-            field.SetValue(play, pile);
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.Warn($"[Cultivate] redirect ResultPile failed: {e.GetType().Name}");
-            return false;
         }
     }
 }
