@@ -27,8 +27,14 @@ public static class CultivateSystem
     };
 
     /// <summary>弹出手牌选择并栽培选中的那张；没有可选目标时返回 false。</summary>
-    public static async Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source)
+    public static async Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
     {
+        if (!CultivateFlags.CanCultivate(player))
+        {
+            Log.Info("[Cultivate] cannot cultivate this turn (树液)");
+            return false;
+        }
+
         var hand = player.PlayerCombatState?.Hand.Cards;
         var candidates = hand?
             .Where(c => c.Pile?.Type == PileType.Hand)
@@ -56,7 +62,66 @@ public static class CultivateSystem
         }
 
         await Cultivate(ctx, player, target);
+
+        if (extraTurns != 0)
+        {
+            var power = player.Creature?.GetPower<CultivateFieldPower>();
+            var last = power?.Pending.LastOrDefault();
+            if (last is not null)
+            {
+                last.TurnsLeft += extraTurns;
+                CultivatePileUI.Refresh(player);
+            }
+        }
+
         return true;
+    }
+
+    // ---------- 事件通知 ----------
+
+    private static async Task NotifyCultivated(PlayerChoiceContext ctx, Player player)
+    {
+        foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
+        {
+            try
+            {
+                await p.OnCultivated(ctx, player);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Cultivate] {p.GetType().Name}.OnCultivated failed: {e.Message}");
+            }
+        }
+    }
+
+    private static async Task NotifyHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
+    {
+        foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
+        {
+            try
+            {
+                await p.OnHarvested(ctx, player, card);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Cultivate] {p.GetType().Name}.OnHarvested failed: {e.Message}");
+            }
+        }
+    }
+
+    private static async Task NotifyCleared(PlayerChoiceContext ctx, Player player, int count)
+    {
+        foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
+        {
+            try
+            {
+                await p.OnPileCleared(ctx, player, count);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Cultivate] {p.GetType().Name}.OnPileCleared failed: {e.Message}");
+            }
+        }
     }
 
     // ---------- 库数 / 生长 / 清库 ----------
@@ -96,7 +161,7 @@ public static class CultivateSystem
     }
 
     /// <summary>清空栽培牌库（不收获），返回清掉的张数。</summary>
-    public static int ClearPile(Player player)
+    public static async Task<int> ClearPileAsync(PlayerChoiceContext ctx, Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
         if (power is null)
@@ -106,13 +171,120 @@ public static class CultivateSystem
         power.Pending.Clear();
         CultivatePileUI.Refresh(player);
         Log.Info($"[Cultivate] pile cleared ({n} cards)");
+
+        if (n > 0)
+            await NotifyCleared(ctx, player, n);
+
         return n;
+    }
+
+    /// <summary>把栽培牌库中所有牌的剩余回合 +n（延缓）。</summary>
+    public static async Task DelayAll(PlayerChoiceContext ctx, Player player, int n)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft += n;
+
+        CultivatePileUI.Refresh(player);
+        Log.Info($"[Cultivate] delay {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
+        await Task.CompletedTask;
+    }
+
+    /// <summary>把栽培牌库中所有牌的剩余回合减半（向上取整）。</summary>
+    public static async Task HalveAll(PlayerChoiceContext ctx, Player player)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return;
+
+        foreach (var p in power.Pending)
+            p.TurnsLeft = (int)Math.Ceiling(p.TurnsLeft / 2.0);
+
+        await HarvestAll(ctx, player, power);
+        CultivatePileUI.Refresh(player);
+    }
+
+    /// <summary>复制栽培牌库中的一张，复制品剩余回合为 1。</summary>
+    public static int DuplicateOne(Player player)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return 0;
+
+        var src = power.Pending[Random.Shared.Next(power.Pending.Count)];
+        var copy = new Planting(src.SourceId, src.TargetRarity, 1, src.Count, src.SourceRarity, src.Upgraded, src.Title);
+        power.Pending.Add(copy);
+        CultivatePileUI.Refresh(player);
+        Log.Info($"[Cultivate] duplicated {src.Title}, turns=1");
+        return 1;
+    }
+
+    /// <summary>从抽牌堆选一张牌栽培。</summary>
+    public static async Task<bool> CultivateFromDrawPile(PlayerChoiceContext ctx, Player player, AbstractModel source)
+    {
+        var pile = player.PlayerCombatState?.DrawPile;
+        if (pile is null || pile.Cards.Count == 0)
+            return false;
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+
+        var selected = await CardSelectCmd.FromCombatPile(ctx, pile, player, prefs);
+        var target = selected?.FirstOrDefault();
+        if (target is null)
+            return false;
+
+        await Cultivate(ctx, player, target);
+        return true;
+    }
+
+    /// <summary>连续栽培若干张手牌。</summary>
+    public static async Task<int> CultivateMultiple(PlayerChoiceContext ctx, Player player, AbstractModel source, int count, int extraTurns = 0)
+    {
+        int done = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (!await CultivateFromHand(ctx, player, source, extraTurns))
+                break;
+            done++;
+        }
+        return done;
+    }
+
+    /// <summary>栽培并立即收获（移栽）。</summary>
+    public static async Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
+    {
+        if (!await CultivateFromHand(ctx, player, source))
+            return false;
+
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return false;
+
+        var last = power.Pending[^1];
+        power.Pending.Remove(last);
+        last.TurnsLeft = 0;
+        power.Pending.Add(last);
+        await HarvestAll(ctx, player, power);
+        return true;
     }
 
     public static async Task Cultivate(PlayerChoiceContext ctx, Player player, CardModel target)
     {
         try
         {
+            if (!CultivateFlags.CanCultivate(player))
+            {
+                Log.Info("[Cultivate] blocked by NoCultivatePower");
+                return;
+            }
+
             int canonical = target.EnergyCost.Canonical;
             int x = Math.Clamp(canonical, 1, 3);
             bool isAncient = target.Rarity == CardRarity.Ancient;
@@ -126,6 +298,14 @@ public static class CultivateSystem
                 target.IsUpgraded,
                 target.Title + (target.IsUpgraded ? "+" : ""));
 
+            // 老树盘根：下一次栽培剩余回合为 1
+            var fast = player.Creature?.GetPower<NextCultivateFastPower>();
+            if (fast is not null)
+            {
+                planting.TurnsLeft = 1;
+                await PowerCmd.Remove(fast);
+            }
+
             await CardPileCmd.RemoveFromCombat(target);
 
             var power = await GetOrApply(ctx, player, target);
@@ -137,6 +317,7 @@ public static class CultivateSystem
 
             power.Pending.Add(planting);
             CultivatePileUI.Refresh(player);
+            await NotifyCultivated(ctx, player);
             Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
         }
         catch (Exception e)
@@ -232,6 +413,29 @@ public static class CultivateSystem
 
         await CardPileCmd.AddGeneratedCardToCombat(card, dest, player);
         Log.Info($"[Cultivate] harvested {card.Id} (X={p.X}, target={p.TargetRarity}, pile={dest})");
+
+        // 世界树：额外获得 1 张同稀有度的牌
+        if (player.Creature?.GetPower<WorldTreePower>() is not null)
+        {
+            var extra = Pick(player, canonical.Rarity, p.X) ?? Pick(player, canonical.Rarity, p.X);
+            if (extra is not null && combat.CreateCard(extra, player) is { } extraCard)
+            {
+                await CardPileCmd.AddGeneratedCardToCombat(extraCard, PileType.Hand, player);
+                Log.Info($"[Cultivate] world tree extra -> {extraCard.Id}");
+            }
+        }
+
+        // 腐殖循环：收获的牌复制一张加入手牌
+        if (player.Creature?.GetPower<HumusCyclePower>() is not null)
+        {
+            if (combat.CreateCard(canonical, player) is { } copyCard)
+            {
+                await CardPileCmd.AddGeneratedCardToCombat(copyCard, PileType.Hand, player);
+                Log.Info($"[Cultivate] humus cycle copy -> {copyCard.Id}");
+            }
+        }
+
+        await NotifyHarvested(ctx, player, card);
     }
 
     /// <summary>收获候选池：角色自己的卡池 + 事件/状态/诅咒/任务/衍生。</summary>

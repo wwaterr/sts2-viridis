@@ -86,6 +86,8 @@ public sealed class FriedEgg : CultivateCard
         if (n <= 0)
             return;
 
+        var temp = await PowerCmd.Apply<TempStrengthPower>(ctx, play.Player.Creature, 1m, play.Player.Creature, this);
+        temp.Value = n;
         await PowerCmd.Apply<StrengthPower>(ctx, play.Player.Creature, n, play.Player.Creature, this);
     }
 }
@@ -104,6 +106,8 @@ public sealed class KitaBlessing : CultivateCard
         if (n <= 0)
             return;
 
+        var temp = await PowerCmd.Apply<TempDexterityPower>(ctx, play.Player.Creature, 1m, play.Player.Creature, this);
+        temp.Value = n;
         await PowerCmd.Apply<DexterityPower>(ctx, play.Player.Creature, n, play.Player.Creature, this);
     }
 }
@@ -118,7 +122,7 @@ public sealed class MeltToWater : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int n = CultivateSystem.ClearPile(play.Player);
+        int n = await CultivateSystem.ClearPileAsync(ctx, play.Player);
         if (n <= 0)
             return;
 

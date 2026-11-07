@@ -41,4 +41,26 @@ public abstract class CultivateCard : ModCardTemplate
     {
         await CreatureCmd.GainBlock(play.Player.Creature, amount, BlockProps.card, play);
     }
+
+    /// <summary>给目标施加能力（易伤 / 虚弱 / 力量等）。</summary>
+    protected async Task Apply<T>(PlayerChoiceContext ctx, CardPlay play, Creature target, decimal amount)
+        where T : PowerModel
+    {
+        await PowerCmd.Apply<T>(ctx, target, amount, play.Player.Creature, this);
+    }
+
+    /// <summary>给所有敌人施加能力。</summary>
+    protected async Task ApplyAll<T>(PlayerChoiceContext ctx, CardPlay play, decimal amount)
+        where T : PowerModel
+    {
+        var enemies = play.Player.Creature.CombatState?.HittableEnemies;
+        if (enemies is null)
+            return;
+
+        foreach (var e in enemies.ToList())
+            await Apply<T>(ctx, play, e, amount);
+    }
+
+    protected async Task Energy(PlayerChoiceContext ctx, CardPlay play, int amount)
+        => await PlayerCmd.GainEnergy(amount, play.Player);
 }
