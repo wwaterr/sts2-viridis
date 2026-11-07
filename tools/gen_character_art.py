@@ -208,17 +208,31 @@ def make_marker(path):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    make_select_icon(os.path.join(OUT, "character_select_icon.png"))
-    make_select_icon(os.path.join(OUT, "character_select_icon_locked.png"), locked=True)
-    make_bg(os.path.join(OUT, "character_select_bg.png"))
-    make_icon(os.path.join(OUT, "character_icon.png"))
-    make_icon(os.path.join(OUT, "character_icon_outline.png"), outline=True)
-    make_marker(os.path.join(OUT, "map_marker.png"))
+
+    # 默认不覆盖已有文件，避免把手工换过的美术冲掉；FORCE_ART=1 强制重生成
+    force = os.environ.get("FORCE_ART") == "1"
+
+    jobs = [
+        ("character_select_icon.png", lambda p: make_select_icon(p)),
+        ("character_select_icon_locked.png", lambda p: make_select_icon(p, locked=True)),
+        ("character_select_bg.png", make_bg),
+        ("character_icon.png", lambda p: make_icon(p)),
+        ("character_icon_outline.png", lambda p: make_icon(p, outline=True)),
+        ("map_marker.png", make_marker),
+    ]
+
+    for name, fn in jobs:
+        path = os.path.join(OUT, name)
+        if os.path.exists(path) and not force:
+            print(f"skip   {name}  (已存在，FORCE_ART=1 可强制覆盖)")
+            continue
+        fn(path)
+        print(f"write  {name}")
 
     for name in sorted(os.listdir(OUT)):
         p = os.path.join(OUT, name)
         with Image.open(p) as im:
-            print(f"{name:34s} {im.size[0]}x{im.size[1]}  {os.path.getsize(p)} bytes")
+            print(f"  {name:34s} {im.size[0]}x{im.size[1]}  {os.path.getsize(p)} bytes")
 
 
 if __name__ == "__main__":
