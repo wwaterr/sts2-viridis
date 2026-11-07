@@ -31,6 +31,10 @@
       <HintPath>$(Sts2Dir)\GodotSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2Dir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="STS2-RitsuLib.Runtime">
       <HintPath>$(RitsuLibDir)\compat\$(RitsuLibTarget)\STS2-RitsuLib.Runtime.dll</HintPath>
       <Private>false</Private>
