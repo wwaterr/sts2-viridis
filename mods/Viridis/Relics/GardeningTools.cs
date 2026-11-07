@@ -22,7 +22,7 @@ public sealed class GardeningTools : RelicModel
 
     private bool _usedThisCombat;
 
-    public override LocString Title => new("relics", "GARDENING_TOOLS.title");
+    public override LocString Title => new("relics", "VIRIDIS_RELIC_GARDENING_TOOLS.title");
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 

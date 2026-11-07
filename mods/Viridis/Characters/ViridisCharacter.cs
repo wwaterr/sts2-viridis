@@ -40,22 +40,22 @@ public sealed class ViridisCharacter
     private const string ArtRoot = "res://Viridis/characters/viridis";
 
     /// <summary>选人界面的角色肖像（未解锁用这张）。换卡面外的"角色展示图"就换它。</summary>
-    public override string? CustomCharacterSelectIconPath => $"{ArtRoot}/character_select_icon.png";
+    public override string? CustomCharacterSelectIconPath => $"{ArtRoot}/character_select_icon.ctex";
 
     /// <summary>选人界面未解锁时的肖像（灰版）。</summary>
-    public override string? CustomCharacterSelectLockedIconPath => $"{ArtRoot}/character_select_icon_locked.png";
+    public override string? CustomCharacterSelectLockedIconPath => $"{ArtRoot}/character_select_icon_locked.ctex";
 
     /// <summary>选人界面背景。</summary>
-    public override string? CustomCharacterSelectBgPath => $"{ArtRoot}/character_select_bg.png";
+    public override string? CustomCharacterSelectBgPath => $"{ArtRoot}/character_select_bg.ctex";
 
     /// <summary>存档/顶栏用的小头像。</summary>
-    public override string? CustomIconTexturePath => $"{ArtRoot}/character_icon.png";
+    public override string? CustomIconTexturePath => $"{ArtRoot}/character_icon.ctex";
 
     /// <summary>小头像描边层。</summary>
-    public override string? CustomIconOutlineTexturePath => $"{ArtRoot}/character_icon_outline.png";
+    public override string? CustomIconOutlineTexturePath => $"{ArtRoot}/character_icon_outline.ctex";
 
     /// <summary>地图上的角色标记。</summary>
-    public override string? CustomMapMarkerPath => $"{ArtRoot}/map_marker.png";
+    public override string? CustomMapMarkerPath => $"{ArtRoot}/map_marker.ctex";
 
     /// <summary>
     /// 默认值会让角色挂到"纪元/时间线"解锁体系里，选人界面就不显示。

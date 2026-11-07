@@ -12,7 +12,7 @@ import os
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "mods", "Viridis", "assets", "characters", "viridis")
+OUT = os.path.join(ROOT, "mods", "Viridis", "art_source", "characters", "viridis")
 
 GREEN_DARK = (18, 42, 32)
 GREEN = (46, 110, 82)
