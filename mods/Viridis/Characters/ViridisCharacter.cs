@@ -30,8 +30,32 @@ public sealed class ViridisCharacter
     /// <summary>
     /// 没有自定义 Spine/场景时，暂时复用某个原版角色的视觉表现。
     /// 可用值参考原版角色 Id（如 IRONCLAD / SILENT / DEFECT / REGENT / NECROBINDER）。
+    /// 注意：这仍然决定"战斗中"的立绘，改了下面几个 UI 图不会改变战斗内模型。
     /// </summary>
     public override string PlaceholderCharacterId => "IRONCLAD";
+
+    // ---------- 角色展示用美术 ----------
+    // 文件放在 mods/Viridis/assets/characters/viridis/，
+    // 打包后资源路径是 res://<modId>/<相对路径>。
+    private const string ArtRoot = "res://Viridis/characters/viridis";
+
+    /// <summary>选人界面的角色肖像（未解锁用这张）。换卡面外的"角色展示图"就换它。</summary>
+    public override string? CustomCharacterSelectIconPath => $"{ArtRoot}/character_select_icon.png";
+
+    /// <summary>选人界面未解锁时的肖像（灰版）。</summary>
+    public override string? CustomCharacterSelectLockedIconPath => $"{ArtRoot}/character_select_icon_locked.png";
+
+    /// <summary>选人界面背景。</summary>
+    public override string? CustomCharacterSelectBgPath => $"{ArtRoot}/character_select_bg.png";
+
+    /// <summary>存档/顶栏用的小头像。</summary>
+    public override string? CustomIconTexturePath => $"{ArtRoot}/character_icon.png";
+
+    /// <summary>小头像描边层。</summary>
+    public override string? CustomIconOutlineTexturePath => $"{ArtRoot}/character_icon_outline.png";
+
+    /// <summary>地图上的角色标记。</summary>
+    public override string? CustomMapMarkerPath => $"{ArtRoot}/map_marker.png";
 
     /// <summary>
     /// 默认值会让角色挂到"纪元/时间线"解锁体系里，选人界面就不显示。
