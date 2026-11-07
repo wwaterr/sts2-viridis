@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using Viridis.Pools;
 
 namespace Viridis.Cultivate;
 
@@ -362,8 +363,8 @@ public static class CultivateSystem
     private static async Task HarvestOne(PlayerChoiceContext ctx, Player player, Planting p)
     {
         var canonical = p.SourceRarity == CardRarity.Ancient
-            ? FindById(player, p.SourceId)
-            : Pick(player, p.TargetRarity, p.X);
+            ? ModelDb.GetByIdOrNull<CardModel>(p.SourceId)
+            : Pick(p.TargetRarity, p.X, p.SourceRarity == CardRarity.Curse);
 
         if (canonical is null)
         {
@@ -401,7 +402,7 @@ public static class CultivateSystem
         }
 
         if (p.X > 1)
-            card.EnergyCost.AddUntilPlayed(1 - p.X, reduceOnly: true);
+            card.EnergyCost.SetUntilPlayed(1, reduceOnly: true);
 
         // 手牌满则溢出到弃牌堆
         var hand = player.PlayerCombatState?.Hand;
@@ -417,7 +418,8 @@ public static class CultivateSystem
         // 世界树：额外获得 1 张同稀有度的牌
         if (player.Creature?.GetPower<WorldTreePower>() is not null)
         {
-            var extra = Pick(player, canonical.Rarity, p.X) ?? Pick(player, canonical.Rarity, p.X);
+            bool statusExtra = canonical.Rarity == CardRarity.Status;
+            var extra = Pick(canonical.Rarity, p.X, statusExtra) ?? Pick(canonical.Rarity, p.X, statusExtra);
             if (extra is not null && combat.CreateCard(extra, player) is { } extraCard)
             {
                 await CardPileCmd.AddGeneratedCardToCombat(extraCard, PileType.Hand, player);
@@ -438,27 +440,24 @@ public static class CultivateSystem
         await NotifyHarvested(ctx, player, card);
     }
 
-    /// <summary>收获候选池：角色自己的卡池 + 事件/状态/诅咒/任务/衍生。</summary>
-    private static IEnumerable<CardModel> Pool(Player player)
+    /// <summary>收获候选池：小松绿角色卡池；诅咒产出的状态改从所有状态牌里选。</summary>
+    private static IEnumerable<CardModel> Pool(bool statusOnly)
     {
-        // 角色自己的卡池放最前面：收获出来的牌应该是本角色的牌
-        var own = player?.Character?.CardPool;
-        if (own is not null)
-            foreach (var c in own.AllCards) yield return c;
+        if (statusOnly)
+        {
+            foreach (var c in ModelDb.CardPool<StatusCardPool>().AllCards)
+                yield return c;
 
-        foreach (var c in ModelDb.CardPool<EventCardPool>().AllCards) yield return c;
-        // 状态/诅咒/任务/衍生牌各自在独立池里，栽培它们才收得到
-        foreach (var c in ModelDb.CardPool<StatusCardPool>().AllCards) yield return c;
-        foreach (var c in ModelDb.CardPool<CurseCardPool>().AllCards) yield return c;
-        foreach (var c in ModelDb.CardPool<QuestCardPool>().AllCards) yield return c;
-        foreach (var c in ModelDb.CardPool<TokenCardPool>().AllCards) yield return c;
+            yield break;
+        }
+
+        foreach (var c in ModelDb.CardPool<ViridisCardPool>().AllCards)
+            yield return c;
     }
 
-    private static CardModel? FindById(Player player, ModelId id) => Pool(player).FirstOrDefault(c => c.Id == id);
-
-    private static CardModel? Pick(Player player, CardRarity? rarity, int x)
+    private static CardModel? Pick(CardRarity? rarity, int x, bool statusOnly)
     {
-        var all = Pool(player).Where(c => c.Rarity == rarity).ToList();
+        var all = Pool(statusOnly).Where(c => c.Rarity == rarity).ToList();
 
         // 先要求可生成，实在没有就放宽（原型期避免因为标志位导致空池）
         var generatable = all.Where(c => c.CanBeGeneratedInCombat).ToList();
