@@ -2,5 +2,5 @@
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "Cultivate",
     "VIRIDIS_KEYWORD_CULTIVATE.description":  "Put a card from your hand into your Cultivate Pile. After X of your turns, harvest a card one rarity higher. X is the card's original cost (1-3). Ancient cards instead yield two copies of the same card.",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "Permanent Cultivate",
-    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "Put a card from your hand into your Cultivate Pile. It stays there permanently and never yields a card. Other effects can still remove it."
+    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "When cultivated, this card stays in your Cultivate Pile permanently and never yields a card. Playing it does not cultivate it. Other effects can still remove it."
 }

@@ -1,4 +1,6 @@
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -12,8 +14,9 @@ namespace Viridis.Cards;
 // ---------- 先古牌 ----------
 
 /// <summary>
-/// 小松绿：永久栽培。获得 3（5）格挡，随机造成 3（5）伤害，然后这两个数字翻倍。
-/// 在栽培区时每个回合结束再触发一次。
+/// 小松绿：永久栽培（被动，只有被其它效果栽培时才生效）。
+/// 打出时获得 3（5）格挡并随机造成 3（5）伤害，然后这两个数值翻倍，牌进入弃牌堆。
+/// 在栽培区时每个己方回合结束再触发一次，触发后同样翻倍。
 /// </summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SmallPine : CultivateCard
@@ -46,13 +49,26 @@ public sealed class SmallPine : CultivateCard
         };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.CultivatePermanent(
-            ctx,
-            play.Player,
-            this,
-            DynamicVars.Block.BaseValue,
-            DynamicVars.Damage.BaseValue,
-            triggerNow: true);
+    {
+        await PlayEffects(ctx, play.Player, play);
+        DynamicVars.Block.BaseValue *= 2m;
+        DynamicVars.Damage.BaseValue *= 2m;
+    }
+
+    private async Task PlayEffects(PlayerChoiceContext ctx, Player player, CardPlay? play)
+    {
+        await CreatureCmd.GainBlock(player.Creature, DynamicVars.Block.BaseValue, BlockProps.card, play);
+
+        var state = player.Creature.CombatState;
+        if (state is null)
+            return;
+
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, play)
+            .TargetingRandomOpponents(state)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(ctx);
+    }
 
     protected override void OnUpgrade()
     {

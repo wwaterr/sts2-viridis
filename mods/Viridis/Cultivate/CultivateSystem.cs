@@ -303,8 +303,7 @@ public static class CultivateSystem
                     player,
                     target,
                     permanent.PermanentBlockValue,
-                    permanent.PermanentDamageValue,
-                    triggerNow: false);
+                    permanent.PermanentDamageValue);
                 return;
             }
 
@@ -355,15 +354,14 @@ public static class CultivateSystem
 
     /// <summary>
     /// 永久栽培：把牌移入栽培区并永久保留，不参与倒计时和收获。
-    /// triggerNow 为 true 时立刻结算一次卡牌效果（卡牌打出时）。
+    /// 直接打出不会调用这里；只有其它栽培效果命中带永久栽培的牌时才转换。
     /// </summary>
     public static async Task<bool> CultivatePermanent(
         PlayerChoiceContext ctx,
         Player player,
         CardModel target,
         decimal block,
-        decimal damage,
-        bool triggerNow)
+        decimal damage)
     {
         try
         {
@@ -402,10 +400,6 @@ public static class CultivateSystem
             CultivatePileUI.Refresh(player);
             await NotifyCultivated(ctx, player);
 
-            if (triggerNow)
-                await TriggerPermanent(ctx, player, planting);
-
-            CultivatePileUI.Refresh(player);
             Log.Info($"[Cultivate] permanently planted {target.Id} block={block} damage={damage}");
             return true;
         }
