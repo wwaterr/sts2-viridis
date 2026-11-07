@@ -1,7 +1,7 @@
 小松绿 (Viridis) 卡面生成提示词
 ================================
 
-用途：给 89 张卡各生成一张卡面。每张卡的提示词 = 角色基底 + 卡牌动作 + 风格基底。
+用途：给 90 张卡各生成一张卡面。每张卡的提示词 = 角色基底 + 卡牌动作 + 风格基底。
 可直接整行复制到 SD、NovelAI、ComfyUI。
 
 --------------------------------------------------
@@ -392,10 +392,14 @@ powerful_pose, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, miniature_pine_bonsai, white_ceramic_pot, pebbles,
 twisted_trunk, dense_green_foliage, calm, card_art, fantasy, painterly
 
+山绿篱 / Mountain Hedge
+1girl, solo, viridis_(character), green_hair, dense_leafy_hedge, small_yellow_berries, dark_undergrowth,
+twisted_branches, dappled_light, protective, card_art, fantasy, painterly
+
 ==================================================
 使用建议
 ==================================================
 1. 每张卡生成 3~4 张，挑构图最清楚的
-2. 同一批生成时把【角色基底】和【风格基底】固定在正向提示词开头，保证 89 张风格统一
+2. 同一批生成时把【角色基底】和【风格基底】固定在正向提示词开头，保证 90 张风格统一
 3. 卡面建议竖构图（约 3:4），卡牌图区裁切后四周留边
 4. 需要更强的统一性，可固定 seed 只换动作词，或用角色 LoRA

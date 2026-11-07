@@ -3,9 +3,11 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using Viridis.Characters;
 using Viridis.Cultivate;
 using Viridis.Pools;
 
@@ -74,5 +76,40 @@ public sealed class SmallPine : CultivateCard
     {
         DynamicVars.Block.UpgradeValueBy(2m);
         DynamicVars.Damage.UpgradeValueBy(2m);
+    }
+}
+
+/// <summary>
+/// 山绿篱：获得 5（6）点无实体和 99 层中毒。由尘封魔典作为小松绿的先古候选获得。
+/// </summary>
+[RegisterDustyTomeCard(typeof(ViridisCharacter))]
+[RegisterCard(typeof(ViridisCardPool))]
+public sealed class MountainHedge : CultivateCard
+{
+    public MountainHedge() : base(4, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
+
+    public override string Title => "山绿篱";
+
+    public override CardAssetProfile AssetProfile =>
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/mountain_hedge.ctex");
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new PowerVar<IntangiblePower>(5m),
+            new PowerVar<PoisonPower>(99m),
+        };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        var player = play.Player;
+        await CreatureCmd.TriggerAnim(player.Creature, "PowerUp", player.Character.PowerUpAnimDelay);
+        await Apply<IntangiblePower>(ctx, play, player.Creature, DynamicVars["IntangiblePower"].BaseValue);
+        await Apply<PoisonPower>(ctx, play, player.Creature, DynamicVars["PoisonPower"].BaseValue);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["IntangiblePower"].UpgradeValueBy(1m);
     }
 }
