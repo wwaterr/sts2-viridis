@@ -1,0 +1,95 @@
+===== ironclad character scene region =====
+8510b8663124.ctex"
+metadata={
+"vram_texture": false
+}
+..........GST2........1.............................1.........6...RIFF....WEBPVP8L".../.....0..?....P........l.....T..8...[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cjsmlh2kinht8"
+path="res://.godot/imported/ironclad_4.png-42b73655db761cc54b748eca48350288.ctex"
+metadata={
+"vram_texture": false
+}
+..........[gd_resource type="SpineSkeletonDataResource" load_steps=13 format=3 uid="uid://b8e4wst5vt8xh"]
+
+[ext_resource type="SpineAtlasResource" uid="uid://8wiohbeiuu21" path="res://animations/characters/ironclad/ironclad.atlas" id="1_2wbon"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://dyk0k8i37hi8g" path="res://animations/characters/ironclad/ironclad.skel" id="2_yikhd"]
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_q8rux"]
+from = "idle_loop"
+to = "attack"
+mix = 0.1
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_jxu7e"]
+from = "attack"
+to = "attack"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_tpffi"]
+from = "hurt"
+to = "hurt"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_iet4g"]
+from = "hurt"
+to = "die"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_tcmbt"]
+from = "idle_loop"
+to = "hurt"
+mix = 0.03
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_r7khs"]
+from = "hurt"
+to = "idle_loop"
+mix = 0.1
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_t3n0l"]
+from = "idle_loop"
+to = "attack_heavy"
+mix = 0.02
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_dg8sb"]
+from = "attack_heavy"
+to = "attack_heavy"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_febkg"]
+from = "attack"
+to = "attack_heavy"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_rhmex"]
+from = "attack_heavy"
+to = "attack"
+
+[resource]
+atlas_res = ExtResource("1_2wbon")
+skeleton_file_res = ExtResource("2_yikhd")
+default_mix = 0.05
+animation_mixes = [SubResource("SpineAnimationMix_q8rux"), SubResource("SpineAnimationMix_jxu7e"), SubResource("SpineAnimationMix_tpffi"), SubResource("SpineAnimationMix_iet4g"), SubResource("SpineAnimationMix_tcmbt"), SubResource("SpineAnimationMix_r7khs"), SubResource("SpineAnimationMix_t3n0l"), SubResource("SpineAnimationMix_dg8sb"), SubResource("SpineAnimationMix_febkg"), SubResource("SpineAnimationMix_rhmex")]
+.....{"atlas_data":"necrobinder.png\nsize:745,523\nfilter:Linear,Linear\nscale:0.359\nback flame neck\nbounds:270,82,44,54\nback_flame_temp\nbounds:174,76,60,95\nrotate:90\nbelt top\nbounds:582,1,46,20\nbelts\nbounds:315,90,46,20\nrotate:90\nbottom shoulder\nbounds:714,235,29,67\nbottom sleeve\nbounds:336,141,41,165\nchest\nbounds:174,31,44,48\nrotate:90\neye_flame_l\nbounds:426,210,9,43\neye_flame_r\nbounds:428,267,6,39\neye_glow_l\nbounds:174,159,26,55\nrotate:90\neye_glow_r\nbounds:174,7,23,51\nrotate:90\neye_glow_r copy 4\nbounds:174,137,21,49\noffsets:1,1,23,51\nrotate:90\nflame_extra\nbounds:404,95,31,45\noffsets:1,1,33,47\nflames_placeholder\nbounds:336,20,67,120\noffsets:40,10,144,144\nglow\nbounds:650,115,92,116\noffsets:6,10,108,138\nglow_head\nbounds:1,25,61,65\noffsets:5,7,69,77\nrotate:90\nhead\nbounds:378,203,47,50\nl foot\nbounds:353,4,15,39\nrotate:90\nl hand\nbounds:113,12,23,30\noffsets:0,1,23,31\nrotate:90\nl hand_back\nbounds:636,71,13,18\noffsets:1,0,14,18\nl index\nbounds:54,2,22,11\nrotate:90\nl index_back\nbounds:54,2,22,11\nrotate:90\nl lower arm\nbounds:304,1,18,48\nrotate:90\nl lower leg\nbounds:67,8,22,78\nl middle finger\nbounds:90,3,24,8\nl middle finger_back\nbounds:90,3,24,8\nl pinky\nbounds:66,1,19,6\noffsets:0,0,20,6\nl pinky_back\nbounds:629,2,20,6\nrotate:90\nl ring finger\nbounds:656,3,25,8\noffsets:1,0,26,8\nl ring finger_back\nbounds:656,3,25,8\noffsets:1,0,26,8\nl shoulder\nbounds:378,141,43,61\nl shoulder bottom\nbounds:270,17,33,64\noffsets:1,0,34,64\nl sleeve bottom\nbounds:434,5,16,147\nrotate:90\nl sleeve top\nbounds:150,7,23,178\nl upper arm\nbounds:1,1,23,52\noffsets:0,0,24,52\nrotate:90\nl upper leg\nbounds:650,12,31,102\noffsets:1,0,32,102\nl_chill_hand\nbounds:226,10,20,31\nrotate:90\nopen_hand\nbounds:404,7,29,39\nr foot\nbounds:223,31,27,44\nr hand\nbounds:422,154,13,20\nr index\nbounds:739,5,5,24\nr lower arm\nbounds:304,34,47,27\nrotate:90\nr lower leg\nbounds:90,12,22,74\nr middle finger\nbounds:636,20,11,24\nr pinky\nbounds:636,2,9,19\nrotate:90\nr ring finger\nbounds:636,45,11,25\nr upper arm\nbounds:404,47,47,29\nrotate:90\nr upper leg\nbounds:714,303,30,91\noffsets:0,0,32,91\nr_chill_hand\nbounds:251,51,14,24\nscythe\nbounds:1,307,215,434\nrotate:90\nscythe_glow\nbounds:1,186,120,229\nrotate:90\nshadow\nbounds:650,232,290,63\nrotate:90\nskirt back\nbounds:1,87,98,148\nrotate:90\nskirt flap\nbounds:714,395,25,127\nskirt top\nbounds:231,137,104,169\nsleeve_l_extended\nbounds:434,22,67,155\nrotate:90\nspine\nbounds:422,175,13,27\nsythe_dissolve\nbounds:436,90,213,432\noffsets:2,0,215,432\nthumb1\nbounds:378,254,52,49\nrotate:90\nthumb2\nbounds:590,23,45,66\noffsets:0,0,46,66\nthumb3\nbounds:682,1,28,56\nrotate:90\nwebbing\nbounds:113,36,50,34\nrotate:90\nwrist\nbounds:682,30,84,62\nrotate:90\n\nnecrobinder_2.png\nsize:16,74\nfilter:Linear,Linear\nscale:0.359\nattack_slash/slash_placeholder\nbounds:1,1,14,72\n\nnecrobinder_3.png\nsize:443,77\nfilter:Linear,Linear\nscale:0.359\ndeath/l shoulder\nbounds:205,21,73,29\ndeath/pink sleeve\nbounds:294,48,71,28\noffsets:0,1,72,29\ndeath/r shoulder\nbounds:366,51,67,25\ndeath/ribcage\nbounds:340,3,55,44\noffsets:0,0,56,45\ndeath/ribcage shadow\nbounds:205,51,88,25\noffsets:1,0,89,25\ndeath/skirt\nbounds:1,2,203,74\ndeath/skull\nbounds:396,1,49,46\nrotate:90\ndeath/skull shadow\nbounds:279,5,60,42\n","normal_texture_prefix":"n","source_path":"res://animations/characters/necrobinder/necrobinder.atlas","specular_texture_prefix":"s"}.....[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://dfbaylm1kqgnl"
+path="res://.godot/imported/necrobinder.atlas-be26e24f34aec99826754bbdaf9481ee.spatlas"
+....GST2................................................RA..RIFFJA..WEBPVP8L>A../.....8l.6.`}.=@...N.~...O@.X.q...........1..M..`...1)I.*.....+....t...p.B.A....}...x6}..&.....sz6...D.7ej.IB.V .},.-.....z.:....?<.....j.?..$..................IW4...=..!.g....-[.O..nc.V...;..#...5..k...m.6L.....W..#M....v.....+M0!B.I...5O......!)?...<..x.."...f"-K...,.l.l...!O..........!.5.cl.........s..$j.Y.....=Y...B.dr.FEQ...8.B.5.5.&...J.T.. #.&..R..J.P@S.jT'y._.o..PC.B&.b:xC&2fds'Ky... .....@....I.8.y........&2..\U.....@.&.pUuU...gvxC.....Nw...?.i.e.X...Lh&........`.........xd..;.......H...!.!.="d."3.@)
+9.D..........tX.m.....t.u.*f...3.33lF.9Ep.13..vF.6e.v.%......%....9.^..n..}..l~....Gf.v......?...h.Z..s..o..In..x2.;..>.!.3x..ww....0...K....[.O..c{..W....r....G..eo$.....l.7U..."&l.va493F3....37.^...$[...7.m...z....V..V-...Q+..i.g..?.=........v....>..l..=m.....x.IH..N..C..P...Y.......PYW..:.......B<.~...}...US...../.G|.>....m...;.p,...I..L.`........?.....)s.6n.;.c.I.....f.......t..~.m[6I...z.....=......+R,...A/....4.../.....U.h...si..m..J...y._"...C.r.m.4...w&.M&.P.O....<...{.......D......p.ni.L..Q.;7mW.vw..Xs..]...nJ.D..pr...A.$.JT=s;,+.".<.@..m..F..T..(.L1.<N.....a.cZffff..3s6.....Nl.,......9.nI.6=....n.6m....km..1.W8...d..m.._...m.....9..k..[.Y.m....U.k..}./.V.p........R.)...r..cfffp.L._..(..%..w.^..._-%.......4.c...v+aw..i.a'XG...........n.......aj..k...m.Hrr..[x.^y.um..I......B..vjm..n..l..m~...m.v[U......WWDEa......L.l[..~3.+&.%f..\...yN...W..0Uf.)M.Df.vw..}0m..N......#2...0]..g.ge......m..7pV......Y.....k9.$..*.....!.{.@..
+.......J...F. wJ.x..8...Z.,i...9.^.3Sg.`f.(13'.A...,f..`f..33.cg0PU..p..k.w...X.E...<G.,..-I,c.....F.1+..a.U.Qp....W.s.^s....U..m.S.c.}...........c{.Cs....l.....o=....:...j..m..c.f.X.....;.g.....uJ.$In..Y..X.-.7..n.....H;..UDdV.......8......333..efffff.....u...*!@z.....e.......m;.I....|..._fF..................JQc....mge...<7.....m.... A:gO....3...Y.s..8..M.<D.....wy............4....8|pg.]a.}a?.......+..beq
+m..7.6....yC.$.n3{.3B.Z1z..........S..O.D..$..$...X.=".j.3..u..Zu..wS..(IR....a..N[|}.f..U...1.>.^3I.!...3......!...(e..K..,13.cw...s....].....%..m...-}....N>.@.n.P..C,_JX.y....sd..mI..c..A....%..N.D..t.K.Z.{&.j..7........m..m..m..w..m.n.I... H.....E....@l./..F. I.Yd.........t...3:0l.6.....j.i........$..........N....{..mD....r..V...2;.m.m{w...z...[.........mR$......U5p...0y133Ci..........Z.uf.......TU..l+A..D...eM..l...6...@*...@.y.@.|yo2#D.xo..B......U..m+.R;,..,/..vb;....m.d.u.....ZK...=msmIN.......y..t...+....Q.#.....<...l...u.%`e{..s&.y..}.h]..{..B....(MU{........q.... [#..$....?...........T.,..6!..J....4...&.. ..........J`7..@.......t...~...3..s|
+...;f......d ..FN........;.@....\..?w.....Fck..e,..;i......;.T.P..2...o..8...Sp`P.B.......j.....
+.h.b5..P..q+..x..J.B@./.....?>..........0 .0..j.N....DU..`hhv.M~M..e...=.@J...pk..8.-.^~|...7.;&\v.Q.3........../`[x.....R.2F...2D.]....3..<.../?.3.(a./(..O....@#..................y..r&..............v...K.....N.2....F..0.S1......<$.A....b5V...H....:Z1..p...M....?K...o...N..^m.a...7x.3q....q.c)......,
+.F.!F.......Vu.$h!8...".`6..... U...X.....x..U......p...S&..}...?.f7.:..)c.~6..o......e.....0..H.1M...#G...y+.........@......t......n.#..iP.......}e...8......&.J<p1...H.YZ..N?l}.o......O......;...4.......X..hE.])=r........#(..[q..9.......?.f...w.. =lW.[p.y..b.Vb.>EyL(.I..I..*..Us0e...j......F......O./t....5....>|..H.D......
+.mI.1#G..f..)......p.m.ZP........
+........@....3.Gm.1...?`.`........#...i...........e...P"A.=L ...u...tl....`...=..3........[x.W...........?....z..I...*N.U:..na.].MTv.i......a5.a.f""C@.J..(..t.6tL...wk..s.
+L3Dh..x.[..9.0)Y..t......9.@.l.3(.........a........[.+...?g..K.+.N...v......^.*./........n..E..3Y~.ye...6.%.,.|..A.....E.h.&]..V/.)...../.......+=mA....".R..H.DapBM.V5zi.2vA..,.2f.:..WG*.@M.....^~|.Q.r...f..c9.t..K..9j   "E5.PA.....o8...Z....
+........T........H{..,+..........p9.w...QlF...ys.#..p%l..R.f3.$............%..Ex..aB....}v.j.....?..>j_m.c.....x..._...0....<V.]...v............&W.^..{...[o......(..d..R.9kU!.....U..1.....S.v....U88v....j..+.Ey...tG..0G.R.
+&.B4..|...N.Yr..?~.q...nO..kN......~.....P...3...er...x.'.]2.........X..X......F......4.>t..........~cv...j~..z.v..bWj
+......LT................mx@qd......v.a8,6.o..8.G'N..&...w.U..[(.m.Q",.[.b.J....5.2H...d...S{..r.a_=.H..z4..`......z.......}......@..P{..6..X......+z...c...."......H.s......>............4.5P..A..T.P.X......i.S.....ZF.....ic......L..;..vb.e.....(!..54.....|L...W.s}....X^.t.....G.D..o......}...a3.B.}..,.
+.."..-....o...c.....x.|m_.......x..a.Da.o....O..s.~...M....Q..pTG.l16j..CpYJO.=|......\,.|.E."r.?...T.S.H..)....EX..=....w....ZY.m-6.'...y.(.....1.;.)..5.B"..o).2P...-J..m.;.^6.sU.8=.F?,.gs..l......_..dR...M.V........*J..8..................}..wa....6..7....'.......'u.,..w.r..k....Wwr....cN..{<.6..........Vp..S..~.,..O...k..=...z.K....B>.O.{P(.n...o.Z....z..._:.5v..6.u......T...uO.rM......A~...4......*.........].@ Bqf.....R......M;...T.&o.j.X.m.V..........R....t.>;7..~...?O......C/{.Bg..j9..'I4/1c.|......v...6...xH....s6D?....I.M.h|...~vO...2.s{4F.(...&
+(a(.`...x..$T....(PB......ROT[.........#.r.H ".@..PC......).... .FT.a
+cx....]..F...... ...?v..^.P^.../)...O...{.,..w.G......O..O...8J(.5p..u.00[....j.X.....U....v...C#N.'..;$z.............x........X.{...q.......OD.......$..N...g\.f.t`..`.^.c........^}$..3..G.yS.......w)(AR.......... I.R(dd.y...D.(..*S..|.y....Y....1........O.|.....N.gp....Y..... e.X&Q/?........Ux........=....v.....r.y.Y.>.!.)..v.Tb3....X......p...cq.......g=m../.}.i.nI.m....V\..g..y.[..$"..b
+...|..^.).H.d.e6....8..|.O..x._....odg.=.....'?..~...-......v............g..l...V..b.r..u.gn.......}......?..v...5.{..`........|{~...4@j*.D,..RM. ..#....!......1L...)Q[Kq.j.. R.K.%.w.....p.1.-.m..S..kb%K!..Z..G.5yI..(.USd...)II....J..cmX.X...PCRn..q..........ve...P...x..>.y.%.b Fa(jQ@#.&9.$..... ...t...W..P.d.q.G0.....8....i...).6fg.....?....^.*.....p....
+?8X*ar...0.....D44Q!.K..ZQL...7.....B.t..t..Z/....7..R7....D.;.......+...c(....".?:.1..K4.)..-....O.;~.../.....^7.iIKb.*.r.G@..1..~......g`..y...n^..X..6Ab.....Y..
+
+===== quoted strings (candidates: animation names) =====
+1_2wbon, 2_yikhd, CompressedTexture2D, SpineAnimationMix, SpineAnimationMix_dg8sb, SpineAnimationMix_febkg, SpineAnimationMix_iet4g, SpineAnimationMix_jxu7e, SpineAnimationMix_q8rux, SpineAnimationMix_r7khs, SpineAnimationMix_rhmex, SpineAnimationMix_t3n0l, SpineAnimationMix_tcmbt, SpineAnimationMix_tpffi, SpineAtlasResource, SpineSkeletonDataResource, SpineSkeletonFileResource, atlas_data, attack, attack_heavy, die, hurt, idle_loop, normal_texture_prefix, source_path, specular_texture_prefix, texture, vram_texture

@@ -1,0 +1,8 @@
+
+### b'scenes/characters/': 0
+
+### b'/spine/': 3
+  /spine/spine_godot_extension.gdextension:do
+  /spine/spine_godot_extension.gdextension
+
+### b'animated_character': 0

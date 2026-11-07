@@ -1,0 +1,25 @@
+# ---- 本地工具链（不入库，合作者自己装）----
+.dotnet/
+install-dotnet.ps1
+
+# ---- 构建产物 ----
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- 体积大 / 版权敏感，单独分享，不进 Git ----
+# art/      : 从 SlayTheSpire2.pck 抽出的原画，415 MB
+# refs/decompiled/ : 反编译的游戏程序集源码
+/art/
+/refs/decompiled/
+
+# ---- 系统垃圾 ----
+Thumbs.db
+desktop.ini
+.DS_Store

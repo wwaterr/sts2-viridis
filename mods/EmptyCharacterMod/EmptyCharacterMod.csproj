@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>EmptyCharacterMod</AssemblyName>
+    <RootNamespace>EmptyCharacterMod</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>none</DebugType>
+    <NoWarn>$(NoWarn);CS0436</NoWarn>
+
+    <!-- 游戏安装目录（可用 -p:Sts2Dir=... 覆盖） -->
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64</Sts2Dir>
+    <!-- 本地 mods 目录（可用 -p:ModsDir=... 覆盖） -->
+    <ModsDir Condition="'$(ModsDir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\mods</ModsDir>
+    <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
+  </PropertyGroup>
+
+  <!-- 只编译，不把这些程序集复制到输出目录 -->
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>$(Sts2Dir)\sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- dotnet build -p:DeployMod=true 时，自动把产物拷到游戏 mods\EmptyCharacterMod -->
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="'$(DeployMod)' == 'true'">
+    <ItemGroup>
+      <ModPayload Include="$(TargetPath)" />
+      <ModPayload Include="$(MSBuildProjectDirectory)\EmptyCharacterMod.json" />
+    </ItemGroup>
+    <MakeDir Directories="$(ModsDir)\EmptyCharacterMod" />
+    <Copy SourceFiles="@(ModPayload)" DestinationFolder="$(ModsDir)\EmptyCharacterMod" />
+    <Message Importance="high" Text="Deployed to $(ModsDir)\EmptyCharacterMod" />
+  </Target>
+
+</Project>

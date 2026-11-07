@@ -1,0 +1,82 @@
+### b'ancient': 3602 hits
+.progress.sfx.Impact_.DmgValue.Intensity._strength.Progress.ancient_map.block_amount.hurt_amount.kaiser_crab_.direction.
+ndLIST....PRPSLISTX...PARMPRMB?...b.....PI..[...............ancient_map.......?...........@.......LIST....PRPSLISTP...PA
+re2D".uid="uid://bki3pv0dwp2d2".path="res://.godot/imported/ancient_beta.png-e5bdc60214011f4a4c1b6c91e6715e0e.ctex".meta
+re2D".uid="uid://bi648q3cavtx7".path="res://.godot/imported/ancient_event_option_button.png-d78443e40cde521f5e0f59074b7c
+re2D".uid="uid://ckdr7u7ds42xr".path="res://.godot/imported/ancient_event_option_button_outline.png-2d4a5fa59cd124b3bb51
+re2D".uid="uid://byday3wqts8bk".path="res://.godot/imported/ancient_node_darv.png-0de172a1085f371973443e36b0ecb370.ctex"
+re2D".uid="uid://cqpsbb1e2cvd1".path="res://.godot/imported/ancient_node_darv_outline.png-b2fcaa4bbd87a079e3188d7d666ab3
+ure2D".uid="uid://njuo12tymm6i".path="res://.godot/imported/ancient_node_neow.png-c43c05e7852eb5624d7663f7a12bef09.ctex"
+re2D".uid="uid://cholm6mbfh85o".path="res://.godot/imported/ancient_node_neow_outline.png-3efc491a5abcf6f177b971f74d5304
+re2D".uid="uid://dqjlca6j3spn5".path="res://.godot/imported/ancient_node_nonupeipe.png-55ac74cde4743bd369b723f0150e2a04.
+re2D".uid="uid://dfgu4vmnv3y4j".path="res://.godot/imported/ancient_node_nonupeipe_outline.png-cbe3f6322ec5c462b50e2904d
+re2D".uid="uid://boyap5itn800h".path="res://.godot/imported/ancient_node_orobas.png-58531cac91137c991c733cbde85c610c.cte
+ure2D".uid="uid://wpodecqg8fcv".path="res://.godot/imported/ancient_node_orobas_outline.png-cfc08b1d866b1aa9c054e58c5dc7
+re2D".uid="uid://dnjhpqjdvqdhk".path="res://.godot/imported/ancient_node_pael.png-d9ca93d81ee643c3f828a6602d805901.ctex"
+re2D".uid="uid://baaelksgmehr4".path="res://.godot/imported/ancient_node_pael_outline.png-9f9054a28c04d9f4e47eba5e578740
+re2D".uid="uid://bhcvnpk8kny6q".path="res://.godot/imported/ancient_node_tanx.png-a0f6cd420177b5e9f2ecd19ff054b1cf.ctex"
+re2D".uid="uid://dgnirphuvlxh1".path="res://.godot/imported/ancient_node_tanx_outline.png-bcc2d4722133237870494d3b74c4b0
+re2D".uid="uid://blulpue1cxlff".path="res://.godot/imported/ancient_node_tezcatara.png-5264d1f841a2879616c7052df9eb0896.
+re2D".uid="uid://bab0xsp6rsykv".path="res://.godot/imported/ancient_node_tezcatara_outline.png-b5480e1d8fdcaa0200beb558c
+re2D".uid="uid://bd0dd35g853uh".path="res://.godot/imported/ancient_node_vakuu.png-a53c1bf6e86a89208e03d05676d179f2.ctex
+re2D".uid="uid://duoxvb5y70pao".path="res://.godot/imported/ancient_node_vakuu_outline.png-4b605b8b1cf559f38eb3aafdd2b45
+uid="uid://c8gnx3t7c7ci4".path="res://.godot/imported/stats_ancients.png-1803540d3270c61256982425bce1971d.ctex".metadata
+".uid="uid://pbk4ogdciuxj".path.bptc="res://.godot/imported/ancient.png-cdaf49fb57ad91eb8e3a8252f5b5cc64.bptc.ctex".meta
+.uid="uid://c8dvjujgg8k2k".path.s3tc="res://.godot/imported/ancient_outline.png-916d35477201554d61750a11cbdab1e8.s3tc.ct
+id://51xjmcgxedwl".path.bptc="res://.godot/imported/ui_card_ancient_border_main.png-e63ec77a59f27f557069148d287ce936.bpt
+..{.  "DARV.epithet": "Der Hortende",.  "DARV.talk.ANY.0-0r.ancient": "Nimmste einen von den vergessenen Juwelen hier mi
+n den vergessenen Juwelen hier mit!",.  "DARV.talk.ANY.1-0r.ancient": "Heute hab ich zu tun!\nNimmste was de willst von 
+was de willst von diesem Stapel!!",.  "DARV.talk.DEFECT.0-0.ancient": "Du bist ein schmucker Ger..mpel-Kumpel, wei..t du
+[font_size=22]<3[/font_size][/i]",.  "DARV.talk.DEFECT.1-0r.ancient": "Du bleibst noch dran, verstehe... Schau'n wir, ob
+, ob wir dich aufbessern k..nnen!",.  "DARV.talk.DEFECT.2-0.ancient": "Ich hab von deinem Freund was aufbewahrt, das ..h
+RV.talk.DEFECT.2-1.next": "Weiter",.  "DARV.talk.DEFECT.2-2.ancient": "Mein schrottiger Verschrotter, vergiss, dass ich 
+dass ich das alles gesagt habe!",.  "DARV.talk.IRONCLAD.0-0.ancient": "Der lodernde Krieger ist zur..ckgekommen!\nIch ha
+ genau das Richtige f..r dich!",.  "DARV.talk.IRONCLAD.1-0r.ancient": "Sch..n zu sehen, dass de weiter zutrittst und ihr
+und ihre K..pfe zerschmetterst!",.  "DARV.talk.IRONCLAD.2-0.ancient": "Ich bewahre immer noch dieses schwere Schwert von
+alk.IRONCLAD.2-1.next": "Weiter",.  "DARV.talk.IRONCLAD.2-2.ancient": "Vielleicht wei.. der Architekt 'was.",.  "DARV.ta
+ht wei.. der Architekt 'was.",.  "DARV.talk.NECROBINDER.0-0.ancient": "Man sieht, dass du es ernst meinst. Was kann ich 
+CROBINDER.0-1.next": "Weiter",.  "DARV.talk.NECROBINDER.0-2.ancient": "Na sch..n, dann... schau dich hier um!",.  "DARV.
+dann... schau dich hier um!",.  "DARV.talk.NECROBINDER.1-0r.ancient": "Immer noch auf dem Kriegspfad? Ich werd' dich nic
+ch werd' dich nicht stoppen!",.  "DARV.talk.NECROBINDER.2-0.ancient": "Dieses Buch ist wohl an dich gebunden, war schon 
+CROBINDER.2-1.next": "Weiter",.  "DARV.talk.NECROBINDER.2-2.ancient": "[sine]Gruselige[/sine] Dinge landen irgendwann me
+### b'Ancient': 580 hits
+rCard.StringValue:cond:[gold]{StarterCard}[/gold] zu [gold]{AncientCard}[/gold]|eine Startkarte zu einer Ahnen-Variante}
+bholz",.  "DUSTY_TOME.description": "Erhalte beim Aufheben {AncientCard.StringValue:cond:[gold]{}[/gold]|eine [gold]Ahne
+Karte[/gold]}.",.  "DUSTY_TOME.eventDescription": "Erhalte {AncientCard.StringValue:cond:[gold]{}+[/gold]|eine [gold]Ahn
+werden.",.  "ANCIENT_SUBCATEGORY": "[blue][font_size=28][b]{Ancient}:[/b][/font_size][/blue]",.  "COMMON": "[gold][font_
+LIC_HISTORY.categories": "{ShopRelics:cond:>0? {} Laden, |}{AncientRelics:cond:>0? {} Ahne, |}{EventRelics:cond:>0? {} E
+EL_01.title": "Swarming Elites",.  "LEVEL_02.description": "Ancients only heal [blue]80%[/blue] of your missing HP.",.  
+cards found",.  "POOL_ANCIENT_TIP": "Cards granted by [gold]Ancients[/gold].",.  "POOL_COLORLESS_TIP": "Colorless cards.
+score.",.  "COLORLESS3_EPOCH.description": "One of the many Ancients, [blue]Neow[/blue], grew jealous of the awe-inspiri
+. And so, at last, the penultimate creation... [gold]...The Ancient Seeds...[/gold] are complete!\n\nThe seeds which tur
+DARV_EPOCH.title": "Darv",.  "DARV_EPOCH.unlock": "Unlocked Ancient: [purple]Darv[/purple], The Hoarder, will now show u
+kInfo": "{IsRevealed:Encountered|Encounter} all other [gold]Ancients[/gold]{IsRevealed:| to reveal this Epoch}.",.  "DAR
+ reveal this Epoch}.",.  "DARV_EPOCH.unlockText": "Unlocked Ancient: [purple]Darv[/purple].",.  "DEFECT1_EPOCH.descripti
+rrected the defective construct, no simple feat even for an Ancient.\n\n[sine]...Construct... what you.. ..lost....\nYou
+ [blue]{Event}[/blue].",.  "EVENT2_EPOCH.description": "The Ancients emerged from hiding and head to the [gold]Spire[/go
+ to draw nourishment from [orange]Preon[/orange], the [gold]Ancient Trees[/gold] began to wither and die... the once bea
+eal this Epoch.}",.  "NEOW_EPOCH.unlockText": "Unlocked the Ancient: [blue]Neow[/blue].",.  "OROBAS_EPOCH.description": 
+_EPOCH.title": "Orobas",.  "OROBAS_EPOCH.unlock": "Unlocked Ancient: [aqua]Orobas[/aqua], Living Rainbow, may be swimmin
+eveal this Epoch}.",.  "OROBAS_EPOCH.unlockText": "Unlocked Ancient: [aqua]Orobas[/aqua].",.  "POTION1_EPOCH.description
+mulating score.",.  "RELIC2_EPOCH.description": "The [green]Ancient Trees[/green] are not all the same. Each individual 
+ifestation of its immense power is born within.\n\nAn [gold]Ancient[/gold].",.  "RELIC2_EPOCH.title": "Ancients",.  "REL
+hin.\n\nAn [gold]Ancient[/gold].",.  "RELIC2_EPOCH.title": "Ancients",.  "RELIC2_EPOCH.unlockInfo": "{IsRevealed:Unlocke
+and it [sine]hungered[/sine] to grow and grow.\n\nThe other Ancients capture the culprit as the [purple]Blight[/purple] 
+he [green]Silent[/green].\n\n...Grow big and strong!... The Ancient speaks in a tender tone and scoots over a bowl of nu
+  "BATTLE_START": "Battle Start",.  "CARD_RARITY.ANCIENT": "Ancient",.  "CARD_RARITY.BASIC": "Basic",.  "CARD_RARITY.COM
+s melted.[/red]\n{description}",.  "RELIC_RARITY.ANCIENT": "Ancient Relic",.  "RELIC_RARITY.COMMON": "Common Relic",.  "
+BRARY_RARITY_ALL": "All",.  "CARD_LIBRARY_RARITY_ANCIENT": "Ancient",.  "CARD_LIBRARY_RARITY_BASIC": "Starter",.  "CARD_
+.title": "Event",.  "LEGEND_ANCIENT.hoverTip.description": "Ancients reside in these rooms.\n\nThey grant incredible bon
+sures, and knowledge.",.  "LEGEND_ANCIENT.hoverTip.title": "Ancient",.  "LEGEND_ANCIENT.title": "Ancient",.  "LEGEND_BOS
+IENT.hoverTip.title": "Ancient",.  "LEGEND_ANCIENT.title": "Ancient",.  "LEGEND_BOSS.hoverTip.description": "The deadlie
+ard.StringValue:cond:[gold]{StarterCard}[/gold] into [gold]{AncientCard}[/gold]|a starter card into an ancient version}.
+iftwood",.  "DUSTY_TOME.description": "Upon pickup, obtain {AncientCard.StringValue:cond:[gold]{}[/gold]|an [gold]Ancien
+tain {AncientCard.StringValue:cond:[gold]{}[/gold]|an [gold]Ancient Card[/gold]}.",.  "DUSTY_TOME.eventDescription": "Ob
+t Card[/gold]}.",.  "DUSTY_TOME.eventDescription": "Obtain {AncientCard.StringValue:cond:[gold]{}+[/gold]|an [gold]Ancie
+ain {AncientCard.StringValue:cond:[gold]{}+[/gold]|an [gold]Ancient Card[/gold]}.",.  "DUSTY_TOME.flavor": "[red]Details
+Relic}[/gold]|your starter [gold]Relic[/gold] with an [gold]Ancient[/gold] version}.",.  "TOUCH_OF_OROBAS.eventDescripti
+Relic}[/gold]|your starter [gold]Relic[/gold] with an [gold]Ancient[/gold] version}.",.  "TOUCH_OF_OROBAS.flavor": "[red
+okie".}..............{.  "ANCIENT": "[gold][font_size=28][b]Ancient:[/b][/font_size][/gold] Relics offered by the Ancien
+28][b]Ancient:[/b][/font_size][/gold] Relics offered by the Ancients.",.  "ANCIENT_SUBCATEGORY": "[blue][font_size=28][b
+cients.",.  "ANCIENT_SUBCATEGORY": "[blue][font_size=28][b]{Ancient}:[/b][/font_size][/blue]",.  "COMMON": "[gold][font_
+LIC_HISTORY.categories": "{ShopRelics:cond:>0? {} Shop, |} {AncientRelics:cond:>0? {} Ancient, |}{EventRelics:cond:>0? {

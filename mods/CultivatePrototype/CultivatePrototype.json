@@ -1,0 +1,12 @@
+{
+  "id": "CultivatePrototype",
+  "name": "Cultivate Prototype",
+  "author": "viridis",
+  "description": "Prototype for the Cultivate mechanic.",
+  "version": "0.1.0",
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": true,
+  "min_game_version": "0.111.0",
+  "dependencies": []
+}

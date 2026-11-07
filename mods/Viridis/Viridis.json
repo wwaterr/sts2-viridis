@@ -1,0 +1,14 @@
+{
+  "id": "Viridis",
+  "name": "小松绿Viridis",
+  "author": "you",
+  "description": "Character scaffold: 小松绿 Viridis. Placeholder art, 10 blank starter cards.",
+  "version": "0.1.0",
+  "has_pck": true,
+  "has_dll": true,
+  "affects_gameplay": true,
+  "min_game_version": "0.111.0",
+  "dependencies": [
+    { "id": "STS2-RitsuLib", "min_version": "0.6.10" }
+  ]
+}

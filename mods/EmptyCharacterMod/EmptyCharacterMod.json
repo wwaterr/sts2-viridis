@@ -1,0 +1,12 @@
+{
+  "id": "EmptyCharacterMod",
+  "name": "Empty Character Mod",
+  "author": "YourName",
+  "description": "Empty scaffold mod: only a manifest + a DLL with [ModInitializer]. No content yet.",
+  "version": "0.1.0",
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": false,
+  "min_game_version": "0.111.0",
+  "dependencies": []
+}

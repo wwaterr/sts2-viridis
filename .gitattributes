@@ -1,0 +1,11 @@
+* text=auto
+
+# 二进制文件，别让 git 改行尾
+*.png   binary
+*.jpg   binary
+*.webp  binary
+*.pck   binary
+*.dll   binary
+*.sqlite binary
+*.ctex  binary
+*.skel  binary

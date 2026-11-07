@@ -1,0 +1,81 @@
+
+### b'"rarity"': 0 hits
+
+### b'"Rarity"': 3 hits
+--- @1962723964 ---
+elic",
+  "RELIC_USED_UP": "[red]This relic was all used up.[/red]\n{description}",
+  "SHOW_UPGRADE": "Show Upgrade",
+  "SKIP_MERCHANT_BUTTON": "Skip Merchant",
+  "SKIP_REWARDS_BUTTON": "Skip Rewards",
+  "SORT_ALPHABET": "A - Z",
+  "SORT_COST": "Cost",
+  "SORT_OBTAINED": "Obtained",
+  "SORT_RARITY": "Rarity",
+  "SORT_TYPE": "Card Type",
+  "TO_INSPECT_PROMPT": "To Inspect",
+  "TREASURE_BANNER": "What's Inside?",
+  "TREASURE_EMPTY": "Empty",
+  "TREASURE_FIGHT_TEXT": "Fight!!!",
+  "TURN_COUNT": "Turn {turnNumber}",
+  "UNDO_END_TURN_BUTTON": "Cancel",
+  "VIEW_UPGRADES": "View Upgrades"
+}
+..{
+  "SINGLE_PLAYER_CUSTOM.description": "Create your own challenges by choosing from an assortment of chaotic modifiers.",
+  "SINGLE_PLAYER_CUSTOM.title": "Custom",
+  "SINGLE_PLAYER_DAILY_RUN.description": "A
+--- @1962730274 ---
+N.description": "This enemy's intentions are [gold]Unknown[/gold].",
+  "UNKNOWN.title": "Unknown"
+}
+......{
+  "ABANDON_RUN": "Abandon Run",
+  "ABANDON_RUN_CONFIRMATION.body": "Abandoning the game will result in a loss.",
+  "ABANDON_RUN_CONFIRMATION.header": "Are you sure?",
+  "CARD_LIBRARY_RARITY": "Rarity",
+  "CARD_LIBRARY_RARITY_ALL": "All",
+  "CARD_LIBRARY_RARITY_ANCIENT": "Ancient",
+  "CARD_LIBRARY_RARITY_BASIC": "Starter",
+  "CARD_LIBRARY_RARITY_COMMON": "Common",
+  "CARD_LIBRARY_RARITY_OTHER": "Other",
+  "CARD_LIBRARY_RARITY_RARE": "Rare",
+  "CARD_LIBRARY_RARITY_UNCOMMON": "Uncommon",
+  "CARD_LIBRARY_SEARCH": "Search",
+  "CARD_LIBRARY_VIEW_UPGRADE": "View Upgrade",
+  "CHARACTER_SELECT.locked.title": "Locked",
+  "CHARACTER_SELECT.lockedRelic.description": "This character's relic is ye
+--- @1978630142 ---
+= 0
+theme_override_fonts/font = ExtResource("2_kg3au")
+theme_override_font_sizes/font_size = 36
+text = "Stone Humidifer"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("3_wi6bh")
+MinFontSize = 24
+MaxFontSize = 36
+metadata/_custom_type_script = "uid://dtfio45agppyj"
+
+[node name="Rarity" type="Label" parent="Popup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -330.0
+offset_right = 221.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.25098)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_o3c
+
+### b'rarity:': 0 hits
+
+### b'"pool_id"': 0 hits

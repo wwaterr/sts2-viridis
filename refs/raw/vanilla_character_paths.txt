@@ -1,0 +1,198 @@
+### animations/characters hits: 96
+  animations/characters/defect/defect
+  animations/characters/ironclad/ironclad
+  animations/characters/necrobinder/necrobinder
+  animations/characters/regent/regent
+  animations/characters/regent/regent_weapon
+  animations/characters/silent/silent
+  animations/characters/defect/defect_skel_data
+  animations/characters/ironclad/ironclad_skel_data
+  animations/characters/necrobinder/necrobinder_skel_data
+  animations/characters/regent/regent_skel_data
+  animations/characters/regent/regent_weapon_skel_data
+  animations/characters/silent/silent_skel_data
+  animations/characters/ironclad/ironclad_2
+  animations/characters/ironclad/ironclad_3
+  animations/characters/ironclad/ironclad_4
+  animations/characters/necrobinder/necrobinder_2
+  animations/characters/necrobinder/necrobinder_3
+  animations/characters/necrobinder/necrobinder_flame
+  animations/characters/necrobinder/necro_slash_texture
+
+### b'preview_animation' hits: 20
+--- @1972781974 ---
+62.0
+rotation = 3.14159
+texture = ExtResource("21_t2t3u")
+expand_mode = 1
+
+[node name="SpineSprite" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("13_ko78i")
+additive_material = SubResource("CanvasItemMaterial_6vfg3")
+preview_skin = "default"
+preview_animation = "plants_spawn"
+preview_frame = true
+preview_time = 1.7
+position = Vector2(-1385, -652)
+scale = Vector2(0.45, 0.45)
+
+[node name="NCeremonialBeastBgVfx" type="Node" parent="SpineSprite"]
+script = ExtResource("14_n2elv")
+metadata/_custom_type_script = "uid://b3vv07t1j02ry"
+
+[node name="Foreground" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+script = ExtResource("2_exia0")
+
+[node name="cutter" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -1452.0
+offset_t
+--- @1972782786 ---
+
+offset_bottom = 650.0
+texture = ExtResource("13_l4j25")
+expand_mode = 1
+
+[node name="SpineSprite2" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("22_skgbm")
+additive_material = SubResource("CanvasItemMaterial_6vfg3")
+preview_skin = "default"
+preview_animation = "glow_and_skulls_idle"
+preview_frame = false
+preview_time = 0.0
+position = Vector2(-1454, -792)
+scale = Vector2(0.5, 0.5)
+
+[node name="NCeremonialBeastBgVfx" type="Node" parent="SpineSprite2"]
+script = ExtResource("14_n2elv")
+metadata/_custom_type_script = "uid://b3vv07t1j02ry"
+
+[node name="fog" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_h8r2y")
+position = Vector2(-1644, 511)
+texture = ExtResource("22_iubs8")
+lifetime = 120.0
+preprocess = 100.0
+local_coords = tr
+--- @1972832332 ---
+offset_right = 1590.0
+offset_bottom = 680.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.01, 1.01)
+
+[node name="SpineSprite" type="SpineSprite" parent="SceneContainer/BgContainer"]
+skeleton_data_res = ExtResource("1_vepjr")
+preview_skin = "Default"
+preview_animation = "-- Empty --"
+preview_frame = false
+preview_time = 0.0
+scale = Vector2(0.5, 0.5)
+
+[node name="NSpineAutoPlayer" type="Node" parent="SceneContainer/BgContainer/SpineSprite"]
+script = ExtResource("2_7p8bh")
+metadata/_custom_type_script = "uid://b0oho7pjc1dtg"
+
+[node name="TextureRect" type="TextureRect" parent="SceneContainer/BgContainer"]
+material = SubResource("ShaderMaterial_o5wu3")
+layout_mode = 0
+offset_left = 1502.97
+offset_top = 531.683
+offset_right = 1605.97
+offset_bottom = 634.683
+scale =
+--- @1972837811 ---
+_left = -770.32
+offset_top = -497.64
+offset_right = -770.32
+offset_bottom = -497.64
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpineSprite" type="SpineSprite" parent="SceneContainer"]
+skeleton_data_res = ExtResource("4_7kc8n")
+preview_skin = "Default"
+preview_animation = "-- Empty --"
+preview_frame = false
+preview_time = 0.0
+position = Vector2(1931.68, 647.36)
+scale = Vector2(0.505, 0.505)
+
+[node name="NSpineAutoPlayer" type="Node" parent="SceneContainer/SpineSprite"]
+script = ExtResource("5_gor0b")
+metadata/_custom_type_script = "uid://b0oho7pjc1dtg"
+...........[gd_scene load_steps=5 format=3 uid="uid://2hl0xt05ql38"]
+
+[ext_resource type="Script" uid="uid://cgv6fwxmmkr3h" path="res://src/Core/Nodes/Rooms/NCombatBackground.cs" id="1_k4s8v"]
+[ext_resource type="S
+
+### b'default_animation' hits: 0
+
+### character tscn candidates
+hits 168
+--- @461190917 ---
+1,77,6,6\nshadow\nbounds:2,186,344,81\noffsets:1,1,345,82\n","normal_texture_prefix":"n","source_path":"res://animations/characters/defect/defect.atlas","specular_texture_prefix":"s"}............[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://5om5wsxmok5j"
+path="res://.godot/imported/defect.atlas-d4a29937acf4aaaf137b95ee851d8a50.spatlas"
+..........GST2................................................
+...RIFF....WEBPVP8L..../..C..@l.H...{.^.....].....*zn...
+--- @461778023 ---
+at=3 uid="uid://c0hdeqc1rqeah"]
+
+[ext_resource type="SpineAtlasResource" uid="uid://5om5wsxmok5j" path="res://animations/characters/defect/defect.atlas" id="1_2ehso"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://by8dcdhwdsh35" path="res://animations/characters/defect/defect.skel" id="2_5frsk"]
+
+[resource]
+atlas_res = ExtResource("1_2ehso")
+skeleton_file_res = ExtResource("2_5frsk")
+...{"atlas_data":"ironclad.png\nsize:1329,269\nfilter:Linear,Linear\nscale:0.372\n
+--- @461778165 ---
+ect.atlas" id="1_2ehso"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://by8dcdhwdsh35" path="res://animations/characters/defect/defect.skel" id="2_5frsk"]
+
+[resource]
+atlas_res = ExtResource("1_2ehso")
+skeleton_file_res = ExtResource("2_5frsk")
+...{"atlas_data":"ironclad.png\nsize:1329,269\nfilter:Linear,Linear\nscale:0.372\nback mask\nbounds:417,5,56,49\nbelt\nbounds:1038,184,83,33\nrotate:90\nbelt 2\nbounds:869,127,26,35\noffsets:0,1,26,36\nrotate:90\nbelt 3\nbou
+--- @461783027 ---
+r\nscale:0.372\nslash/slash_placeholder\nbounds:2,2,15,45\n","normal_texture_prefix":"n","source_path":"res://animations/characters/ironclad/ironclad.atlas","specular_texture_prefix":"s"}..........[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://8wiohbeiuu21"
+path="res://.godot/imported/ironclad.atlas-4e261a5070e76bbca164014644e864f9.spatlas"
+........GST2....1...............................1...........J/..RIFFB/..WEBPVP8L5/../0.C..@h$..........=.....CP. ..
+--- @462198568 ---
+at=3 uid="uid://b8e4wst5vt8xh"]
+
+[ext_resource type="SpineAtlasResource" uid="uid://8wiohbeiuu21" path="res://animations/characters/ironclad/ironclad.atlas" id="1_2wbon"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://dyk0k8i37hi8g" path="res://animations/characters/ironclad/ironclad.skel" id="2_yikhd"]
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_q8rux"]
+from = "idle_loop"
+to = "attack"
+mix = 0.1
+
+[sub_resource type="SpineAnimationMix" id="SpineAn
+--- @462198714 ---
+lad.atlas" id="1_2wbon"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://dyk0k8i37hi8g" path="res://animations/characters/ironclad/ironclad.skel" id="2_yikhd"]
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_q8rux"]
+from = "idle_loop"
+to = "attack"
+mix = 0.1
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_jxu7e"]
+from = "attack"
+to = "attack"
+
+[sub_resource type="SpineAnimationMix" id="SpineAnimationMix_tpffi"]
+from = "hurt"
+to = "hurt"
+

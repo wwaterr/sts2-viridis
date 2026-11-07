@@ -1,0 +1,49 @@
+size 43900652
+
+### b'SpineSprite' hits: 4 -> [474, 42466025, 42475688, 42476791]
+
+### b'.atlas' hits: 3 -> [552, 42743631, 43879623]
+
+### b'spine_loader' hits: 4 -> [43803381, 43819271, 43879328, 43879424]
+
+===== SpineSprite data @ 42466025 =====
+..PackedScene.........................names.".......!...ThirtySevenCharacterModCharacter.....Node2D.....Visuals.....skeleton_data_res.....preview_skin.....preview_animation.....preview_frame.....preview_time.....unique_name_in_owner.....position.....SpineSprite.....Bounds.....layout_mode.....anchors_preset.....offset_left.....offset_top.....offset_right.....offset_bottom.....Control.
+...IntentPos.....Marker2D.
+...CenterPos.....TalkPos.........variants.............................default.........idle.........................
+.........................................V........B......`A
+......A..`.
+...........
+......B..f.........node_count.................nodes. ...R.............................
+
+===== .atlas data @ 42743631 =====
+tate:270\nzm_5\nbounds:33,541,37,51\nzm_6\nbounds:108,149,40,74\nrotate:270\nzm_7\nbounds:6,347,34,77\nzm_8\nbounds:6,139,20,29\nzm_9\nbounds:84,148,16,22\n", "normal_texture_prefix": "n", "source_path": "res://ThirtySevenCharacterMod/spine/306604_37.atlas", "specular_texture_prefix": "s"}..........9...EW..4.2.36................B....e.a_xw_hechibang1.a_xw_hechibang1_m1.bjx_giddy0.bjx_giddy1.bjx_giddy2.bjx_giddy3.bjx_giddy4.bjx_giddy5.bj_born1.bj_born3.bj_born5.bj_born7.bj_born8.bj_born9
+bj_born10
+bj_born12
+bj_born13
+bj_born14
+bj_born15
+bj_born16
+bj_born20.bj_cibang1.bj_cibang1.bj_cibang1_m1.bj_cibang2.bj_cibang2.bj_cibang2_m1.bj_cibang3.bj_cibang3.bj_cibang3_m1.bj_cibang4.bj_cibang4.bj_ciban
+
+===== spine_loader data @ 43803381 =====
+d305bbf549f252ddee6a7b73bed-ThirtySevenCharacterMod_merchant.scn"
+...[remap]
+
+path="res://.godot/exported/133200997/export-d427c9db138ace28d6d37b3d4eefde43-ThirtySevenCharacterMod_rest_site.scn"
+..[remap]
+
+path="res://ThirtySevenCharacterMod/scripts/spine_loader.gdc"
+.........[remap]
+
+path="res://.godot/exported/133200997/export-1d21eba1393d6716ab62b5c0a212a006-306604_37.res"
+..........list=[]
+........[...wA....M`4...res://addons/spine/spine_godot_extension.gdextensionA.....-
+ ...res://images/vfx/cross_white.png..{....."...res://images/vfx/diamond_white.png...3.7.`....res://images/vfx/dot_warm.png.\.....V%...res://images/vfx/slash_blade_blue.png.....H.!....res://images/vfx/soft_glow.png.X
+r.
+
+===== spine_loader data 2 @ 43819271 =====
+.tscn..N~5.;AU...res://ThirtySevenCharacterMod/scenes/characters/ThirtySevenCharacterMod_merchant.tscn.^...s.#V...res://ThirtySevenCharacterMod/scenes/characters/ThirtySevenCharacterMod_rest_site.tscn......?.5...res://ThirtySevenCharacterMod/scripts/spine_loader.gd..a9.Y..C...res://ThirtySevenCharacterMod/shaders/thirtyseven_flipbook.gdshader.B.sCT.j1...res://ThirtySevenCharacterMod/spine/306604_37.png....S.."2...res://ThirtySevenCharacterMod/spine/306604_37.tres1.7x...0D...res://ThirtySevenCharacterModCode/Capabilities/StarMarkCapability.cs......:W5...res://ThirtySevenCharacterModCode/Cards/Acceptance.cs]R..-..k;...res://ThirtySevenCharacterModCode/Cards/AFragmentOfTruth.cs!k.3.-.v4...res:/
+
+### b'306604_37' hits: 21 -> [42465708, 42475388, 42476364, 42739677, 42739792, 42743622, 43268654, 43268750, 43268819, 43271920]
+
+### b'ThirtySevenCharacterMod_character.tscn' hits: 2 -> [43818684, 43878562]

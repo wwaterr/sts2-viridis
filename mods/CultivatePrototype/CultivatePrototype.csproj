@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>CultivatePrototype</AssemblyName>
+    <RootNamespace>CultivatePrototype</RootNamespace>
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2</Sts2Dir>
+    <ModsDir Condition="'$(ModsDir)' == ''">$(Sts2Dir)\mods</ModsDir>
+    <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>$(Sts2Dir)\data_sts2_windows_x86_64\sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2Dir)\data_sts2_windows_x86_64\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GodotSharp">
+      <HintPath>$(Sts2Dir)\data_sts2_windows_x86_64\GodotSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="'$(DeployMod)' == 'true'">
+    <ItemGroup>
+      <DeployFiles Include="$(TargetDir)$(AssemblyName).dll" />
+      <DeployFiles Include="$(TargetDir)$(AssemblyName).pdb" />
+      <DeployFiles Include="$(MSBuildProjectDirectory)\$(AssemblyName).json" />
+    </ItemGroup>
+    <MakeDir Directories="$(ModsDir)\$(AssemblyName)" />
+    <Copy SourceFiles="@(DeployFiles)" DestinationFolder="$(ModsDir)\$(AssemblyName)" />
+    <Message Importance="high" Text="deployed to $(ModsDir)\$(AssemblyName)" />
+  </Target>
+
+</Project>
