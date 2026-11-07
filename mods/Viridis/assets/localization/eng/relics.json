@@ -1,4 +1,5 @@
 {
     "GARDENING_TOOLS.title":  "Gardening Tools",
-    "GARDENING_TOOLS.description":  "At the start of your turn, draw 1 additional card, then cultivate 1 card from your hand."
+    "GARDENING_TOOLS.description":  "On the first turn of each combat, draw 1 additional card, then cultivate 1 card from your hand.",
+    "GARDENING_TOOLS.flavor":  "A worn trowel, its handle still wrapped in last year\u0027s twine."
 }

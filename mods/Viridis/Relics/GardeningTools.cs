@@ -12,11 +12,16 @@ using Viridis.Cultivate;
 namespace Viridis.Relics;
 
 /// <summary>
-/// 园艺工具：在你的回合开始时，额外抽 1 张牌，然后栽培 1 张手牌。
+/// 园艺工具：战斗的第一回合，额外抽 1 张牌，然后栽培 1 张手牌（每场战斗只触发一次）。
 /// </summary>
 [RegisterRelic(typeof(ViridisRelicPool))]
 public sealed class GardeningTools : RelicModel
 {
+    /// <summary>上一次触发所属的战斗；换战斗后自动重置，实现「每场战斗一次」。</summary>
+    private object? _lastCombat;
+
+    private bool _usedThisCombat;
+
     public override LocString Title => new("relics", "GARDENING_TOOLS.title");
 
     public override RelicRarity Rarity => RelicRarity.Starter;
@@ -27,13 +32,26 @@ public sealed class GardeningTools : RelicModel
     {
         try
         {
-            if (player?.Creature?.CombatState is null)
+            var combat = player?.Creature?.CombatState;
+            if (combat is null)
                 return;
 
-            await CardPileCmd.Draw(choiceContext, 1m, player);
-            Log.Info("[Cultivate] Gardening Tools: drew 1, prompting cultivate");
+            // 每进入一场新战斗，重置一次性开关
+            if (!ReferenceEquals(_lastCombat, combat))
+            {
+                _lastCombat = combat;
+                _usedThisCombat = false;
+            }
 
-            await CultivateSystem.CultivateFromHand(choiceContext, player, this);
+            if (_usedThisCombat)
+                return;
+
+            _usedThisCombat = true;
+
+            await CardPileCmd.Draw(choiceContext, 1m, player!);
+            Log.Info("[Cultivate] Gardening Tools: first turn, drew 1, prompting cultivate");
+
+            await CultivateSystem.CultivateFromHand(choiceContext, player!, this);
         }
         catch (Exception e)
         {
