@@ -44,6 +44,8 @@ public sealed class Seedling : CultivateCard
 {
     public Seedling() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
+    protected override bool ShowsCultivateKeyword => true;
+
     public override string Title => "育苗";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

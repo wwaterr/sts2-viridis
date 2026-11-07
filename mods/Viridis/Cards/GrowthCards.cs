@@ -44,6 +44,8 @@ public sealed class Germinate : CultivateCard
 {
     public Germinate() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override bool ShowsCultivateKeyword => true;
+
     public override string Title => "催芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

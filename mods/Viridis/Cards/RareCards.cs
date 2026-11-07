@@ -75,6 +75,8 @@ public sealed class Canopy : CultivateCard
 public sealed class SporeCloud : CultivateCard
 {
     public SporeCloud() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AllEnemies) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "孢子云";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -162,6 +164,8 @@ public sealed class LeafStorm : CultivateCard
 public sealed class Truffle : CultivateCard
 {
     public Truffle() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "松露";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -175,6 +179,8 @@ public sealed class Truffle : CultivateCard
 public sealed class MotherPlant : CultivateCard
 {
     public MotherPlant() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "母株";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -207,6 +213,8 @@ public sealed class LeafVein : CultivateCard
 public sealed class Lignify : CultivateCard
 {
     public Lignify() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "木质化";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -267,6 +275,8 @@ public sealed class GrowthPeriod : CultivateCard
 public sealed class Catkin : CultivateCard
 {
     public Catkin() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "飞絮";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

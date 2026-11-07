@@ -19,6 +19,12 @@ public abstract class CultivateCard : ModCardTemplate
     {
     }
 
+    /// <summary>卡面是否显示“栽培”关键词；只给真正执行栽培的牌开启。</summary>
+    protected virtual bool ShowsCultivateKeyword => false;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        ShowsCultivateKeyword ? new[] { CultivateKeyword.Value } : base.CanonicalKeywords;
+
     /// <summary>当前栽培牌库中的牌数。</summary>
     protected static int Pile(CardPlay play) => CultivateSystem.PileCount(play.Player);
 

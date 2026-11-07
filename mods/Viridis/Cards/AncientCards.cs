@@ -12,6 +12,8 @@ namespace Viridis.Cards;
 public sealed class WorldTree : CultivateCard
 {
     public WorldTree() : base(3, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "世界树";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

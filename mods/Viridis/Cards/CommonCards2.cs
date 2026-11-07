@@ -60,6 +60,8 @@ public sealed class Bark : CultivateCard
 public sealed class Cutting : CultivateCard
 {
     public Cutting() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "扦插";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -145,6 +147,8 @@ public sealed class MossCover : CultivateCard
 public sealed class Bud : CultivateCard
 {
     public Bud() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "幼芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

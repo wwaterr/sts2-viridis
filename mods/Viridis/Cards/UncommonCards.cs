@@ -26,6 +26,8 @@ public sealed class Gymnosperm : CultivateCard
 public sealed class Transplant : CultivateCard
 {
     public Transplant() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "移栽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -72,6 +74,8 @@ public sealed class VineEntangle : CultivateCard
 public sealed class Division : CultivateCard
 {
     public Division() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "分株";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -153,6 +157,8 @@ public sealed class LeafWhirl : CultivateCard
 public sealed class Tundra : CultivateCard
 {
     public Tundra() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "苔原";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -163,6 +169,8 @@ public sealed class Tundra : CultivateCard
 public sealed class Sucker : CultivateCard
 {
     public Sucker() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "吸芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -173,6 +181,8 @@ public sealed class Sucker : CultivateCard
 public sealed class FernSpread : CultivateCard
 {
     public FernSpread() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "蕨类蔓延";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -206,6 +216,8 @@ public sealed class OldTreeRoots : CultivateCard
 public sealed class Pollen : CultivateCard
 {
     public Pollen() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "花粉";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -296,6 +308,8 @@ public sealed class Peat : CultivateCard
 public sealed class Trunk : CultivateCard
 {
     public Trunk() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "主干";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -337,6 +351,8 @@ public sealed class ResinSeal : CultivateCard
 public sealed class SeedlingTransplant : CultivateCard
 {
     public SeedlingTransplant() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override bool ShowsCultivateKeyword => true;
     public override string Title => "幼苗移栽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
