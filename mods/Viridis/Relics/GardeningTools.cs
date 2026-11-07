@@ -12,9 +12,11 @@ using Viridis.Cultivate;
 namespace Viridis.Relics;
 
 /// <summary>
-/// 园艺工具：战斗的第一回合，额外抽 1 张牌，然后栽培 1 张手牌（每场战斗只触发一次）。
+/// 园丁手套：战斗的第一回合，额外抽 1 张牌，然后栽培 1 张手牌（每场战斗只触发一次）。
+/// 欧洛巴斯之触可将其升级为园艺工具。
 /// </summary>
 [RegisterRelic(typeof(ViridisRelicPool))]
+[RegisterTouchOfOrobasRefinement(typeof(GardeningToolsUpgraded))]
 public sealed class GardeningTools : RelicModel
 {
     /// <summary>上一次触发所属的战斗；换战斗后自动重置，实现「每场战斗一次」。</summary>
