@@ -66,6 +66,24 @@ cd mods\Viridis
 - 动 `mods/` 之前先 `git pull`，避免 `Viridis.csproj` 里本机路径互相覆盖。
 - 二进制产物（`bin/`、`obj/`、`*.pck`、`*.dll`）一律不进库，由脚本生成。
 
+## 自动检查
+
+每次 push 到 `main` 或开 PR，`.github/workflows/check.yml` 会跑：
+
+1. `python tools/check_loc.py` —— 清单字段、版本号格式、**中英文本键对齐**，以及每个
+   `[RegisterCard]` / `[RegisterCharacter]` 类是否都有对应的 `title` / `description`
+2. `python tools/pck_pack.py` 把 `mods/Viridis/assets` 打成 `Viridis.pck`，产物作为
+   artifact 保留 7 天
+
+CI **不编译 DLL**：编译要引用游戏自带的 `sts2.dll`、`GodotSharp.dll` 和工坊里的
+RitsuLib，这些都不能进仓库、GitHub runner 上也拿不到。DLL 在本机 `build.ps1` 产出。
+
+本地跑同样的检查：
+
+```powershell
+python tools/check_loc.py
+```
+
 ## 版权说明
 
 `art/` 与 `refs/decompiled/` 的内容来自《杀戮尖塔 2》游戏本体，仅作学习与 MOD 开发参考，

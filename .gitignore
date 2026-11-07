@@ -19,6 +19,14 @@ __pycache__/
 /art/
 /refs/decompiled/
 
+# 打包给别人用的压缩包（如 art.zip 415 MB），走 Release 附件，不进库
+*.zip
+*.7z
+*.tar.gz
+
+# 本地/CI 打包产物
+/build/
+
 # ---- 系统垃圾 ----
 Thumbs.db
 desktop.ini

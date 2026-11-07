@@ -1,0 +1,52 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: 校验清单与本地化
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 清单字段、版本号格式、中英键对齐、每个 [RegisterCard]/[RegisterCharacter]
+      # 类是否都有 title/description
+      - name: 本地化一致性
+        run: python tools/check_loc.py
+
+      # MOD 运行还需要 Viridis.dll，而编译依赖游戏自带的 sts2.dll / GodotSharp.dll
+      # 和工坊的 RitsuLib —— 这些不进仓库，GitHub 托管 runner 上也拿不到。
+      # 所以 CI 只验证不依赖游戏的那部分：本地化资源能否正确打成 pck。
+      - name: 打包本地化 pck
+        run: python tools/pck_pack.py build/Viridis.pck Viridis mods/Viridis/assets
+
+      - name: 检查 pck 头部
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          data = Path("build/Viridis.pck").read_bytes()
+          assert data[:4] == b"GDPC", f"magic 错误: {data[:4]!r}"
+          print(f"pck ok: {len(data)} bytes")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Viridis-pck
+          path: build/Viridis.pck
+          retention-days: 7
+          if-no-files-found: error
