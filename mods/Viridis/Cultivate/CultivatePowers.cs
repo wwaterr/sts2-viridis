@@ -102,12 +102,12 @@ public sealed class AncientTreePower : CultivatePowerBase
     }
 }
 
-/// <summary>冠层：回合开始时按库数获得能量，每回合最多 2 点。</summary>
+/// <summary>冠层：回合开始时按库数获得能量（无上限）。</summary>
 public sealed class CanopyPower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
-        int n = Math.Min(Pile(player), 2);
+        int n = Pile(player);
         if (n > 0)
             await PlayerCmd.GainEnergy(n, player);
     }
