@@ -14,7 +14,6 @@ namespace Viridis.Cards;
 public sealed class VineWhip : CultivateCard
 {
     public VineWhip() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-    public override string Title => "藤鞭";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -27,7 +26,6 @@ public sealed class VineWhip : CultivateCard
 public sealed class Photosynthesis : CultivateCard
 {
     public Photosynthesis() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "光合作用";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -40,7 +38,6 @@ public sealed class Photosynthesis : CultivateCard
 public sealed class SporePowder : CultivateCard
 {
     public SporePowder() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
-    public override string Title => "孢子粉";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await HitAll(ctx, play, 4m);
@@ -50,7 +47,6 @@ public sealed class SporePowder : CultivateCard
 public sealed class Bark : CultivateCard
 {
     public Bark() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "树皮";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Block(ctx, play, 8m);
@@ -62,7 +58,6 @@ public sealed class Cutting : CultivateCard
     public Cutting() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "扦插";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -75,7 +70,6 @@ public sealed class Cutting : CultivateCard
 public sealed class Aphid : CultivateCard
 {
     public Aphid() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-    public override string Title => "蚜虫";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -91,7 +85,6 @@ public sealed class Aphid : CultivateCard
 public sealed class Dew : CultivateCard
 {
     public Dew() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "露水";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -104,7 +97,6 @@ public sealed class Dew : CultivateCard
 public sealed class Nettle : CultivateCard
 {
     public Nettle() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-    public override string Title => "荨麻";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -120,7 +112,6 @@ public sealed class Nettle : CultivateCard
 public sealed class Resin : CultivateCard
 {
     public Resin() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "松脂";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -133,7 +124,6 @@ public sealed class Resin : CultivateCard
 public sealed class MossCover : CultivateCard
 {
     public MossCover() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "苔藓覆盖";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -149,7 +139,6 @@ public sealed class Bud : CultivateCard
     public Bud() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "幼芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
@@ -159,7 +148,6 @@ public sealed class Bud : CultivateCard
 public sealed class ResinTrap : CultivateCard
 {
     public ResinTrap() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-    public override string Title => "树脂陷阱";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -175,7 +163,6 @@ public sealed class ResinTrap : CultivateCard
 public sealed class LeafReturn : CultivateCard
 {
     public LeafReturn() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-    public override string Title => "落叶归根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -203,7 +190,6 @@ public sealed class LeafReturn : CultivateCard
 public sealed class FernLeaf : CultivateCard
 {
     public FernLeaf() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-    public override string Title => "蕨叶";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {

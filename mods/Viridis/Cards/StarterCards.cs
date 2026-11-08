@@ -18,7 +18,6 @@ public sealed class PineNeedle : CultivateCard
 {
     public PineNeedle() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 
-    public override string Title => "打击";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new DamageVar(6m, ValueProp.Move) };
@@ -41,7 +40,6 @@ public sealed class RootGuard : CultivateCard
 
     public override bool GainsBlock => true;
 
-    public override string Title => "防御";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new BlockVar(5m, ValueProp.Move) };
@@ -61,7 +59,6 @@ public sealed class Plant : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
-    public override string Title => "种植";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -82,7 +79,6 @@ public sealed class TinySeed : CultivateCard
 
     public override bool GainsBlock => true;
 
-    public override string Title => "微小种子";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]

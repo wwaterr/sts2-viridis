@@ -14,7 +14,6 @@ public sealed class Humus : CultivateCard
 {
     public Humus() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
-    public override string Title => "腐殖土";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -29,7 +28,6 @@ public sealed class Earthworm : CultivateCard
 {
     public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
-    public override string Title => "蚯蚓松土";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -46,7 +44,6 @@ public sealed class Germinate : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
-    public override string Title => "催芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -61,7 +58,6 @@ public sealed class Vernalization : CultivateCard
 {
     public Vernalization() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "春化";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.Grow(ctx, play.Player, 2);
@@ -73,7 +69,6 @@ public sealed class Borax : CultivateCard
 {
     public Borax() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "硼砂";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -88,7 +83,6 @@ public sealed class Bolting : CultivateCard
 {
     public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    public override string Title => "拔节";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -105,7 +99,6 @@ public sealed class Compost : CultivateCard
 {
     public Compost() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "腐熟";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {

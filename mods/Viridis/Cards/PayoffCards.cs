@@ -14,7 +14,6 @@ public sealed class AerialRoot : CultivateCard
 {
     public AerialRoot() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
-    public override string Title => "气生根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Block(ctx, play, 5m + 2m * Pile(play));
@@ -26,7 +25,6 @@ public sealed class ApicalDominance : CultivateCard
 {
     public ApicalDominance() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
-    public override string Title => "顶端优势";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -44,7 +42,6 @@ public sealed class TreeRing : CultivateCard
 {
     public TreeRing() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
-    public override string Title => "年轮";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -61,7 +58,6 @@ public sealed class WaterDrawing : CultivateCard
 {
     public WaterDrawing() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
-    public override string Title => "引水";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -78,7 +74,6 @@ public sealed class FriedEgg : CultivateCard
 {
     public FriedEgg() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "煎蛋！";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -98,7 +93,6 @@ public sealed class KitaBlessing : CultivateCard
 {
     public KitaBlessing() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "喜多护佑";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -118,7 +112,6 @@ public sealed class MeltToWater : CultivateCard
 {
     public MeltToWater() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "化水";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -137,7 +130,6 @@ public sealed class PhotosyntheticPulse : CultivateCard
 {
     public PhotosyntheticPulse() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    public override string Title => "光合脉冲";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -156,7 +148,6 @@ public sealed class Thorns : CultivateCard
 {
     public Thorns() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    public override string Title => "荆刺";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -173,7 +164,6 @@ public sealed class ResinShell : CultivateCard
 {
     public ResinShell() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override string Title => "树脂护壳";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Block(ctx, play, 14m + 2m * Pile(play));
@@ -185,7 +175,6 @@ public sealed class ChlorophyllBurst : CultivateCard
 {
     public ChlorophyllBurst() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
-    public override string Title => "叶绿素爆发";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -206,7 +195,6 @@ public sealed class OldRoots : CultivateCard
 {
     public OldRoots() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
-    public override string Title => "老根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {

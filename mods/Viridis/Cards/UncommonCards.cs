@@ -16,7 +16,6 @@ namespace Viridis.Cards;
 public sealed class Gymnosperm : CultivateCard
 {
     public Gymnosperm() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "裸子植物";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.Grow(ctx, play.Player, 1);
@@ -28,7 +27,6 @@ public sealed class Transplant : CultivateCard
     public Transplant() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "移栽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateNow(ctx, play.Player, this);
@@ -38,7 +36,6 @@ public sealed class Transplant : CultivateCard
 public sealed class RootNetwork : CultivateCard
 {
     public RootNetwork() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "根系网络";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<RootNetworkPower>(ctx, play, play.Player.Creature, 1m);
@@ -48,7 +45,6 @@ public sealed class RootNetwork : CultivateCard
 public sealed class Mycorrhiza : CultivateCard
 {
     public Mycorrhiza() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "菌根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<MycorrhizaPower>(ctx, play, play.Player.Creature, 1m);
@@ -58,7 +54,6 @@ public sealed class Mycorrhiza : CultivateCard
 public sealed class VineEntangle : CultivateCard
 {
     public VineEntangle() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-    public override string Title => "藤蔓缠绕";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -76,7 +71,6 @@ public sealed class Division : CultivateCard
     public Division() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "分株";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateMultiple(ctx, play.Player, this, 2, 1);
@@ -86,7 +80,6 @@ public sealed class Division : CultivateCard
 public sealed class PineconeBurst : CultivateCard
 {
     public PineconeBurst() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
-    public override string Title => "松塔爆裂";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await HitAll(ctx, play, 8m + 2m * Pile(play));
@@ -96,7 +89,6 @@ public sealed class PineconeBurst : CultivateCard
 public sealed class Sap : CultivateCard
 {
     public Sap() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "树液";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -109,7 +101,6 @@ public sealed class Sap : CultivateCard
 public sealed class TerminalBud : CultivateCard
 {
     public TerminalBud() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-    public override string Title => "顶芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -125,7 +116,6 @@ public sealed class TerminalBud : CultivateCard
 public sealed class TreeRingMark : CultivateCard
 {
     public TreeRingMark() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "年轮刻印";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<TreeRingMarkPower>(ctx, play, play.Player.Creature, 1m);
@@ -135,7 +125,6 @@ public sealed class TreeRingMark : CultivateCard
 public sealed class LeafWhirl : CultivateCard
 {
     public LeafWhirl() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-    public override string Title => "落叶回旋";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -159,7 +148,6 @@ public sealed class Tundra : CultivateCard
     public Tundra() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "苔原";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<TundraPower>(ctx, play, play.Player.Creature, 1m);
@@ -171,7 +159,6 @@ public sealed class Sucker : CultivateCard
     public Sucker() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "吸芽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateFromDrawPile(ctx, play.Player, this);
@@ -183,7 +170,6 @@ public sealed class FernSpread : CultivateCard
     public FernSpread() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "蕨类蔓延";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateMultiple(ctx, play.Player, this, 2);
@@ -193,7 +179,6 @@ public sealed class FernSpread : CultivateCard
 public sealed class LandedRoot : CultivateCard
 {
     public LandedRoot() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "落地生根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<LandedRootPower>(ctx, play, play.Player.Creature, 1m);
@@ -203,7 +188,6 @@ public sealed class LandedRoot : CultivateCard
 public sealed class OldTreeRoots : CultivateCard
 {
     public OldTreeRoots() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "老树盘根";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -218,7 +202,6 @@ public sealed class Pollen : CultivateCard
     public Pollen() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "花粉";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -233,7 +216,6 @@ public sealed class Pollen : CultivateCard
 public sealed class CorkLayer : CultivateCard
 {
     public CorkLayer() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "木栓层";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -246,7 +228,6 @@ public sealed class CorkLayer : CultivateCard
 public sealed class ApicalGrowth : CultivateCard
 {
     public ApicalGrowth() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-    public override string Title => "顶端生长";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -262,7 +243,6 @@ public sealed class ApicalGrowth : CultivateCard
 public sealed class FlowerBud : CultivateCard
 {
     public FlowerBud() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "花芽分化";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<FlowerBudPower>(ctx, play, play.Player.Creature, 1m);
@@ -272,7 +252,6 @@ public sealed class FlowerBud : CultivateCard
 public sealed class MyceliumSpread : CultivateCard
 {
     public MyceliumSpread() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "菌丝蔓延";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.HalveAll(ctx, play.Player);
@@ -282,7 +261,6 @@ public sealed class MyceliumSpread : CultivateCard
 public sealed class NeedleRain : CultivateCard
 {
     public NeedleRain() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
-    public override string Title => "松针雨";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -295,7 +273,6 @@ public sealed class NeedleRain : CultivateCard
 public sealed class Peat : CultivateCard
 {
     public Peat() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "泥炭";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -310,7 +287,6 @@ public sealed class Trunk : CultivateCard
     public Trunk() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "主干";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -325,7 +301,6 @@ public sealed class Trunk : CultivateCard
 public sealed class LeafLitter : CultivateCard
 {
     public LeafLitter() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "落叶层";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -338,7 +313,6 @@ public sealed class LeafLitter : CultivateCard
 public sealed class ResinSeal : CultivateCard
 {
     public ResinSeal() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-    public override string Title => "树脂封存";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -353,7 +327,6 @@ public sealed class SeedlingTransplant : CultivateCard
     public SeedlingTransplant() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
-    public override string Title => "幼苗移栽";
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {

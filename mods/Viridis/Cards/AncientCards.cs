@@ -27,7 +27,6 @@ public sealed class SmallPine : CultivateCard
 
     public override bool GainsBlock => true;
 
-    public override string Title => "小松绿";
 
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/small_pine.ctex");
@@ -88,7 +87,6 @@ public sealed class MountainHedge : CultivateCard
 {
     public MountainHedge() : base(4, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
 
-    public override string Title => "山绿篱";
 
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/mountain_hedge.ctex");
