@@ -268,5 +268,14 @@
     "VIRIDIS_CARD_PLANT.smartDescription":  "[gold]Cultivate[/gold] 1 card from your hand. Draw 1 card.",
     "VIRIDIS_CARD_TRUNK.title":  "Trunk",
     "VIRIDIS_CARD_TRUNK.description":  "Deal 20 damage. [gold]Cultivate[/gold] 1 card from your hand.",
-    "VIRIDIS_CARD_TRUNK.smartDescription":  "Deal 20 damage. [gold]Cultivate[/gold] 1 card from your hand."
+    "VIRIDIS_CARD_TRUNK.smartDescription":  "Deal 20 damage. [gold]Cultivate[/gold] 1 card from your hand.",
+    "VIRIDIS_CARD_COIN_STREAM.title":  "Coin-Friendly Livestream",
+    "VIRIDIS_CARD_COIN_STREAM.description":  "This turn, whenever you play a card, gain 2 Gold.",
+    "VIRIDIS_CARD_COIN_STREAM.smartDescription":  "This turn, whenever you play a card, gain 2 Gold.",
+    "VIRIDIS_CARD_LAST_SONG.title":  "Last Song",
+    "VIRIDIS_CARD_LAST_SONG.description":  "Add a [gold]Heavenly Melody[/gold] to your hand and apply [gold]Sticky[/gold] to it.",
+    "VIRIDIS_CARD_LAST_SONG.smartDescription":  "Add a [gold]Heavenly Melody[/gold] to your hand and apply [gold]Sticky[/gold] to it.",
+    "VIRIDIS_CARD_HEAVENLY_MELODY.title":  "Heavenly Melody",
+    "VIRIDIS_CARD_HEAVENLY_MELODY.description":  "ALL enemies lose 1 [gold]Strength[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]. Draw 1 card.",
+    "VIRIDIS_CARD_HEAVENLY_MELODY.smartDescription":  "ALL enemies lose 1 [gold]Strength[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]. Draw 1 card."
 }

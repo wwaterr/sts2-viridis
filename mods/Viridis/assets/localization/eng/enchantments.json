@@ -1,0 +1,5 @@
+{
+    "VIRIDIS_ENCHANTMENT_STICKY.title":  "Sticky",
+    "VIRIDIS_ENCHANTMENT_STICKY.description":  "After this card is played, it has a {Amount}% chance to return to your hand. This chance decreases by 15% each time it is played.",
+    "VIRIDIS_ENCHANTMENT_STICKY.extraCardText":  "{Amount}% chance to return to your hand after being played."
+}

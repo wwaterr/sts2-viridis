@@ -1,0 +1,5 @@
+{
+    "VIRIDIS_ENCHANTMENT_STICKY.title":  "黏住",
+    "VIRIDIS_ENCHANTMENT_STICKY.description":  "此牌打出后，有 {Amount}% 的概率回到手牌。每次打出后概率降低 15%。",
+    "VIRIDIS_ENCHANTMENT_STICKY.extraCardText":  "打出后 {Amount}% 概率回到手牌。"
+}
