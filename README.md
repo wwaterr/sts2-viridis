@@ -14,6 +14,7 @@
 - 遗物：初始遗物改名园丁手套，新增欧洛巴斯之触升级园艺工具。
 - 先古牌：移除世界树/始祖孢子，新增小松绿（古老牙齿转化）与山绿篱（尘封魔典）。
 - 兼容：给尘封魔典加直接发放兜底，避免调试工具绕过事件时拿到空 `AncientCard`。
+- 兼容：适配《杀戮尖塔 2》v0.113.1 与 RitsuLib 0.6.14（compat 目标 0.113.0）。
 
 已知问题：`characters.json` 仍缺 `titleObject`、`pronounObject`、`pronounPossessive`、`pronounSubject` 四个键，RitsuLib 会以键名占位。
 
@@ -49,8 +50,8 @@ python extract_sts2_art.py      # 需要本机装有游戏，见 ART_INDEX.md
 
 - Windows + PowerShell 7
 - **.NET 9 SDK**：装到系统 PATH，或者解压到仓库根的 `.dotnet/`（`build.ps1` 会自动优先用它）
-- **Slay the Spire 2**（Steam，beta 分支 `public-beta`，本篇基于 v0.111.0）
-- **RitsuLib**：Steam 创意工坊物品 `3747602295`，MOD 的运行依赖
+- **Slay the Spire 2**（Steam，beta 分支 `public-beta`，本篇基于 v0.113.1）
+- **RitsuLib**：Steam 创意工坊物品 `3747602295`，v0.6.14，MOD 的运行依赖
 - **Python 3**：打包本地化用的 `tools/pck_pack.py`
 
 ## 编译与部署

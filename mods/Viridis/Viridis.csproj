@@ -16,7 +16,7 @@
     <!-- RitsuLib 安装目录（工坊物品 3747602295） -->
     <RitsuLibDir Condition="'$(RitsuLibDir)' == ''">D:\all\steam\steamapps\workshop\content\2868840\3747602295</RitsuLibDir>
     <!-- compat 目录必须与游戏版本匹配 -->
-    <RitsuLibTarget Condition="'$(RitsuLibTarget)' == ''">0.111.0</RitsuLibTarget>
+    <RitsuLibTarget Condition="'$(RitsuLibTarget)' == ''">0.113.0</RitsuLibTarget>
 
     <ModsDir Condition="'$(ModsDir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\mods</ModsDir>
     <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
