@@ -1,7 +1,9 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Enchantments;
@@ -16,12 +18,16 @@ public sealed class CoinStream : PlaceholderArtCard
 {
     public CoinStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? base.CanonicalKeywords : new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Apply<CoinStreamPower>(ctx, play, play.Player.Creature, 1m);
+    }
+
+    protected override void OnUpgrade()
+    {
+        RemoveKeyword(CardKeyword.Exhaust);
     }
 }
 
@@ -32,6 +38,10 @@ public sealed class LastSong : PlaceholderArtCard
     public LastSong() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+        HoverTipFactory.FromEnchantment<Sticky>(100)
+            .Concat(new[] { HoverTipFactory.FromCard<HeavenlyMelody>() });
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -51,7 +61,7 @@ public sealed class LastSong : PlaceholderArtCard
 }
 
 /// <summary>天籁：所有敌人失去 1 点力量；获得能量并抽 1 张牌；消耗。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class HeavenlyMelody : PlaceholderArtCard
 {
     public HeavenlyMelody() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }

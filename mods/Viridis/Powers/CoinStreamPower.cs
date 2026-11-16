@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using Viridis.Cards;
 
 namespace Viridis.Powers;
 
@@ -17,6 +18,9 @@ public sealed class CoinStreamPower : PowerModel
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (cardPlay.Card is CoinStream)
+            return;
+
         if (cardPlay.Card.Owner == Owner.Player)
             await PlayerCmd.GainGold(2m, Owner.Player);
     }
