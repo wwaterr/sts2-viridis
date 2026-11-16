@@ -8,9 +8,14 @@ public sealed class ViridisCardPool : TypeListCardPoolModel
 {
     public override string Title => "Viridis";
 
-    // 必须是原版已有的能量配色（ironclad/defect/silent/regent/necrobinder/colorless/quest），
-    // 否则会去找不存在的 card/energy_<name> 图集精灵。
-    public override string EnergyColorName => "ironclad";
+    // 自定义能量配色；大图标与富文本小图标由 RitsuLib 的池覆盖接口提供。
+    public override string EnergyColorName => "viridis";
+
+    public override string? BigEnergyIconPath => "res://Viridis/images/ui/energy_icon_big.ctex";
+
+    public override string? TextEnergyIconPath => "res://Viridis/images/ui/energy_icon_small.ctex";
+
+    public override Vector2I? TextEnergyIconSize => new Vector2I(24, 24);
 
     public override Color DeckEntryCardColor => new("8eb056");
 
