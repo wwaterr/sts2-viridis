@@ -18,7 +18,8 @@
 - 兼容：适配《杀戮尖塔 2》v0.113.1 与 RitsuLib 0.6.14（compat 目标 0.113.0）。
 - 卡牌：新增钢镚友好直播间（0 费罕见技能）、最后一首（3 费稀有技能）与衍生牌天籁；新增「黏住」附魔。
 - 卡牌：新增慢启动歌回（3 费稀有能力，感染→天籁的递增转化）；小松绿卡池卡框改为 `#8eb056`。
-- 能量图标：小松绿卡池使用专属能量图标（卡面 74×74，富文本 24×24），由 `ViridisCardPool` 的 `BigEnergyIconPath` / `TextEnergyIconPath` 提供。
+- 能量图标：小松绿卡池使用专属绿叶图标，带浅绿描边（卡面 74×74，富文本 24×24），由 `ViridisCardPool` 的 `BigEnergyIconPath` / `TextEnergyIconPath` 提供。
+- 战斗能量球：改用自定义 `viridis_energy_counter.tscn`，以 128×128 叶片图标替代原版铁甲能量球。
 
 已知问题：`characters.json` 仍缺 `titleObject`、`pronounObject`、`pronounPossessive`、`pronounSubject` 四个键，RitsuLib 会以键名占位。
 

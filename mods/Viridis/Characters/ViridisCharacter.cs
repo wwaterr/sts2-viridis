@@ -57,6 +57,10 @@ public sealed class ViridisCharacter
     /// <summary>地图上的角色标记。</summary>
     public override string? CustomMapMarkerPath => $"{ArtRoot}/map_marker.ctex";
 
+    /// <summary>战斗界面左下角的能量球，改用叶片图标。</summary>
+    public override string? CustomEnergyCounterPath
+        => "res://Viridis/scenes/combat/energy_counters/viridis_energy_counter.tscn";
+
     /// <summary>
     /// 默认值会让角色挂到"纪元/时间线"解锁体系里，选人界面就不显示。
     /// 框架阶段直接关掉，角色即时可选。
