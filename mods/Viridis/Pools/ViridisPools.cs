@@ -14,7 +14,7 @@ public sealed class ViridisCardPool : TypeListCardPoolModel
 
     public override Color DeckEntryCardColor => new("8eb056");
 
-    // 卡框使用原版绿色边框材质作为底，按 #8eb056 的 HSV 重着色。
+    // 卡框沿用原版绿色边框材质，按截图实测反解出的 HSV 参数重着色到 #8eb056 的观感。
     private static ShaderMaterial? _frameMaterial;
 
     public override Material? PoolFrameMaterial
@@ -29,10 +29,9 @@ public sealed class ViridisCardPool : TypeListCardPoolModel
                 return null;
 
             var material = (ShaderMaterial)source.Duplicate();
-            var tint = new Color("8eb056");
-            material.SetShaderParameter("h", tint.H);
-            material.SetShaderParameter("s", tint.S);
-            material.SetShaderParameter("v", tint.V);
+            material.SetShaderParameter("h", 0.2684f);
+            material.SetShaderParameter("s", 0.3181f);
+            material.SetShaderParameter("v", 1.7422f);
             _frameMaterial = material;
             return material;
         }

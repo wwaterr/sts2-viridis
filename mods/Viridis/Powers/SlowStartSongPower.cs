@@ -28,7 +28,6 @@ public sealed class SlowStartSongPower : PowerModel
         CollectStatuses(PileType.Hand, player, statuses);
         CollectStatuses(PileType.Draw, player, statuses);
         CollectStatuses(PileType.Discard, player, statuses);
-        CollectStatuses(PileType.Exhaust, player, statuses);
 
         if (statuses.Count > 0)
         {
