@@ -12,7 +12,31 @@ public sealed class ViridisCardPool : TypeListCardPoolModel
     // 否则会去找不存在的 card/energy_<name> 图集精灵。
     public override string EnergyColorName => "ironclad";
 
-    public override Color DeckEntryCardColor => new(0.20f, 0.47f, 0.32f);
+    public override Color DeckEntryCardColor => new("8eb056");
+
+    // 卡框使用原版绿色边框材质作为底，按 #8eb056 的 HSV 重着色。
+    private static ShaderMaterial? _frameMaterial;
+
+    public override Material? PoolFrameMaterial
+    {
+        get
+        {
+            if (_frameMaterial != null)
+                return _frameMaterial;
+
+            var source = GD.Load<ShaderMaterial>("res://materials/cards/frames/card_frame_green_mat.tres");
+            if (source == null)
+                return null;
+
+            var material = (ShaderMaterial)source.Duplicate();
+            var tint = new Color("8eb056");
+            material.SetShaderParameter("h", tint.H);
+            material.SetShaderParameter("s", tint.S);
+            material.SetShaderParameter("v", tint.V);
+            _frameMaterial = material;
+            return material;
+        }
+    }
 
     public override bool IsColorless => false;
 }

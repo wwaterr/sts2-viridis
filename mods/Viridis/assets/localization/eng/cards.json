@@ -277,5 +277,8 @@
     "VIRIDIS_CARD_LAST_SONG.smartDescription":  "Add a [gold]Heavenly Melody[/gold] to your hand and apply [gold]Sticky[/gold] to it.",
     "VIRIDIS_CARD_HEAVENLY_MELODY.title":  "Heavenly Melody",
     "VIRIDIS_CARD_HEAVENLY_MELODY.description":  "ALL enemies lose 1 [gold]Strength[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]. Draw 1 card.",
-    "VIRIDIS_CARD_HEAVENLY_MELODY.smartDescription":  "ALL enemies lose 1 [gold]Strength[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]. Draw 1 card."
+    "VIRIDIS_CARD_HEAVENLY_MELODY.smartDescription":  "ALL enemies lose 1 [gold]Strength[/gold]. Gain {Energy:diff()} [gold]Energy[/gold]. Draw 1 card.",
+    "VIRIDIS_CARD_SLOW_START_SONG.title":  "Slow Start Song",
+    "VIRIDIS_CARD_SLOW_START_SONG.description":  "Add 10 [gold]Infections[/gold] to your discard pile. At the start of your turn, transform 1 Status card into [gold]Heavenly Melody[/gold] (prioritizing your hand), then increase the number transformed by 1.",
+    "VIRIDIS_CARD_SLOW_START_SONG.smartDescription":  "Add 10 [gold]Infections[/gold] to your discard pile. At the start of your turn, transform 1 Status card into [gold]Heavenly Melody[/gold] (prioritizing your hand), then increase the number transformed by 1."
 }
