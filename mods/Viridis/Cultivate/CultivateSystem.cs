@@ -49,7 +49,7 @@ public static class CultivateSystem
             return false;
         }
 
-        var prefs = new CardSelectorPrefs(new LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
+        var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_CULTIVATE_HAND_PROMPT"), 1)
         {
             Cancelable = false,
             RequireManualConfirmation = false

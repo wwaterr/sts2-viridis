@@ -280,5 +280,7 @@
     "VIRIDIS_CARD_HEAVENLY_MELODY.smartDescription":  "所有敌人失去 1 点[gold]力量[/gold]。获得{Energy:diff()}点[gold]能量[/gold]。抽 1 张牌。",
     "VIRIDIS_CARD_SLOW_START_SONG.title":  "慢启动歌回",
     "VIRIDIS_CARD_SLOW_START_SONG.description":  "将 10 张[gold]感染[/gold]加入弃牌堆。你的回合开始时，将 1 张状态牌变化为[gold]天籁[/gold]（优先手牌），然后使变化数 +1。",
-    "VIRIDIS_CARD_SLOW_START_SONG.smartDescription":  "将 10 张[gold]感染[/gold]加入弃牌堆。你的回合开始时，将 1 张状态牌变化为[gold]天籁[/gold]（优先手牌），然后使变化数 +1。"
+    "VIRIDIS_CARD_SLOW_START_SONG.smartDescription":  "将 10 张[gold]感染[/gold]加入弃牌堆。你的回合开始时，将 1 张状态牌变化为[gold]天籁[/gold]（优先手牌），然后使变化数 +1。",
+    "CULTIVATE_TEST.select_prompt":  "选择一张牌栽培",
+    "VIRIDIS_CARD_CULTIVATE_HAND_PROMPT":  "选择一张手牌栽培"
 }

@@ -16,6 +16,9 @@ public sealed class CultivateFieldPower : PowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
 
+    /// <summary>内部计数器，不显示在角色能力栏。</summary>
+    protected override bool IsVisibleInternal => false;
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (Pending.Count == 0)
