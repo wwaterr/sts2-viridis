@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://src/Core/Nodes/Combat/NEnergyCounter.cs" id="1_script"]
-[ext_resource type="Texture2D" path="res://Viridis/images/ui/energy_orb_icon.ctex" id="2_leaf"]
 [ext_resource type="FontVariation" path="res://themes/kreon_bold_shared.tres" id="3_font"]
 [ext_resource type="Script" path="res://addons/mega_text/MegaLabel.cs" id="4_label"]
 [ext_resource type="PackedScene" path="res://scenes/vfx/energy/ironclad/ironclad_energy_vfx_back.tscn" id="5_vfx_back"]
@@ -41,7 +40,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_leaf")
 expand_mode = 1
 stretch_mode = 5
 
