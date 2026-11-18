@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 using Viridis.Cultivate;
 using Viridis.Hype;
 using Viridis.Pools;
@@ -22,6 +23,9 @@ public sealed class FarmerForm : PlaceholderArtCard
         : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
+
+    public override CardAssetProfile AssetProfile =>
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/farmer_form_card.ctex");
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -70,6 +74,9 @@ public sealed class CultivationMastery : PlaceholderArtCard
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
+
+    public override CardAssetProfile AssetProfile =>
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/cultivation_mastery.ctex");
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
