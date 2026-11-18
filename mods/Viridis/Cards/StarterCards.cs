@@ -8,13 +8,14 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Pools;
 using Viridis.Cultivate;
 using Viridis.Characters;
+using Viridis.Hype;
 
 namespace Viridis.Cards;
 
 /// <summary>打击：1 费 6（9）伤害。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 4)]
-public sealed class PineNeedle : CultivateCard
+public sealed class PineNeedle : PlaceholderArtCard
 {
     public PineNeedle() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 
@@ -34,7 +35,7 @@ public sealed class PineNeedle : CultivateCard
 /// <summary>防御：1 费 5（8）格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 4)]
-public sealed class RootGuard : CultivateCard
+public sealed class RootGuard : PlaceholderArtCard
 {
     public RootGuard() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
@@ -53,7 +54,7 @@ public sealed class RootGuard : CultivateCard
 /// <summary>种植：1（0）费，栽培 1 张手牌并抽 1 张牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
-public sealed class Plant : CultivateCard
+public sealed class Plant : PlaceholderArtCard
 {
     public Plant() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
@@ -73,7 +74,7 @@ public sealed class Plant : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
 [RegisterArchaicToothTranscendence(typeof(SmallPine))]
-public sealed class TinySeed : CultivateCard
+public sealed class TinySeed : PlaceholderArtCard
 {
     public TinySeed() : base(1, CardType.Attack, CardRarity.Basic, TargetType.RandomEnemy) { }
 
@@ -113,4 +114,36 @@ public sealed class TinySeed : CultivateCard
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
     }
+}
+
+/// <summary>枼绿素出击：0 费，造成等同于当前同接的伤害；升级后保留。</summary>
+[RegisterCard(typeof(ViridisCardPool))]
+[RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
+public sealed class ChlorophyllStrike : PlaceholderArtCard, IHypeCard
+{
+    public ChlorophyllStrike() : base(0, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new CalculationBaseVar(0m),
+            new ExtraDamageVar(1m),
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => HypeSystem.GetAmount(card.Owner)),
+        };
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        if (play.Target is null)
+            return;
+
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
+            .FromCard(this, play)
+            .Targeting(play.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(ctx);
+    }
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }
