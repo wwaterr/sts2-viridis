@@ -12,5 +12,7 @@
     "VIRIDIS_KEYWORD_ANTI_STOMP.title":  "反踩",
     "VIRIDIS_KEYWORD_ANTI_STOMP.description":  "每回合前 X 次打出的牌不会获得同接。",
     "VIRIDIS_KEYWORD_CHUANZI.title":  "串子",
-    "VIRIDIS_KEYWORD_CHUANZI.description":  "回合开始时，随机获得 X 次 1 点活力或 1 点拉伸。"
+    "VIRIDIS_KEYWORD_CHUANZI.description":  "回合开始时，随机获得 X 次 1 点活力或 1 点拉伸。",
+    "VIRIDIS_KEYWORD_FARMER_FORM.title":  "老农形态",
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。"
 }

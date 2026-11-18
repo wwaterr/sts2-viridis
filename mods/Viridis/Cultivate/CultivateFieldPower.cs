@@ -24,8 +24,9 @@ public sealed class CultivateFieldPower : PowerModel
         if (Pending.Count == 0)
             return;
 
+        var progress = 1 + (Owner.GetPower<FarmerFormPower>()?.Amount ?? 0);
         foreach (var p in Pending.Where(p => !p.Permanent))
-            p.TurnsLeft--;
+            p.TurnsLeft -= progress;
 
         await CultivateSystem.HarvestAll(choiceContext, player, this);
 

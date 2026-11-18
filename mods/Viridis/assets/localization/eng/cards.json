@@ -294,5 +294,18 @@
     "VIRIDIS_CARD_SURPRISE_STREAM.smartDescription":  "Cannot be played if you have played a card this turn. Deal {Damage:diff()} damage. Gain {ViewerGain:diff()} [gold]Viewer[/gold] and 1 [gold]Kaozi[/gold].",
     "VIRIDIS_CARD_SLEEP_STREAM.title":  "Sleep Stream",
     "VIRIDIS_CARD_SLEEP_STREAM.description":  "Cannot be played if you have played a card this turn. Gain 3 [gold]Anti-Stomp[/gold] and 3 [gold]Troll[/gold]. Heal 30% of your Max HP and end your turn.",
-    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "Cannot be played if you have played a card this turn. Gain 3 [gold]Anti-Stomp[/gold] and 3 [gold]Troll[/gold]. Heal 30% of your Max HP and end your turn."
+    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "Cannot be played if you have played a card this turn. Gain 3 [gold]Anti-Stomp[/gold] and 3 [gold]Troll[/gold]. Heal 30% of your Max HP and end your turn.",
+    "VIRIDIS_CARD_FARMER_FORM.title":  "Farmer Form",
+    "VIRIDIS_CARD_FARMER_FORM.description":  "Your Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_CARD_FARMER_FORM.smartDescription":  "Your Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_CARD_SCALE_INSECT.title":  "Scale Insect",
+    "VIRIDIS_CARD_SCALE_INSECT.description":  "Randomly [gold]Wither[/gold] a card in your Cultivate Pile to apply {VulnerablePower:diff()} [gold]Vulnerable[/gold], then deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_SCALE_INSECT.smartDescription":  "Randomly [gold]Wither[/gold] a card in your Cultivate Pile to apply {VulnerablePower:diff()} [gold]Vulnerable[/gold], then deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.title":  "Cultivation Mastery",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.description":  "Choose a card in your Cultivate Pile, [gold]Wither[/gold] it to upgrade this card (upgrade twice for Ancient cards), then deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.smartDescription":  "Choose a card in your Cultivate Pile, [gold]Wither[/gold] it to upgrade this card (upgrade twice for Ancient cards), then deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_KAOZI_SLAYER.title":  "Kaozi Slayer",
+    "VIRIDIS_CARD_KAOZI_SLAYER.description":  "Lose all [gold]Kaozi[/gold]. Deal {Damage:diff()} damage to ALL enemies. Enemies without an attack intent take triple damage and are Stunned.",
+    "VIRIDIS_CARD_KAOZI_SLAYER.smartDescription":  "Lose all [gold]Kaozi[/gold]. Deal {Damage:diff()} damage to ALL enemies. Enemies without an attack intent take triple damage and are Stunned.",
+    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "Choose a card in your Cultivate Pile."
 }

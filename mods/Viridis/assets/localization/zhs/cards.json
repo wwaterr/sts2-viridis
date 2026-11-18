@@ -294,5 +294,18 @@
     "VIRIDIS_CARD_SURPRISE_STREAM.smartDescription":  "本回合打出过牌后无法打出。造成{Damage:diff()}点伤害。获得{ViewerGain:diff()}点[gold]同接[/gold]和 1 层[gold]考子[/gold]。",
     "VIRIDIS_CARD_SLEEP_STREAM.title":  "呼呼大睡",
     "VIRIDIS_CARD_SLEEP_STREAM.description":  "本回合打出过牌后无法打出。获得 3 层[gold]反踩[/gold]和 3 层[gold]串子[/gold]。回复 30% 的最大生命值并结束你的回合。",
-    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "本回合打出过牌后无法打出。获得 3 层[gold]反踩[/gold]和 3 层[gold]串子[/gold]。回复 30% 的最大生命值并结束你的回合。"
+    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "本回合打出过牌后无法打出。获得 3 层[gold]反踩[/gold]和 3 层[gold]串子[/gold]。回复 30% 的最大生命值并结束你的回合。",
+    "VIRIDIS_CARD_FARMER_FORM.title":  "老农形态",
+    "VIRIDIS_CARD_FARMER_FORM.description":  "你每回合的栽培进度和栽培产物数量 +1。",
+    "VIRIDIS_CARD_FARMER_FORM.smartDescription":  "你每回合的栽培进度和栽培产物数量 +1。",
+    "VIRIDIS_CARD_SCALE_INSECT.title":  "介壳虫",
+    "VIRIDIS_CARD_SCALE_INSECT.description":  "随机[gold]枯萎[/gold]一张栽培区中的牌，给予{VulnerablePower:diff()}层[gold]易伤[/gold]，然后造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_SCALE_INSECT.smartDescription":  "随机[gold]枯萎[/gold]一张栽培区中的牌，给予{VulnerablePower:diff()}层[gold]易伤[/gold]，然后造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.title":  "养术高超",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.description":  "选择一张栽培区中的牌，令其[gold]枯萎[/gold]以将此牌升级（先古牌升级两次），然后造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_CULTIVATION_MASTERY.smartDescription":  "选择一张栽培区中的牌，令其[gold]枯萎[/gold]以将此牌升级（先古牌升级两次），然后造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_KAOZI_SLAYER.title":  "斩杀考子",
+    "VIRIDIS_CARD_KAOZI_SLAYER.description":  "失去所有[gold]考子[/gold]，对所有敌人造成{Damage:diff()}点伤害；对没有攻击意图的敌人造成三倍伤害并击晕。",
+    "VIRIDIS_CARD_KAOZI_SLAYER.smartDescription":  "失去所有[gold]考子[/gold]，对所有敌人造成{Damage:diff()}点伤害；对没有攻击意图的敌人造成三倍伤害并击晕。",
+    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "选择一张栽培区中的牌。"
 }

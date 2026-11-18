@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -14,6 +15,10 @@ public sealed class AntiStompPower : ModPowerTemplate
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override LocString Title => new("card_keywords", "VIRIDIS_KEYWORD_ANTI_STOMP.title");
+
+    public override LocString Description => new("card_keywords", "VIRIDIS_KEYWORD_ANTI_STOMP.description");
 
     public override PowerAssetProfile AssetProfile =>
         new("res://Viridis/images/powers/anti_stomp.ctex", "res://Viridis/images/powers/anti_stomp.ctex");

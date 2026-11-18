@@ -197,6 +197,52 @@ public static class CultivateSystem
         return true;
     }
 
+    /// <summary>从栽培区选择一张牌；返回 null 表示没有可选牌或玩家取消。</summary>
+    public static async Task<Planting?> SelectPlanting(PlayerChoiceContext ctx, Player player, string promptKey)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return null;
+
+        var pairs = new List<(Planting Planting, CardModel Card)>();
+        foreach (var planting in power.Pending.ToList())
+        {
+            var canonical = ModelDb.GetByIdOrNull<CardModel>(planting.SourceId);
+            if (canonical is null)
+                continue;
+
+            var display = player.RunState.CreateCard(canonical, player);
+            if (planting.Upgraded && display.IsUpgradable)
+            {
+                display.UpgradeInternal();
+                display.FinalizeUpgradeInternal();
+            }
+
+            pairs.Add((planting, display));
+        }
+
+        if (pairs.Count == 0)
+            return null;
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", promptKey), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+        var selected = await CardSelectCmd.FromSimpleGrid(ctx, pairs.Select(pair => pair.Card).ToList(), player, prefs);
+        var chosen = selected.FirstOrDefault();
+        if (chosen is null)
+            return null;
+
+        foreach (var pair in pairs)
+        {
+            if (ReferenceEquals(pair.Card, chosen))
+                return pair.Planting;
+        }
+
+        return null;
+    }
+
     /// <summary>把栽培牌库中所有牌的剩余回合 +n（延缓）。</summary>
     public static async Task DelayAll(PlayerChoiceContext ctx, Player player, int n)
     {
@@ -477,10 +523,11 @@ public static class CultivateSystem
 
     public static async Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
     {
+        var harvestBonus = player.Creature?.GetPower<FarmerFormPower>()?.Amount ?? 0;
         foreach (var p in power.Pending.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
         {
             power.Pending.Remove(p);
-            for (int i = 0; i < p.Count; i++)
+            for (int i = 0; i < p.Count + harvestBonus; i++)
             {
                 // 钩子里抛异常会直接搞死战斗循环，必须自己吞掉
                 try

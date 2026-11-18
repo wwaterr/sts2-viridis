@@ -12,5 +12,7 @@
     "VIRIDIS_KEYWORD_ANTI_STOMP.title":  "Anti-Stomp",
     "VIRIDIS_KEYWORD_ANTI_STOMP.description":  "The first X cards you play each turn do not grant Viewer.",
     "VIRIDIS_KEYWORD_CHUANZI.title":  "Troll",
-    "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch."
+    "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch.",
+    "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn."
 }

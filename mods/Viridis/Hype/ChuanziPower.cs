@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Scaffolding.Content;
@@ -14,6 +15,10 @@ public sealed class ChuanziPower : ModPowerTemplate
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override LocString Title => new("card_keywords", "VIRIDIS_KEYWORD_CHUANZI.title");
+
+    public override LocString Description => new("card_keywords", "VIRIDIS_KEYWORD_CHUANZI.description");
 
     public override PowerAssetProfile AssetProfile =>
         new("res://Viridis/images/powers/chuanzi.ctex", "res://Viridis/images/powers/chuanzi.ctex");
