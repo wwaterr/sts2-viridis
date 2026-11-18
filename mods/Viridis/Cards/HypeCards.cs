@@ -25,7 +25,8 @@ public sealed class GoLive : PlaceholderArtCard, IHypeCard
             new IntVar("ViewerGain", 3m),
         };
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { ViewerCountKeyword.Value, KaoziKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -48,7 +49,7 @@ public sealed class GoLive : PlaceholderArtCard, IHypeCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SurpriseStream : PlaceholderArtCard, IHypeCard
 {
-    public SurpriseStream() : base(0, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
+    public SurpriseStream() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]
@@ -57,7 +58,8 @@ public sealed class SurpriseStream : PlaceholderArtCard, IHypeCard
             new IntVar("ViewerGain", 3m),
         };
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { ViewerCountKeyword.Value, KaoziKeyword.Value };
 
     protected override bool IsPlayable => !HasPlayedCardThisTurn;
 
@@ -89,9 +91,10 @@ public sealed class SurpriseStream : PlaceholderArtCard, IHypeCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SleepStream : PlaceholderArtCard, IHypeCard
 {
-    public SleepStream() : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
+    public SleepStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { CardKeyword.Exhaust, AntiStompKeyword.Value, ChuanziKeyword.Value };
 
     protected override bool IsPlayable => !HasPlayedCardThisTurn;
 

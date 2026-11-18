@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using Viridis.Characters;
+using Viridis.Powers;
 
 namespace Viridis.Hype;
 
@@ -69,5 +70,9 @@ public static class HypeSystem
 
         power.SetAmount(power.Amount + amount);
         HypeCounterUI.Refresh(player);
+
+        var coinStream = player.Creature?.GetPower<CoinStreamPower>();
+        if (coinStream is not null)
+            TaskHelper.RunSafely(coinStream.OnHypeGained(amount));
     }
 }

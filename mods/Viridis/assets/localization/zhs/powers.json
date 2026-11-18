@@ -1,8 +1,8 @@
 {
     "VIRIDIS_POWER_KAOZI_POWER.title":  "考子",
-    "VIRIDIS_POWER_KAOZI_POWER.description":  "在你的回合开始时，获得等同于层数的同接。",
+    "VIRIDIS_POWER_KAOZI_POWER.description":  "回合开始时，获得等同于考子层数的同接。",
     "VIRIDIS_POWER_ANTI_STOMP_POWER.title":  "反踩",
     "VIRIDIS_POWER_ANTI_STOMP_POWER.description":  "每回合前 {Amount} 次打出的牌不会获得同接。",
     "VIRIDIS_POWER_CHUANZI_POWER.title":  "串子",
-    "VIRIDIS_POWER_CHUANZI_POWER.description":  "在你的回合开始时，获得 {Amount} 次随机 1 点[gold]活力[/gold]或 1 点[gold]拉伸[/gold]。"
+    "VIRIDIS_POWER_CHUANZI_POWER.description":  "回合开始时，随机获得 {Amount} 次 1 点[gold]活力[/gold]或 1 点[gold]拉伸[/gold]。"
 }

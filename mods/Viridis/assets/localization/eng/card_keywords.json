@@ -6,5 +6,11 @@
     "VIRIDIS_KEYWORD_WITHER.title":  "Wither",
     "VIRIDIS_KEYWORD_WITHER.description":  "Remove a card from your Cultivate Pile. It is not harvested, and the original card is not returned.",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "Viewer",
-    "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "A counter. Whenever you play a card during your turn, gain 1 Viewer. Viewers reset to 0 at the end of your turn."
+    "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "A counter. Whenever you play a card during your turn, gain 1 Viewer. Viewers reset to 0 at the end of your turn.",
+    "VIRIDIS_KEYWORD_KAOZI.title":  "Kaozi",
+    "VIRIDIS_KEYWORD_KAOZI.description":  "At the start of your turn, gain Viewer equal to your Kaozi stacks.",
+    "VIRIDIS_KEYWORD_ANTI_STOMP.title":  "Anti-Stomp",
+    "VIRIDIS_KEYWORD_ANTI_STOMP.description":  "The first X cards you play each turn do not grant Viewer.",
+    "VIRIDIS_KEYWORD_CHUANZI.title":  "Troll",
+    "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch."
 }

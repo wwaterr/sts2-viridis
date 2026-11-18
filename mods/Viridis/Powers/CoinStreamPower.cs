@@ -1,28 +1,26 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using Viridis.Cards;
 
 namespace Viridis.Powers;
 
-/// <summary>钢镚的临时收益：本回合每打出一张牌获得 2 金币，回合结束移除。</summary>
+/// <summary>钢镚的临时收益：本回合同接每增加 1 点获得 2 金币，回合结束移除。</summary>
 public sealed class CoinStreamPower : PowerModel
 {
     public override PowerType Type => PowerType.None;
 
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    /// <summary>同接增加时由 HypeSystem 调用。</summary>
+    public async Task OnHypeGained(int amount)
     {
-        if (cardPlay.Card is CoinStream)
+        if (amount <= 0 || Owner.Player is null)
             return;
 
-        if (cardPlay.Card.Owner == Owner.Player)
-            await PlayerCmd.GainGold(2m, Owner.Player);
+        await PlayerCmd.GainGold(2m * amount, Owner.Player);
     }
 
     public override async Task AfterSideTurnEnd(

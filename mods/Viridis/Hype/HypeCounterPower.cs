@@ -29,8 +29,7 @@ public sealed class HypeCounterPower : PowerModel
             return Task.CompletedTask;
         }
 
-        SetAmount(Amount + 1);
-        HypeCounterUI.Refresh(Owner.Player);
+        HypeSystem.Add(Owner.Player, 1);
         return Task.CompletedTask;
     }
 

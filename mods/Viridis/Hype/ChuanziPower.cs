@@ -4,15 +4,19 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Viridis.Hype;
 
 /// <summary>串子：回合开始时随机获得 X 次 1 点活力或 1 点拉伸。</summary>
-public sealed class ChuanziPower : PowerModel
+public sealed class ChuanziPower : ModPowerTemplate
 {
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override PowerAssetProfile AssetProfile =>
+        new("res://Viridis/images/powers/chuanzi.ctex", "res://Viridis/images/powers/chuanzi.ctex");
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {

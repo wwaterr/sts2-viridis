@@ -6,5 +6,11 @@
     "VIRIDIS_KEYWORD_WITHER.title":  "枯萎",
     "VIRIDIS_KEYWORD_WITHER.description":  "移除一张栽培区中的卡牌，不会收获，也不会将原卡牌返回。",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "同接",
-    "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "一种计数。你的回合内每打出一张牌，同接 +1；回合结束时清零。"
+    "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "一种计数。你的回合内每打出一张牌，同接 +1；回合结束时清零。",
+    "VIRIDIS_KEYWORD_KAOZI.title":  "考子",
+    "VIRIDIS_KEYWORD_KAOZI.description":  "回合开始时，获得等同于考子层数的同接。",
+    "VIRIDIS_KEYWORD_ANTI_STOMP.title":  "反踩",
+    "VIRIDIS_KEYWORD_ANTI_STOMP.description":  "每回合前 X 次打出的牌不会获得同接。",
+    "VIRIDIS_KEYWORD_CHUANZI.title":  "串子",
+    "VIRIDIS_KEYWORD_CHUANZI.description":  "回合开始时，随机获得 X 次 1 点活力或 1 点拉伸。"
 }

@@ -1,6 +1,6 @@
 {
     "VIRIDIS_POWER_KAOZI_POWER.title":  "Kaozi",
-    "VIRIDIS_POWER_KAOZI_POWER.description":  "At the start of your turn, gain Viewer equal to this power's stacks.",
+    "VIRIDIS_POWER_KAOZI_POWER.description":  "At the start of your turn, gain Viewer equal to your Kaozi stacks.",
     "VIRIDIS_POWER_ANTI_STOMP_POWER.title":  "Anti-Stomp",
     "VIRIDIS_POWER_ANTI_STOMP_POWER.description":  "The first {Amount} cards you play each turn do not grant Viewer.",
     "VIRIDIS_POWER_CHUANZI_POWER.title":  "Troll",
