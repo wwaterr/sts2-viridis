@@ -181,6 +181,22 @@ public static class CultivateSystem
         return n;
     }
 
+    /// <summary>枯萎：把一张栽培牌移出栽培区，不收获，也不返还原卡。不指定目标时随机移除一张。</summary>
+    public static bool Wither(Player player, Planting? target = null)
+    {
+        var power = player.Creature?.GetPower<CultivateFieldPower>();
+        if (power is null || power.Pending.Count == 0)
+            return false;
+
+        var planting = target ?? power.Pending[Random.Shared.Next(power.Pending.Count)];
+        if (!power.Pending.Remove(planting))
+            return false;
+
+        CultivatePileUI.Refresh(player);
+        Log.Info($"[Cultivate] withered {planting.Title}");
+        return true;
+    }
+
     /// <summary>把栽培牌库中所有牌的剩余回合 +n（延缓）。</summary>
     public static async Task DelayAll(PlayerChoiceContext ctx, Player player, int n)
     {

@@ -2,5 +2,9 @@
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "栽培",
     "VIRIDIS_KEYWORD_CULTIVATE.description":  "将一张手牌移入栽培库，X 个你的回合后收获。X 为该牌原始费用（1~3）。收获的牌稀有度提升一档；先古牌改为收获两张同名先古牌。",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "永久栽培",
-    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "被栽培时，永久留在栽培区，不会收获成卡牌。直接打出不会触发栽培。其它效果仍可将其移出栽培区。"
+    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "被栽培时，永久留在栽培区，不会收获成卡牌。直接打出不会触发栽培。其它效果仍可将其移出栽培区。",
+    "VIRIDIS_KEYWORD_WITHER.title":  "枯萎",
+    "VIRIDIS_KEYWORD_WITHER.description":  "移除一张栽培区中的卡牌，不会收获，也不会将原卡牌返回。",
+    "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "同接",
+    "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "一种计数。你的回合内每打出一张牌，同接 +1；回合结束时清零。"
 }
