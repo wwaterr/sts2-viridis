@@ -285,5 +285,14 @@
     "VIRIDIS_CARD_CULTIVATE_HAND_PROMPT":  "选择一张手牌栽培",
     "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.title":  "枼绿素出击",
     "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.description":  "造成等同于当前[gold]同接[/gold]的伤害（{CalculatedDamage:diff()}）。",
-    "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.smartDescription":  "造成等同于当前[gold]同接[/gold]的伤害（{CalculatedDamage:diff()}）。"
+    "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.smartDescription":  "造成等同于当前[gold]同接[/gold]的伤害（{CalculatedDamage:diff()}）。",
+    "VIRIDIS_CARD_GO_LIVE.title":  "开播！",
+    "VIRIDIS_CARD_GO_LIVE.description":  "造成{Damage:diff()}点伤害。获得{ViewerGain:diff()}点[gold]同接[/gold]和 1 层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_GO_LIVE.smartDescription":  "造成{Damage:diff()}点伤害。获得{ViewerGain:diff()}点[gold]同接[/gold]和 1 层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_SURPRISE_STREAM.title":  "突击直播！",
+    "VIRIDIS_CARD_SURPRISE_STREAM.description":  "本回合打出过牌后无法打出。造成{Damage:diff()}点伤害。获得{ViewerGain:diff()}点[gold]同接[/gold]和 1 层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_SURPRISE_STREAM.smartDescription":  "本回合打出过牌后无法打出。造成{Damage:diff()}点伤害。获得{ViewerGain:diff()}点[gold]同接[/gold]和 1 层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_SLEEP_STREAM.title":  "呼呼大睡",
+    "VIRIDIS_CARD_SLEEP_STREAM.description":  "本回合打出过牌后无法打出。获得 3 层[gold]反踩[/gold]和 3 层[gold]串子[/gold]。回复 30% 的最大生命值并结束你的回合。",
+    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "本回合打出过牌后无法打出。获得 3 层[gold]反踩[/gold]和 3 层[gold]串子[/gold]。回复 30% 的最大生命值并结束你的回合。"
 }

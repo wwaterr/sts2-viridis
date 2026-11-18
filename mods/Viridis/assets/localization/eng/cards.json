@@ -285,5 +285,14 @@
     "VIRIDIS_CARD_CULTIVATE_HAND_PROMPT":  "Choose a card from your hand to cultivate.",
     "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.title":  "Chlorophyll Strike",
     "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.description":  "Deal damage equal to your current [gold]Viewer[/gold] count ({CalculatedDamage:diff()}).",
-    "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.smartDescription":  "Deal damage equal to your current [gold]Viewer[/gold] count ({CalculatedDamage:diff()})."
+    "VIRIDIS_CARD_CHLOROPHYLL_STRIKE.smartDescription":  "Deal damage equal to your current [gold]Viewer[/gold] count ({CalculatedDamage:diff()}).",
+    "VIRIDIS_CARD_GO_LIVE.title":  "Go Live!",
+    "VIRIDIS_CARD_GO_LIVE.description":  "Deal {Damage:diff()} damage. Gain {ViewerGain:diff()} [gold]Viewer[/gold] and 1 [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_GO_LIVE.smartDescription":  "Deal {Damage:diff()} damage. Gain {ViewerGain:diff()} [gold]Viewer[/gold] and 1 [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_SURPRISE_STREAM.title":  "Surprise Stream",
+    "VIRIDIS_CARD_SURPRISE_STREAM.description":  "Cannot be played if you have played a card this turn. Deal {Damage:diff()} damage. Gain {ViewerGain:diff()} [gold]Viewer[/gold] and 1 [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_SURPRISE_STREAM.smartDescription":  "Cannot be played if you have played a card this turn. Deal {Damage:diff()} damage. Gain {ViewerGain:diff()} [gold]Viewer[/gold] and 1 [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_SLEEP_STREAM.title":  "Sleep Stream",
+    "VIRIDIS_CARD_SLEEP_STREAM.description":  "Cannot be played if you have played a card this turn. Gain 3 [gold]Anti-Stomp[/gold] and 3 [gold]Troll[/gold]. Heal 30% of your Max HP and end your turn.",
+    "VIRIDIS_CARD_SLEEP_STREAM.smartDescription":  "Cannot be played if you have played a card this turn. Gain 3 [gold]Anti-Stomp[/gold] and 3 [gold]Troll[/gold]. Heal 30% of your Max HP and end your turn."
 }
