@@ -5,7 +5,7 @@
   1. Viridis.json 必填字段齐全，id 与目录名一致，version 形如 x.y.z
   2. assets/localization/<lang>/*.json 全部能解析
   3. 各语言的键集合一致（漏翻会报错）
-  4. 每个 [RegisterCard] / [RegisterCharacter] 类都有对应的 title / description
+  4. 每个 [RegisterCard] / [RegisterCharacter] / [RegisterPotion] 类都有对应的 title / description
 
 用法：
   python tools/check_loc.py
@@ -26,6 +26,7 @@ LANGS = ("zhs", "eng")
 MANIFEST_REQUIRED = ("id", "name", "version", "has_pck", "has_dll", "dependencies")
 CARD_KEYS = ("title", "description")
 CHARACTER_KEYS = ("title", "description")
+POTION_KEYS = ("title", "description")
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -141,6 +142,7 @@ def check_keys(loc: dict[str, dict[str, dict[str, str]]]) -> None:
     families = (
         ("RegisterCard", "cards.json", "VIRIDIS_CARD_", CARD_KEYS),
         ("RegisterCharacter", "characters.json", "VIRIDIS_CHARACTER_", CHARACTER_KEYS),
+        ("RegisterPotion", "potions.json", "VIRIDIS_POTION_", POTION_KEYS),
     )
     for attribute, filename, prefix, required in families:
         classes = registered_classes(attribute)
