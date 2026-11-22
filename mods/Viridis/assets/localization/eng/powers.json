@@ -6,5 +6,7 @@
     "VIRIDIS_POWER_CHUANZI_POWER.title":  "Troll",
     "VIRIDIS_POWER_CHUANZI_POWER.description":  "At the start of your turn, gain {Amount} random stacks of [gold]Vigor[/gold] or [gold]Stretch[/gold].",
     "VIRIDIS_POWER_FARMER_FORM_POWER.title":  "Farmer Form",
-    "VIRIDIS_POWER_FARMER_FORM_POWER.description":  "Cultivate progress and harvested card count are increased by 1 each turn."
+    "VIRIDIS_POWER_FARMER_FORM_POWER.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.title":  "Cute Commotion",
+    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.description":  "Whenever you play Niang Xiao, Niang Yao, or Niang Yang, draw 1 card."
 }
