@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 using Viridis.Cards;
 using Viridis.Pools;
+using Viridis.Relics;
 
 namespace Viridis.Cultivate;
 
@@ -110,6 +111,9 @@ public static class CultivateSystem
                 Log.Error($"[Cultivate] {p.GetType().Name}.OnHarvested failed: {e.Message}");
             }
         }
+
+        if (player.Relics.OfType<HarvestCharm>().FirstOrDefault() is { } charm)
+            await charm.OnHarvested(player);
     }
 
     private static async Task NotifyCleared(PlayerChoiceContext ctx, Player player, int count)
