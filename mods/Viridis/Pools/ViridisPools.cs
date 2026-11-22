@@ -51,7 +51,7 @@ public sealed class ViridisRelicPool : TypeListRelicPoolModel
     public override string EnergyColorName => "ironclad";
 }
 
-/// <summary>药水池（暂时为空，只保证角色能创建）。</summary>
+/// <summary>药水通过 [RegisterPotion(typeof(ViridisPotionPool))] 自动归入。</summary>
 public sealed class ViridisPotionPool : TypeListPotionPoolModel
 {
     public override string EnergyColorName => "ironclad";
