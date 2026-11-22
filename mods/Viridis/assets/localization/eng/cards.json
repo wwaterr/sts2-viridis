@@ -314,5 +314,20 @@
     "VIRIDIS_CARD_KAOZI_SLAYER.title":  "Kaozi Slayer",
     "VIRIDIS_CARD_KAOZI_SLAYER.description":  "Lose all [gold]Kaozi[/gold]. Deal {Damage:diff()} damage to ALL enemies. Enemies without an attack intent take triple damage and are Stunned.",
     "VIRIDIS_CARD_KAOZI_SLAYER.smartDescription":  "Lose all [gold]Kaozi[/gold]. Deal {Damage:diff()} damage to ALL enemies. Enemies without an attack intent take triple damage and are Stunned.",
-    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "Choose a card in your Cultivate Pile."
+    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "Choose a card in your Cultivate Pile.",
+    "VIRIDIS_CARD_NIANG_CARE.title":  "Niang Yang",
+    "VIRIDIS_CARD_NIANG_CARE.description":  "Gain {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_NIANG_CARE.smartDescription":  "Gain {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_NIANG_WAVE.title":  "Niang Yao",
+    "VIRIDIS_CARD_NIANG_WAVE.description":  "Gain {Block:diff()} [gold]Block[/gold] and {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_NIANG_WAVE.smartDescription":  "Gain {Block:diff()} [gold]Block[/gold] and {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_NIANG_SMILE.title":  "Niang Xiao",
+    "VIRIDIS_CARD_NIANG_SMILE.description":  "Deal {Damage:diff()} damage. Gain {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_NIANG_SMILE.smartDescription":  "Deal {Damage:diff()} damage. Gain {KaoziPower:diff()} [gold]Kaozi[/gold].",
+    "VIRIDIS_CARD_CUTE_COMMOTION.title":  "Cute Commotion",
+    "VIRIDIS_CARD_CUTE_COMMOTION.description":  "Add a [gold]Niang Xiao[/gold], [gold]Niang Yao[/gold], and [gold]Niang Yang[/gold] to your hand. If this card is upgraded, add upgraded copies. Whenever you play one of them, draw 1 card.",
+    "VIRIDIS_CARD_CUTE_COMMOTION.smartDescription":  "Add a [gold]Niang Xiao[/gold], [gold]Niang Yao[/gold], and [gold]Niang Yang[/gold] to your hand. If this card is upgraded, add upgraded copies. Whenever you play one of them, draw 1 card.",
+    "VIRIDIS_CARD_INTERNET_BONSAI.title":  "Internet Bonsai",
+    "VIRIDIS_CARD_INTERNET_BONSAI.description":  "Gain 99 [gold]Vulnerable[/gold], [gold]Weak[/gold], and [gold]Frail[/gold]. Gain {RegenPower:diff()} [gold]Regen[/gold].",
+    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "Gain 99 [gold]Vulnerable[/gold], [gold]Weak[/gold], and [gold]Frail[/gold]. Gain {RegenPower:diff()} [gold]Regen[/gold]."
 }

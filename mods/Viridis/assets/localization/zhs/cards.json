@@ -314,5 +314,20 @@
     "VIRIDIS_CARD_KAOZI_SLAYER.title":  "斩杀考子",
     "VIRIDIS_CARD_KAOZI_SLAYER.description":  "失去所有[gold]考子[/gold]，对所有敌人造成{Damage:diff()}点伤害；对没有攻击意图的敌人造成三倍伤害并击晕。",
     "VIRIDIS_CARD_KAOZI_SLAYER.smartDescription":  "失去所有[gold]考子[/gold]，对所有敌人造成{Damage:diff()}点伤害；对没有攻击意图的敌人造成三倍伤害并击晕。",
-    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "选择一张栽培区中的牌。"
+    "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT":  "选择一张栽培区中的牌。",
+    "VIRIDIS_CARD_NIANG_CARE.title":  "娘养",
+    "VIRIDIS_CARD_NIANG_CARE.description":  "获得{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_NIANG_CARE.smartDescription":  "获得{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_NIANG_WAVE.title":  "娘摇",
+    "VIRIDIS_CARD_NIANG_WAVE.description":  "获得{Block:diff()}点[gold]格挡[/gold]和{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_NIANG_WAVE.smartDescription":  "获得{Block:diff()}点[gold]格挡[/gold]和{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_NIANG_SMILE.title":  "娘笑",
+    "VIRIDIS_CARD_NIANG_SMILE.description":  "造成{Damage:diff()}点伤害，获得{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_NIANG_SMILE.smartDescription":  "造成{Damage:diff()}点伤害，获得{KaoziPower:diff()}层[gold]考子[/gold]。",
+    "VIRIDIS_CARD_CUTE_COMMOTION.title":  "可爱动静",
+    "VIRIDIS_CARD_CUTE_COMMOTION.description":  "将[gold]娘笑[/gold]、[gold]娘摇[/gold]、[gold]娘养[/gold]各一张加入手牌。若此牌已升级，则加入升级后的版本。每当你打出以上牌时，抽 1 张牌。",
+    "VIRIDIS_CARD_CUTE_COMMOTION.smartDescription":  "将[gold]娘笑[/gold]、[gold]娘摇[/gold]、[gold]娘养[/gold]各一张加入手牌。若此牌已升级，则加入升级后的版本。每当你打出以上牌时，抽 1 张牌。",
+    "VIRIDIS_CARD_INTERNET_BONSAI.title":  "互联网盆栽",
+    "VIRIDIS_CARD_INTERNET_BONSAI.description":  "获得 99 层[gold]脆弱[/gold]、[gold]虚弱[/gold]、[gold]易伤[/gold]和{RegenPower:diff()}层[gold]再生[/gold]。",
+    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "获得 99 层[gold]脆弱[/gold]、[gold]虚弱[/gold]、[gold]易伤[/gold]和{RegenPower:diff()}层[gold]再生[/gold]。"
 }
