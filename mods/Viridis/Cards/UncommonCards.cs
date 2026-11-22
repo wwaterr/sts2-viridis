@@ -3,6 +3,8 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
@@ -18,7 +20,46 @@ public sealed class Gymnosperm : CultivateCard
     public Gymnosperm() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.Grow(ctx, play.Player, 1);
+    {
+        var player = play.Player;
+        var field = player.Creature.GetPower<CultivateFieldPower>();
+        if (field is null || !field.Pending.Any(planting => !planting.Permanent))
+            return;
+
+        // 选项只用于选择界面，不加入任何牌堆或牌表。
+        var accelerate = ModelDb.Card<GymnospermAccelerateOption>().ToMutable();
+        accelerate.Owner = player;
+        var delay = ModelDb.Card<GymnospermDelayOption>().ToMutable();
+        delay.Owner = player;
+        var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_GYMNOSPERM.select_prompt"), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+
+        var choices = new[] { accelerate, delay };
+        var selected = (await CardSelectCmd.FromSimpleGrid(ctx, choices, player, prefs)).FirstOrDefault();
+        if (ReferenceEquals(selected, accelerate))
+            await CultivateSystem.Grow(ctx, player, 1);
+        else if (ReferenceEquals(selected, delay))
+            await CultivateSystem.DelayAll(ctx, player, 1);
+    }
+}
+
+[RegisterCard(typeof(TokenCardPool))]
+public sealed class GymnospermAccelerateOption : PlaceholderArtCard
+{
+    public GymnospermAccelerateOption() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
+
+    public override bool CanBeGeneratedInCombat => false;
+}
+
+[RegisterCard(typeof(TokenCardPool))]
+public sealed class GymnospermDelayOption : PlaceholderArtCard
+{
+    public GymnospermDelayOption() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
+
+    public override bool CanBeGeneratedInCombat => false;
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
