@@ -34,17 +34,9 @@ Viridis/
   初始牌用 `[RegisterCharacterStarterCard(typeof(ViridisCharacter), 数量)]`，RitsuLib 自动扫描。
 - **pck 路径**：`Viridis/localization/zhs/cards.json`（无 `res://` 前缀，运行时挂在 res:// 下）。
 
-## 当前占位
+## 图片资产
 
-- 视觉：`PlaceholderCharacterId = "IRONCLAD"`，直接复用原版铁甲战士的立绘/场景。
-  换成自己的图需要 Godot 导入成 `.ctex` 再打进 pck（见下）。
-- 卡面：空白卡没有自定义立绘，用原版卡框。
-
-## 加美术（下一步）
-
-1. 装 Godot 4.5.1，新建工程，把纯黑 PNG 放进 `Viridis/images/...` 让其生成 `.import` + `.godot/imported/*.ctex`。
-2. 用 `tools/pck_pack.py`（或 Godot 的导出）把整个工程目录打成 pck。
-3. 角色类里改成 `CustomVisualsPath` / `AssetProfile` 指向自己的场景与贴图。
+小松绿使用持铲战斗场景，带呼吸待机和平刺。选人肖像、顶栏头像、地图标记、卡图与 UI 图标使用各自的资源路径。逐项尺寸、透明通道、参考图输入方式、转换命令和打包路径见[图片资产规格](../../design/IMAGE_ASSETS.md)。
 
 ## 已知未验证
 

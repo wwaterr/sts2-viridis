@@ -14,7 +14,7 @@ namespace Viridis.Cards;
 
 /// <summary>钢镚友好直播间：本回合每打出一张牌，获得 2 金币；消耗，升级后不再消耗。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class CoinStream : PlaceholderArtCard
+public sealed class CoinStream : CultivateCard
 {
     public CoinStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
@@ -31,9 +31,9 @@ public sealed class CoinStream : PlaceholderArtCard
     }
 }
 
-/// <summary>最后一首：将一张天籁加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
+/// <summary>下播mua：将一张歌回124加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class LastSong : PlaceholderArtCard
+public sealed class LastSong : CultivateCard
 {
     public LastSong() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
@@ -60,9 +60,9 @@ public sealed class LastSong : PlaceholderArtCard
     }
 }
 
-/// <summary>天籁：所有敌人失去 1 点力量；获得能量并抽 1 张牌；消耗。</summary>
+/// <summary>歌回124：所有敌人失去 1 点力量；获得能量并抽 1 张牌；消耗。</summary>
 [RegisterCard(typeof(TokenCardPool))]
-public sealed class HeavenlyMelody : PlaceholderArtCard
+public sealed class HeavenlyMelody : CultivateCard
 {
     public HeavenlyMelody() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
 

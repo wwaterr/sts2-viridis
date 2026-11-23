@@ -15,7 +15,7 @@ namespace Viridis.Cards;
 /// <summary>打击：1 费 6（9）伤害。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 4)]
-public sealed class PineNeedle : PlaceholderArtCard
+public sealed class PineNeedle : CultivateCard
 {
     public PineNeedle() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 
@@ -26,7 +26,10 @@ public sealed class PineNeedle : PlaceholderArtCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+                .FromCard(this, play)
+                .Targeting(play.Target)
+                .Execute(ctx);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
@@ -35,7 +38,7 @@ public sealed class PineNeedle : PlaceholderArtCard
 /// <summary>防御：1 费 5（8）格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 4)]
-public sealed class RootGuard : PlaceholderArtCard
+public sealed class RootGuard : CultivateCard
 {
     public RootGuard() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
@@ -54,7 +57,7 @@ public sealed class RootGuard : PlaceholderArtCard
 /// <summary>种植：1（0）费，栽培 1 张手牌并抽 1 张牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
-public sealed class Plant : PlaceholderArtCard
+public sealed class Plant : CultivateCard
 {
     public Plant() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
@@ -74,7 +77,7 @@ public sealed class Plant : PlaceholderArtCard
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
 [RegisterArchaicToothTranscendence(typeof(SmallPine))]
-public sealed class TinySeed : PlaceholderArtCard
+public sealed class TinySeed : CultivateCard
 {
     public TinySeed() : base(1, CardType.Attack, CardRarity.Basic, TargetType.RandomEnemy) { }
 
@@ -119,7 +122,7 @@ public sealed class TinySeed : PlaceholderArtCard
 /// <summary>枼绿素出击：0 费，造成等同于当前同接的伤害；升级后保留。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
-public sealed class ChlorophyllStrike : PlaceholderArtCard, IHypeCard
+public sealed class ChlorophyllStrike : CultivateCard, IHypeCard
 {
     public ChlorophyllStrike() : base(0, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 

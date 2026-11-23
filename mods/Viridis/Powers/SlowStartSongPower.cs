@@ -10,7 +10,7 @@ using Viridis.Cards;
 namespace Viridis.Powers;
 
 /// <summary>
-/// 慢启动歌回的能力：每个己方回合开始，把 Amount 张状态牌变化为天籁（优先手牌），
+/// 慢启动歌回的能力：每个己方回合开始，把 Amount 张状态牌变化为歌回124（优先手牌），
 /// 然后 Amount +1。第一次触发时 Amount 为 1。
 /// </summary>
 public sealed class SlowStartSongPower : PowerModel

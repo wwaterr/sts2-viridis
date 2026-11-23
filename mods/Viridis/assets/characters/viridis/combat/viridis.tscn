@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/Core/Nodes/Combat/NCreatureVisuals.cs" id="1"]
+[ext_resource type="SpineSkeletonDataResource" path="res://Viridis/characters/viridis/combat/viridis_skel_data.tres" id="2"]
+
+[node name="Viridis" type="Node2D"]
+script = ExtResource("1")
+
+[node name="FormVfx" type="Control" parent="."]
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="Visuals" type="SpineSprite" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -2)
+scale = Vector2(0.55, 0.55)
+skeleton_data_res = ExtResource("2")
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+offset_left = -121.0
+offset_top = -278.0
+offset_right = 121.0
+mouse_filter = 2
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4, -168)
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(30, -310)

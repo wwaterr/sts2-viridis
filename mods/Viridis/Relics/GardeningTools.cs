@@ -28,7 +28,10 @@ public sealed class GardeningTools : RelicModel
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
-    protected override string IconBaseName => "gardening_tools";
+    private const string IconArt = "res://Viridis/images/relics/gardener_gloves";
+    public override string PackedIconPath => IconArt + ".ctex";
+    protected override string PackedIconOutlinePath => IconArt + "_outline.ctex";
+    protected override string BigIconPath => IconArt + "_big.ctex";
 
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {
