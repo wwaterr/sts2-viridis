@@ -329,5 +329,20 @@
     "VIRIDIS_CARD_CUTE_COMMOTION.smartDescription":  "Add {IfUpgraded:show:an [gold]Upgraded[/gold]|a} [gold]Niang Xiao[/gold], [gold]Niang Yao[/gold], and [gold]Niang Yang[/gold] to your [gold]Hand[/gold]. Whenever you play one of them, draw 1 card.",
     "VIRIDIS_CARD_INTERNET_BONSAI.title":  "Internet Bonsai",
     "VIRIDIS_CARD_INTERNET_BONSAI.description":  "Gain 99 [gold]Vulnerable[/gold], [gold]Weak[/gold], and [gold]Frail[/gold]. Gain {RegenPower:diff()} [gold]Regen[/gold].",
-    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "Gain 99 [gold]Vulnerable[/gold], [gold]Weak[/gold], and [gold]Frail[/gold]. Gain {RegenPower:diff()} [gold]Regen[/gold]."
+    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "Gain 99 [gold]Vulnerable[/gold], [gold]Weak[/gold], and [gold]Frail[/gold]. Gain {RegenPower:diff()} [gold]Regen[/gold].",
+    "VIRIDIS_CARD_SORBARIA.title":  "Sorbaria",
+    "VIRIDIS_CARD_SORBARIA.description":  "Gain {Block:diff()} Block. Remove all debuffs from yourself. Draw 1 card for each debuff removed.",
+    "VIRIDIS_CARD_SORBARIA.smartDescription":  "Gain {Block:diff()} Block. Remove all debuffs from yourself. Draw 1 card for each debuff removed.",
+    "VIRIDIS_CARD_TOWER_RHUBARB.title":  "Tower Rhubarb",
+    "VIRIDIS_CARD_TOWER_RHUBARB.description":  "Deal damage equal to {IfUpgraded:show:three times|twice} your current Block to ALL enemies. Retain.",
+    "VIRIDIS_CARD_TOWER_RHUBARB.smartDescription":  "Deal damage equal to {IfUpgraded:show:three times|twice} your current Block to ALL enemies. Retain.",
+    "VIRIDIS_CARD_CUSHION_WILLOW.title":  "Cushion Willow",
+    "VIRIDIS_CARD_CUSHION_WILLOW.description":  "{IfUpgraded:show:Gain Block equal to twice your lost HP.|Gain Block equal to your lost HP.}",
+    "VIRIDIS_CARD_CUSHION_WILLOW.smartDescription":  "{IfUpgraded:show:Gain Block equal to twice your lost HP.|Gain Block equal to your lost HP.}",
+    "VIRIDIS_CARD_APPLE.title":  "Apple",
+    "VIRIDIS_CARD_APPLE.description":  "Gain {Block:diff()} Block. Deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_APPLE.smartDescription":  "Gain {Block:diff()} Block. Deal {Damage:diff()} damage.",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.title":  "Black-Eyed Susan",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.description":  "Deal {Damage:diff()} damage. Gain {Energy:diff()} Energy. At the start of your next turn, gain {Energy:diff()} Energy.",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.smartDescription":  "Deal {Damage:diff()} damage. Gain {Energy:diff()} Energy. At the start of your next turn, gain {Energy:diff()} Energy."
 }

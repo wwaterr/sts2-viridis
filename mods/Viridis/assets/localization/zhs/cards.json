@@ -329,5 +329,20 @@
     "VIRIDIS_CARD_CUTE_COMMOTION.smartDescription":  "将{IfUpgraded:show:[gold]升级[/gold]后的|}[gold]娘笑[/gold]、[gold]娘摇[/gold]、[gold]娘养[/gold]各一张加入[gold]手牌[/gold]。每当你打出以上牌时，抽 1 张牌。",
     "VIRIDIS_CARD_INTERNET_BONSAI.title":  "互联网盆栽",
     "VIRIDIS_CARD_INTERNET_BONSAI.description":  "获得 99 层[gold]脆弱[/gold]、[gold]虚弱[/gold]、[gold]易伤[/gold]和{RegenPower:diff()}层[gold]再生[/gold]。",
-    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "获得 99 层[gold]脆弱[/gold]、[gold]虚弱[/gold]、[gold]易伤[/gold]和{RegenPower:diff()}层[gold]再生[/gold]。"
+    "VIRIDIS_CARD_INTERNET_BONSAI.smartDescription":  "获得 99 层[gold]脆弱[/gold]、[gold]虚弱[/gold]、[gold]易伤[/gold]和{RegenPower:diff()}层[gold]再生[/gold]。",
+    "VIRIDIS_CARD_SORBARIA.title":  "珍珠梅",
+    "VIRIDIS_CARD_SORBARIA.description":  "获得{Block:diff()}点[gold]格挡[/gold]。移除你身上的所有负面状态，每移除一种抽1张牌。",
+    "VIRIDIS_CARD_SORBARIA.smartDescription":  "获得{Block:diff()}点[gold]格挡[/gold]。移除你身上的所有负面状态，每移除一种抽1张牌。",
+    "VIRIDIS_CARD_TOWER_RHUBARB.title":  "塔黄",
+    "VIRIDIS_CARD_TOWER_RHUBARB.description":  "对所有敌人造成你当前[gold]格挡[/gold]值{IfUpgraded:show:三|两}倍的伤害。[gold]保留[/gold]。",
+    "VIRIDIS_CARD_TOWER_RHUBARB.smartDescription":  "对所有敌人造成你当前[gold]格挡[/gold]值{IfUpgraded:show:三|两}倍的伤害。[gold]保留[/gold]。",
+    "VIRIDIS_CARD_CUSHION_WILLOW.title":  "小垫柳",
+    "VIRIDIS_CARD_CUSHION_WILLOW.description":  "{IfUpgraded:show:获得等同于你已损失生命值两倍的[gold]格挡[/gold]。|获得等同于你已损失生命值的[gold]格挡[/gold]。}",
+    "VIRIDIS_CARD_CUSHION_WILLOW.smartDescription":  "{IfUpgraded:show:获得等同于你已损失生命值两倍的[gold]格挡[/gold]。|获得等同于你已损失生命值的[gold]格挡[/gold]。}",
+    "VIRIDIS_CARD_APPLE.title":  "苹果",
+    "VIRIDIS_CARD_APPLE.description":  "获得{Block:diff()}点[gold]格挡[/gold]，造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_APPLE.smartDescription":  "获得{Block:diff()}点[gold]格挡[/gold]，造成{Damage:diff()}点伤害。",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.title":  "金光菊",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.description":  "造成{Damage:diff()}点伤害。获得{Energy:diff()}点[gold]能量[/gold]。下个回合开始时获得{Energy:diff()}点[gold]能量[/gold]。",
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.smartDescription":  "造成{Damage:diff()}点伤害。获得{Energy:diff()}点[gold]能量[/gold]。下个回合开始时获得{Energy:diff()}点[gold]能量[/gold]。"
 }
