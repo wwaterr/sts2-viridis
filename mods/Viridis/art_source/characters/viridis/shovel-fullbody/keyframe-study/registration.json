@@ -1,0 +1,66 @@
+{
+  "chamber": {
+    "source_box": [
+      0,
+      0,
+      616,
+      622
+    ],
+    "source_rear_boot_anchor": [
+      219,
+      606
+    ],
+    "frame_anchor": [
+      156,
+      586
+    ]
+  },
+  "drive": {
+    "source_box": [
+      634,
+      0,
+      1247,
+      622
+    ],
+    "source_rear_boot_anchor": [
+      799,
+      608
+    ],
+    "frame_anchor": [
+      156,
+      586
+    ]
+  },
+  "reach": {
+    "source_box": [
+      0,
+      648,
+      616,
+      1261
+    ],
+    "source_rear_boot_anchor": [
+      101,
+      1235
+    ],
+    "frame_anchor": [
+      156,
+      586
+    ]
+  },
+  "recover": {
+    "source_box": [
+      634,
+      648,
+      1247,
+      1261
+    ],
+    "source_rear_boot_anchor": [
+      828,
+      1239
+    ],
+    "frame_anchor": [
+      156,
+      586
+    ]
+  }
+}
