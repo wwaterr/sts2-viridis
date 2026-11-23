@@ -1,0 +1,142 @@
+{
+  "skeleton": {
+    "spine": "4.2.36",
+    "images": "./frames/"
+  },
+  "bones": [
+    {
+      "name": "root"
+    },
+    {
+      "name": "body",
+      "parent": "root"
+    }
+  ],
+  "slots": [
+    {
+      "name": "pose",
+      "bone": "body",
+      "attachment": "guard"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "pose": {
+          "guard": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          },
+          "load": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          },
+          "pass": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          },
+          "contact": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          },
+          "follow": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          },
+          "recover": {
+            "width": 304,
+            "height": 260,
+            "x": 20.5,
+            "y": 122
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "idle_loop": {
+      "bones": {
+        "body": {
+          "scale": [
+            {
+              "time": 0,
+              "x": 1,
+              "y": 1
+            },
+            {
+              "time": 0.6,
+              "x": 1,
+              "y": 1.005
+            },
+            {
+              "time": 1.2,
+              "x": 1,
+              "y": 1.013
+            },
+            {
+              "time": 1.8,
+              "x": 1,
+              "y": 1.005
+            },
+            {
+              "time": 2.4,
+              "x": 1,
+              "y": 1
+            }
+          ]
+        }
+      }
+    },
+    "attack": {
+      "slots": {
+        "pose": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "guard"
+            },
+            {
+              "time": 0.04,
+              "name": "load"
+            },
+            {
+              "time": 0.14,
+              "name": "pass"
+            },
+            {
+              "time": 0.2,
+              "name": "contact"
+            },
+            {
+              "time": 0.3,
+              "name": "follow"
+            },
+            {
+              "time": 0.44,
+              "name": "recover"
+            },
+            {
+              "time": 0.64,
+              "name": "guard"
+            },
+            {
+              "time": 0.76,
+              "name": "guard"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

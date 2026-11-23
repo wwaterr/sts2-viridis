@@ -1,0 +1,93 @@
+{
+  "fps": 60,
+  "size": [
+    608,
+    520
+  ],
+  "pivot": [
+    235,
+    504
+  ],
+  "attack": [
+    {
+      "file": "frames/00-guard.png",
+      "start_tick": 0,
+      "hold_ticks": 2
+    },
+    {
+      "file": "frames/01-shift.png",
+      "start_tick": 2,
+      "hold_ticks": 4
+    },
+    {
+      "file": "frames/02-raise.png",
+      "start_tick": 6,
+      "hold_ticks": 5
+    },
+    {
+      "file": "frames/03-chamber.png",
+      "start_tick": 11,
+      "hold_ticks": 3
+    },
+    {
+      "file": "frames/04-drive.png",
+      "start_tick": 14,
+      "hold_ticks": 3
+    },
+    {
+      "file": "frames/05-pass.png",
+      "start_tick": 17,
+      "hold_ticks": 2
+    },
+    {
+      "file": "frames/06-reach.png",
+      "start_tick": 19,
+      "hold_ticks": 5
+    },
+    {
+      "file": "frames/07-release.png",
+      "start_tick": 24,
+      "hold_ticks": 4
+    },
+    {
+      "file": "frames/08-bend.png",
+      "start_tick": 28,
+      "hold_ticks": 5
+    },
+    {
+      "file": "frames/09-withdraw.png",
+      "start_tick": 33,
+      "hold_ticks": 5
+    },
+    {
+      "file": "frames/10-recenter.png",
+      "start_tick": 38,
+      "hold_ticks": 5
+    },
+    {
+      "file": "frames/11-recover.png",
+      "start_tick": 43,
+      "hold_ticks": 6
+    },
+    {
+      "file": "frames/12-lower.png",
+      "start_tick": 49,
+      "hold_ticks": 6
+    },
+    {
+      "file": "frames/13-open.png",
+      "start_tick": 55,
+      "hold_ticks": 4
+    },
+    {
+      "file": "frames/14-settle.png",
+      "start_tick": 59,
+      "hold_ticks": 4
+    },
+    {
+      "file": "frames/00-guard.png",
+      "start_tick": 63,
+      "hold_ticks": 2
+    }
+  ]
+}

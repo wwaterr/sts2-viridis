@@ -106,7 +106,7 @@ public sealed class KitaBlessing : CultivateCard
     }
 }
 
-/// <summary>化水：清空栽培牌库；每清 1 张获得 1 能量与 3 格挡。</summary>
+/// <summary>杀植物：清空栽培牌库；每清 1 张获得 1 能量与 3 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class MeltToWater : CultivateCard
 {

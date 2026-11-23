@@ -1,5 +1,8 @@
 using Godot;
+using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Characters;
 using Viridis.Pools;
@@ -7,8 +10,7 @@ using Viridis.Pools;
 namespace Viridis.Characters;
 
 /// <summary>
-/// 小松绿 / Viridis —— 占位角色。
-/// 视觉暂时借用原版角色（PlaceholderCharacterId），美术后续用 pck 里的纯黑图替换。
+/// 小松绿 / Viridis。
 /// </summary>
 [RegisterCharacter]
 public sealed class ViridisCharacter
@@ -23,14 +25,12 @@ public sealed class ViridisCharacter
 
     public override int StartingGold => 99;
 
-    public override float AttackAnimDelay => 0.2f;
+    public override float AttackAnimDelay => 1f / 3f;
 
     public override float CastAnimDelay => 0.2f;
 
     /// <summary>
-    /// 没有自定义 Spine/场景时，暂时复用某个原版角色的视觉表现。
-    /// 可用值参考原版角色 Id（如 IRONCLAD / SILENT / DEFECT / REGENT / NECROBINDER）。
-    /// 注意：这仍然决定"战斗中"的立绘，改了下面几个 UI 图不会改变战斗内模型。
+    /// 未定制的角色资源沿用铁甲战士。
     /// </summary>
     public override string PlaceholderCharacterId => "IRONCLAD";
 
@@ -38,6 +38,20 @@ public sealed class ViridisCharacter
     // 文件放在 mods/Viridis/assets/characters/viridis/，
     // 打包后资源路径是 res://<modId>/<相对路径>。
     private const string ArtRoot = "res://Viridis/characters/viridis";
+
+    public override string? CustomVisualsPath => $"{ArtRoot}/combat/viridis.tscn";
+
+    public override CreatureAnimator GenerateAnimator(MegaSprite controller, Creature creature)
+    {
+        var idle = new AnimState("idle_loop", isLooping: true);
+        var attack = new AnimState("attack");
+        attack.AddNextState(idle);
+
+        var animator = new CreatureAnimator(idle, controller);
+        animator.AddAnyState(CreatureAnimator.idleTrigger, idle);
+        animator.AddAnyState(CreatureAnimator.attackTrigger, attack);
+        return animator;
+    }
 
     /// <summary>选人界面的角色肖像（未解锁用这张）。换卡面外的"角色展示图"就换它。</summary>
     public override string? CustomCharacterSelectIconPath => $"{ArtRoot}/character_select_icon.ctex";
@@ -50,6 +64,9 @@ public sealed class ViridisCharacter
 
     /// <summary>存档/顶栏用的小头像。</summary>
     public override string? CustomIconTexturePath => $"{ArtRoot}/character_icon.ctex";
+
+    // NTopBarPortrait 实例化 Character.Icon 的场景。
+    public override string? CustomIconPath => $"{ArtRoot}/character_icon.tscn";
 
     /// <summary>小头像描边层。</summary>
     public override string? CustomIconOutlineTexturePath => $"{ArtRoot}/character_icon_outline.ctex";

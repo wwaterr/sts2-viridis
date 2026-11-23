@@ -1,0 +1,14 @@
+viridis-shovel.png
+size:512,512
+filter:Linear,Linear
+pma:false
+body
+bounds:2,2,318,477
+forearm
+bounds:324,2,47,56
+upper_arm
+bounds:324,62,45,83
+shovel
+bounds:324,149,94,83
+hand
+bounds:324,236,59,58

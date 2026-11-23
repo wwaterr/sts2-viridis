@@ -40,12 +40,15 @@ public static class CultivatePileUI
 
             var button = new Button
             {
-                Text = "栽培 0",
+                Icon = GD.Load<Texture2D>("res://Viridis/images/ui/cultivate_pile.ctex"),
+                Text = "0",
+                TooltipText = "栽培牌堆",
                 CustomMinimumSize = new Vector2(96, 44),
                 Size = new Vector2(96, 44),
                 MouseDefaultCursorShape = Control.CursorShape.PointingHand
             };
             button.AddThemeFontSizeOverride("font_size", 18);
+            button.AddThemeConstantOverride("icon_max_width", 36);
 
             piles.AddChild(button);
 
@@ -112,7 +115,7 @@ public static class CultivatePileUI
             var power = player?.Creature?.GetPower<CultivateFieldPower>();
             var pending = power?.Pending ?? new List<Planting>();
 
-            _button.Text = $"栽培 {pending.Count}";
+            _button.Text = _button.Icon is null ? $"栽培 {pending.Count}" : pending.Count.ToString();
 
             if (_list is null || !GodotObject.IsInstanceValid(_list))
                 return;

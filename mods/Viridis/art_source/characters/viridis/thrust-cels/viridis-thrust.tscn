@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="viridis-thrust.tres" id="frames"]
+
+[node name="Viridis" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("frames")
+animation = &"idle_loop"
+autoplay = "idle_loop"
+centered = false
+offset = Vector2(-235, -504)
