@@ -10,11 +10,11 @@ using Viridis.Powers;
 namespace Viridis.Cards;
 
 /// <summary>
-/// 慢启动歌回：将 10 张感染加入弃牌堆；每个回合开始把若干状态牌变化为天籁，
+/// 慢启动歌回：将 10 张感染加入弃牌堆；每个回合开始把若干状态牌变化为歌回124，
 /// 变化数量从 1 开始逐回合 +1。升级后获得保留。
 /// </summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class SlowStartSong : PlaceholderArtCard
+public sealed class SlowStartSong : CultivateCard
 {
     public SlowStartSong() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 

@@ -5,10 +5,10 @@
 可直接整行复制到 SD、NovelAI、ComfyUI。
 
 --------------------------------------------------
-【角色基底】所有卡都必须含（保持一致性）
+【角色基底】小松绿出镜时使用；将项目三视图原图传入生成器，画风附相应插画参考。尺寸与路径见同目录 IMAGE_ASSETS.md。
 --------------------------------------------------
-1girl, solo, viridis_(character), green_hair, long_hair, hair_between_eyes, green_eyes,
-leaf_hair_ornament, plant_motif, vine, bare_shoulders, fantasy_clothing, green_and_white_palette,
+1girl, solo, viridis_(character), short_sage_green_hair, bob_cut, pink_red_eyes,
+brown_beret, fried_egg_pin, sunflower, white_collared_shirt, sage_green_sweater_vest, brown_shorts, crossbody_wicker_basket,
 
 --------------------------------------------------
 【风格基底】所有卡都必须含
@@ -107,7 +107,7 @@ card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, trap, resin_pool, sticky_amber, ensnared, smirking,
 card_art, fantasy, painterly, dark_background
 
-落叶归根 / Leaf Return
+切片呢 / Leaf Return
 1girl, solo, viridis_(character), green_hair, picking_up_leaf, glowing_leaf, returning_light,
 nostalgic_expression, card_art, fantasy, painterly, dark_background
 
@@ -126,9 +126,8 @@ guiding_hand, card_art, fantasy, painterly, dark_background
 ==================================================
 罕见牌
 ==================================================
-裸子植物 / Gymnosperm
-1girl, solo, viridis_(character), green_hair, pine_cone, gymnosperm, ancient_plant, two_hands,
-split_lighting, card_art, fantasy, painterly, dark_background
+骡子职务 / Gymnosperm
+已选定原画：mods/Viridis/art_source/references/intake-2026-11-22/illustrations/counter_scene.png
 
 煎蛋！ / Fried Egg!
 1girl, solo, viridis_(character), green_hair, fried_egg, frying_pan, comedic, surprised_expression,
@@ -138,7 +137,7 @@ breakfast, warm_colors, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, blessing, glowing_aura, gentle_smile, hands_clasped,
 light_particles, card_art, fantasy, painterly, dark_background
 
-化水 / Melt to Water
+杀植物 / Melt to Water
 1girl, solo, viridis_(character), green_hair, dissolving, turning_into_water, liquid_body,
 calm_expression, card_art, fantasy, painterly, dark_background
 
@@ -270,9 +269,8 @@ card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, leaf_litter, layered_leaves_on_ground, sitting,
 autumn_colors, card_art, fantasy, painterly, dark_background
 
-树脂封存 / Resin Seal
-1girl, solo, viridis_(character), green_hair, amber_seal, encased_in_resin, suspended,
-time_stop, card_art, fantasy, painterly, dark_background
+黑屏版聊 / Resin Seal
+观众视角。直播视频画面全黑，小松绿没有出声。不同的叶绿素粉丝在黑色画面上互相发弹幕，用一问一答或互相打招呼体现“版聊”。小松绿可通过直播间静态头像识别。
 
 幼苗移栽 / Seedling Transplant
 1girl, solo, viridis_(character), green_hair, seedling, replanting, caring_hands, small_plant,

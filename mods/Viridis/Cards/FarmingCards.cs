@@ -18,7 +18,7 @@ using Viridis.Pools;
 namespace Viridis.Cards;
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class FarmerForm : PlaceholderArtCard
+public sealed class FarmerForm : CultivateCard
 {
     public FarmerForm()
         : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
@@ -40,7 +40,7 @@ public sealed class FarmerForm : PlaceholderArtCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class ScaleInsect : PlaceholderArtCard
+public sealed class ScaleInsect : CultivateCard
 {
     public ScaleInsect()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -69,7 +69,7 @@ public sealed class ScaleInsect : PlaceholderArtCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class CultivationMastery : PlaceholderArtCard
+public sealed class CultivationMastery : CultivateCard
 {
     public CultivationMastery()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -126,7 +126,7 @@ public sealed class CultivationMastery : PlaceholderArtCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class KaoziSlayer : PlaceholderArtCard, IHypeCard
+public sealed class KaoziSlayer : CultivateCard, IHypeCard
 {
     public KaoziSlayer()
         : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
@@ -147,14 +147,16 @@ public sealed class KaoziSlayer : PlaceholderArtCard, IHypeCard
             await PowerCmd.Remove(kaozi);
 
         var enemies = play.Player.Creature.CombatState?.HittableEnemies;
-        if (enemies is null)
+        if (enemies is null || enemies.Count == 0)
             return;
 
-        foreach (var enemy in enemies.ToList())
+        var targets = enemies.ToList();
+        await PlayAttackAnim(play);
+        foreach (var enemy in targets)
         {
             var attacks = enemy.Monster?.IntendsToAttack ?? false;
             var damage = DynamicVars.Damage.BaseValue * (attacks ? 1m : 3m);
-            await Hit(ctx, play, enemy, damage);
+            await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play);
 
             if (!attacks && enemy.IsAlive)
                 await CreatureCmd.Stun(enemy);

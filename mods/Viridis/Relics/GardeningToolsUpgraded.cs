@@ -21,8 +21,10 @@ public sealed class GardeningToolsUpgraded : RelicModel
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
-    // 复用原遗物图标，暂不新增美术资源。
-    protected override string IconBaseName => "gardening_tools";
+    private const string IconArt = "res://Viridis/images/relics/gardening_tools";
+    public override string PackedIconPath => IconArt + ".ctex";
+    protected override string PackedIconOutlinePath => IconArt + "_outline.ctex";
+    protected override string BigIconPath => IconArt + "_big.ctex";
 
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {

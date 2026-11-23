@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "character": "viridis",
+  "source_reference": "../../../references/intake-2026-11-22/character_references/viridis_turnaround.png",
+  "target": {
+    "format": "Spine 4.2.36",
+    "skin": "default",
+    "canvas": "2048x2048",
+    "pivot": "ground_center",
+    "export_scale": 0.36
+  },
+  "layer_rules": [
+    "Every file is a transparent PNG on the shared 2048x2048 canvas; do not crop to content bounds.",
+    "Paint 24-48 pixels of concealed continuation beneath every movable overlap.",
+    "Keep baked cast shadows on the back-most receiving layer only; do not paint inter-part shadows into movable pieces.",
+    "Use the front standing pose in the reference sheet as the neutral pose. The action pose is motion reference only."
+  ],
+  "bones": [
+    "root", "hips", "torso", "chest", "neck", "head",
+    "arm_l_upper", "arm_l_lower", "hand_l", "arm_r_upper", "arm_r_lower", "hand_r",
+    "leg_l_upper", "leg_l_lower", "foot_l", "leg_r_upper", "leg_r_lower", "foot_r",
+    "hair_front", "hair_side_l", "hair_side_r", "hair_back", "hat", "apron"
+  ],
+  "slots": [
+    { "name": "leg_r_upper", "bone": "leg_r_upper", "file": "01_leg_r_upper.png", "z": 10 },
+    { "name": "leg_l_upper", "bone": "leg_l_upper", "file": "02_leg_l_upper.png", "z": 11 },
+    { "name": "leg_r_lower", "bone": "leg_r_lower", "file": "03_leg_r_lower.png", "z": 12 },
+    { "name": "leg_l_lower", "bone": "leg_l_lower", "file": "04_leg_l_lower.png", "z": 13 },
+    { "name": "boot_r", "bone": "foot_r", "file": "05_boot_r.png", "z": 14 },
+    { "name": "boot_l", "bone": "foot_l", "file": "06_boot_l.png", "z": 15 },
+    { "name": "shorts_back", "bone": "hips", "file": "07_shorts_back.png", "z": 20 },
+    { "name": "torso_shirt", "bone": "torso", "file": "08_torso_shirt.png", "z": 30 },
+    { "name": "vest_back", "bone": "torso", "file": "09_vest_back.png", "z": 31 },
+    { "name": "hair_back", "bone": "hair_back", "file": "10_hair_back.png", "z": 32 },
+    { "name": "neck", "bone": "neck", "file": "11_neck.png", "z": 40 },
+    { "name": "head", "bone": "head", "file": "12_head_base.png", "z": 41 },
+    { "name": "eye_r_open", "bone": "head", "file": "13_eye_r_open.png", "z": 42 },
+    { "name": "eye_l_open", "bone": "head", "file": "14_eye_l_open.png", "z": 43 },
+    { "name": "eye_r_closed", "bone": "head", "file": "15_eye_r_closed.png", "z": 42 },
+    { "name": "eye_l_closed", "bone": "head", "file": "16_eye_l_closed.png", "z": 43 },
+    { "name": "mouth_neutral", "bone": "head", "file": "17_mouth_neutral.png", "z": 44 },
+    { "name": "hair_front", "bone": "hair_front", "file": "18_hair_front.png", "z": 45 },
+    { "name": "hair_side_r", "bone": "hair_side_r", "file": "19_hair_side_r.png", "z": 46 },
+    { "name": "hair_side_l", "bone": "hair_side_l", "file": "20_hair_side_l.png", "z": 47 },
+    { "name": "hat", "bone": "hat", "file": "21_hat.png", "z": 48 },
+    { "name": "flower", "bone": "hat", "file": "22_flower.png", "z": 49 },
+    { "name": "tie", "bone": "chest", "file": "23_tie.png", "z": 50 },
+    { "name": "arm_r_upper", "bone": "arm_r_upper", "file": "24_arm_r_upper.png", "z": 60 },
+    { "name": "arm_r_lower", "bone": "arm_r_lower", "file": "25_arm_r_lower.png", "z": 61 },
+    { "name": "glove_r", "bone": "hand_r", "file": "26_glove_r.png", "z": 62 },
+    { "name": "arm_l_upper", "bone": "arm_l_upper", "file": "27_arm_l_upper.png", "z": 63 },
+    { "name": "arm_l_lower", "bone": "arm_l_lower", "file": "28_arm_l_lower.png", "z": 64 },
+    { "name": "glove_l", "bone": "hand_l", "file": "29_glove_l.png", "z": 65 },
+    { "name": "vest_front", "bone": "chest", "file": "30_vest_front.png", "z": 70 },
+    { "name": "apron", "bone": "apron", "file": "31_apron.png", "z": 71 },
+    { "name": "shorts_front", "bone": "hips", "file": "32_shorts_front.png", "z": 72 }
+  ],
+  "animations": {
+    "idle_loop": { "duration_seconds": 2.4, "loop": true, "required": true },
+    "attack": { "duration_seconds": 0.7, "loop": false, "required": true },
+    "attack_heavy": { "duration_seconds": 1.0, "loop": false, "required": true },
+    "hurt": { "duration_seconds": 0.32, "loop": false, "required": true },
+    "die": { "duration_seconds": 1.1, "loop": false, "required": true }
+  }
+}

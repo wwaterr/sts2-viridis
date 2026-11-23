@@ -12,9 +12,9 @@ using Viridis.Pools;
 
 namespace Viridis.Cards;
 
-/// <summary>开播！：造成伤害，获得同接与考子。</summary>
+/// <summary>起承转考：造成伤害，获得同接与考子。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class GoLive : PlaceholderArtCard, IHypeCard
+public sealed class GoLive : CultivateCard, IHypeCard
 {
     public GoLive() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
@@ -45,9 +45,9 @@ public sealed class GoLive : PlaceholderArtCard, IHypeCard
     }
 }
 
-/// <summary>突击直播！：本回合已打出过牌则无法打出；高伤害并给同接/考子。</summary>
+/// <summary>xsl开播了兄弟们撤：本回合已打出过牌则无法打出；高伤害并给同接/考子。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class SurpriseStream : PlaceholderArtCard, IHypeCard
+public sealed class SurpriseStream : CultivateCard, IHypeCard
 {
     public SurpriseStream() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
@@ -87,9 +87,9 @@ public sealed class SurpriseStream : PlaceholderArtCard, IHypeCard
     }
 }
 
-/// <summary>呼呼大睡：本回合已打出过牌则无法打出；给反踩/串子，回复 30% 最大生命并结束回合。</summary>
+/// <summary>倒下：本回合已打出过牌则无法打出；给反踩/串子，回复 30% 最大生命并结束回合。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class SleepStream : PlaceholderArtCard, IHypeCard
+public sealed class SleepStream : CultivateCard, IHypeCard
 {
     public SleepStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
