@@ -33,11 +33,15 @@ public sealed class Photosynthesis : CultivateCard
 {
     public Photosynthesis() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1), new CardsVar(1)];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Energy(ctx, play, 1);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await Energy(ctx, play, DynamicVars.Energy.IntValue);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -75,11 +79,15 @@ public sealed class Cutting : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
         await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -143,11 +151,17 @@ public sealed class Resin : CultivateCard
 {
     public Resin() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, ValueProp.Move)];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, 6m);
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
         await CultivateSystem.GrowCultivatedThisTurn(ctx, play.Player, 1);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -178,6 +192,8 @@ public sealed class Bud : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -211,7 +227,7 @@ public sealed class LeafReturn : CultivateCard
             return;
 
         var prefs = new MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs(
-            new MegaCrit.Sts2.Core.Localization.LocString("cards", "CULTIVATE_TEST.select_prompt"), 1)
+            new MegaCrit.Sts2.Core.Localization.LocString("cards", "HOLOGRAM.selectionScreenPrompt"), 1)
         {
             Cancelable = false,
             RequireManualConfirmation = false
@@ -224,6 +240,8 @@ public sealed class LeafReturn : CultivateCard
 
         await CardPileCmd.Add(card, PileType.Hand);
     }
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]

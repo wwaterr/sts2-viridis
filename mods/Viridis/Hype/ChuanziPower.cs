@@ -16,9 +16,9 @@ public sealed class ChuanziPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("card_keywords", "VIRIDIS_KEYWORD_CHUANZI.title");
+    public override LocString Title => new("powers", "VIRIDIS_POWER_CHUANZI_POWER.title");
 
-    public override LocString Description => new("card_keywords", "VIRIDIS_KEYWORD_CHUANZI.description");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_CHUANZI_POWER.description");
 
     public override PowerAssetProfile AssetProfile =>
         new("res://Viridis/images/powers/chuanzi.ctex", "res://Viridis/images/powers/chuanzi.ctex");

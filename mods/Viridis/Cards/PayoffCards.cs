@@ -88,14 +88,17 @@ public sealed class WaterDrawing : CultivateCard
 {
     public WaterDrawing() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await PlayerCmd.GainEnergy(1m, play.Player);
+        await Energy(ctx, play, DynamicVars.Energy.IntValue);
 
         if (Pile(play) > 0)
             await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(1m);
 }
 
 /// <summary>煎蛋！：本回合获得 3（5）点力量。</summary>
@@ -138,6 +141,9 @@ public sealed class MeltToWater : CultivateCard
 {
     public MeltToWater() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockPerCrop", 3m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -146,8 +152,10 @@ public sealed class MeltToWater : CultivateCard
             return;
 
         await PlayerCmd.GainEnergy(n, play.Player);
-        await Block(ctx, play, 3m * n);
+        await Block(ctx, play, DynamicVars["BlockPerCrop"].BaseValue * n);
     }
+
+    protected override void OnUpgrade() => DynamicVars["BlockPerCrop"].UpgradeValueBy(1m);
 }
 
 /// <summary>光合脉冲：3（4）伤害，每株作物多攻击一次。</summary>
@@ -246,6 +254,8 @@ public sealed class ChlorophyllBurst : CultivateCard
         if (play.Target is not null)
             await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
     }
+
+    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(4m);
 }
 
 /// <summary>老根：10（13）格挡，每株作物额外 4 格挡。</summary>

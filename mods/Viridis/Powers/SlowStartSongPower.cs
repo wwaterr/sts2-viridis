@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using Viridis.Cards;
@@ -15,6 +16,10 @@ namespace Viridis.Powers;
 /// </summary>
 public sealed class SlowStartSongPower : PowerModel
 {
+    public override LocString Title => new("powers", "VIRIDIS_POWER_SLOW_START_SONG_POWER.title");
+
+    public override LocString Description => new("powers", "VIRIDIS_POWER_SLOW_START_SONG_POWER.description");
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;

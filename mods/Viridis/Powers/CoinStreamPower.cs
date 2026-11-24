@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 
 namespace Viridis.Powers;
@@ -10,6 +11,10 @@ namespace Viridis.Powers;
 /// <summary>钢镚的临时收益：本回合同接每增加 1 点获得 2 金币，回合结束移除。</summary>
 public sealed class CoinStreamPower : PowerModel
 {
+    public override LocString Title => new("powers", "VIRIDIS_POWER_COIN_STREAM_POWER.title");
+
+    public override LocString Description => new("powers", "VIRIDIS_POWER_COIN_STREAM_POWER.description");
+
     public override PowerType Type => PowerType.None;
 
     public override PowerStackType StackType => PowerStackType.Single;
