@@ -13,9 +13,11 @@
 
 [完整卡牌调整与验证记录](https://github.com/wwaterr/sts2-viridis/pull/15)
 
+本试验分支采用了小松绿烂梗库中的三个牌名。「介壳虫」改名为「咋这样」（#001），「幼苗移栽」改名为「善意引导」（#015），「顶芽」改为「门槛姐」（#021）。打出「门槛姐」前已有至少 3 点同接时，这张牌会额外抽 1 张。[小松绿烂梗库](https://viridis.love/memes/)
+
 ## 安装测试包
 
-现有测试包 `Viridis-0.2.1-PR15-4b702a0.zip` 对应试验前的提交 [`4b702a0`](https://github.com/wwaterr/sts2-viridis/commit/4b702a0b861b9e3ba0e675bf42af119dbaac897a)。要试玩三回合作物的新收成，请用本分支[从源码构建](#从源码构建)。
+现有测试包 `Viridis-0.2.1-PR15-4b702a0.zip` 对应试验前的提交 [`4b702a0`](https://github.com/wwaterr/sts2-viridis/commit/4b702a0b861b9e3ba0e675bf42af119dbaac897a)。要试玩三张梗卡和三回合作物的新收成，请用本分支[从源码构建](#从源码构建)。
 
 已验收的环境为 Windows、《杀戮尖塔 2》Steam 版 **v0.113.1** 和 **RitsuLib 0.6.14**。
 

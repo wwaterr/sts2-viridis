@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
+using Viridis.Hype;
 using Viridis.Pools;
 
 namespace Viridis.Cards;
@@ -177,19 +178,22 @@ public sealed class Sap : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class TerminalBud : CultivateCard
+public sealed class TerminalBud : CultivateCard, IHypeCard
 {
     public TerminalBud() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [ViewerCountKeyword.Value];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new DamageVar(9m, ValueProp.Move) };
+        [new DamageVar(9m, ValueProp.Move), new IntVar("ViewerThreshold", 3m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
+        bool canDraw = HypeSystem.GetAmount(play.Player) >= DynamicVars["ViewerThreshold"].IntValue;
         if (play.Target is not null)
             await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
 
-        if (Pile(play) > 0)
+        if (canDraw)
             await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
 

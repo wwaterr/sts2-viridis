@@ -184,7 +184,7 @@ wide_shot, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, tree_sap, dripping, golden_liquid, playful_smile,
 card_art, fantasy, painterly, dark_background
 
-顶芽 / Terminal Bud
+门槛姐 / The Gatekeeper（原卡图名为 顶芽 / Terminal Bud）
 1girl, solo, viridis_(character), green_hair, top_bud, growing_tip, reaching_up, vertical_composition,
 card_art, fantasy, painterly, dark_background
 
@@ -272,7 +272,7 @@ autumn_colors, card_art, fantasy, painterly, dark_background
 黑屏版聊 / Resin Seal
 观众视角。直播视频画面全黑，小松绿没有出声。不同的叶绿素粉丝在黑色画面上互相发弹幕，用一问一答或互相打招呼体现“版聊”。小松绿可通过直播间静态头像识别。
 
-幼苗移栽 / Seedling Transplant
+善意引导 / Gentle Guidance（原卡图名为 幼苗移栽 / Seedling Transplant）
 1girl, solo, viridis_(character), green_hair, seedling, replanting, caring_hands, small_plant,
 card_art, fantasy, painterly, dark_background
 
