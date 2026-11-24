@@ -19,7 +19,7 @@ public sealed class PineNeedle : CultivateCard
 {
     public PineNeedle() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 
-
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new DamageVar(6m, ValueProp.Move) };
 
@@ -44,7 +44,7 @@ public sealed class RootGuard : CultivateCard
 
     public override bool GainsBlock => true;
 
-
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new BlockVar(5m, ValueProp.Move) };
 

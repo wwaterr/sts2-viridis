@@ -44,26 +44,19 @@ public abstract class CultivateCard : ModCardTemplate
     /// <summary>当前栽培牌库中的牌数。</summary>
     protected static int Pile(CardPlay play) => CultivateSystem.PileCount(play.Player);
 
-    protected Task PlayAttackAnim(CardPlay play) => Type == CardType.Attack
-        ? CreatureCmd.TriggerAnim(play.Player.Creature, "Attack", play.Player.Character.AttackAnimDelay)
-        : Task.CompletedTask;
-
-    protected async Task Hit(PlayerChoiceContext ctx, CardPlay play, Creature target, decimal amount)
+    protected async Task Hit(PlayerChoiceContext ctx, CardPlay play, Creature target, decimal amount, int hits = 1)
     {
-        await PlayAttackAnim(play);
-        await CreatureCmd.Damage(ctx, target, amount, DamageProps.card, this, play);
+        await DamageCmd.Attack(amount).WithHitCount(hits)
+            .FromCard(this, play).Targeting(target).Execute(ctx);
     }
 
-    protected async Task HitAll(PlayerChoiceContext ctx, CardPlay play, decimal amount)
+    protected async Task HitAll(PlayerChoiceContext ctx, CardPlay play, decimal amount, int hits = 1)
     {
-        var enemies = play.Player.Creature.CombatState?.HittableEnemies;
-        if (enemies is null || enemies.Count == 0)
+        if (CombatState is not { } combat)
             return;
 
-        var targets = enemies.ToList();
-        await PlayAttackAnim(play);
-        foreach (var e in targets)
-            await CreatureCmd.Damage(ctx, e, amount, DamageProps.card, this, play);
+        await DamageCmd.Attack(amount).WithHitCount(hits)
+            .FromCard(this, play).TargetingAllOpponents(combat).Execute(ctx);
     }
 
     protected async Task Block(PlayerChoiceContext ctx, CardPlay play, decimal amount)
