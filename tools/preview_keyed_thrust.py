@@ -58,7 +58,7 @@ def main():
     player=Player()
     labels=['压重心','蹬地送肩','平刺伸展','屈肘收势']
     refs=[Image.open(STUDY/'keys'/(n+'.png')).convert('RGBA') for n in NAMES]
-    images=[];font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',19)
+    images=[];font=ImageFont.truetype("msyh.ttc",19)
     temp=ROOT/'build/key-thrust';temp.mkdir(exist_ok=True,parents=True)
     poses=Image.new('RGB',(4*310,2*272),BG)
     for j in range(60):

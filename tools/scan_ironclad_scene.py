@@ -1,6 +1,8 @@
+from sts2_paths import game_pack, repo_path
+
 import mmap, re
 
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, 'rb')
 m = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
@@ -20,6 +22,6 @@ names = re.findall(r'"([A-Za-z0-9_\-]{3,28})"', region)
 w("\n===== quoted strings (candidates: animation names) =====")
 w(", ".join(sorted(set(names))))
 
-open(r"D:\study\ai\viridis\refs\vanilla_ironclad_scene.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/vanilla_ironclad_scene.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("done")
 m.close(); f.close()

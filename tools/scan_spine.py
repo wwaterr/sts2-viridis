@@ -1,6 +1,8 @@
+from sts2_paths import repo_path, workshop_root
+
 import re
 
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 d = open(p, 'rb').read()
 out = []
 w = out.append
@@ -28,5 +30,5 @@ for kw in (b'306604_37', b'ThirtySevenCharacterMod_character.tscn'):
     offs = [m.start() for m in re.finditer(re.escape(kw), d)]
     w(f"\n### {kw!r} hits: {len(offs)} -> {offs[:10]}")
 
-open(r"D:\study\ai\viridis\refs\spine_scan.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/spine_scan.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("written")

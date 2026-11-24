@@ -35,10 +35,10 @@
 
 ## 从源码构建
 
-在 Windows 上准备 PowerShell 7、.NET 9 SDK、Python 3，以及上述游戏和 RitsuLib。构建脚本会优先查找仓库根目录的 `.dotnet/`，也支持 PATH 中的 SDK。以下命令从仓库根目录运行，假设 Steam 库位于 `D:\Steam`，请改成自己的路径。
+在 Windows 上准备 PowerShell 7、.NET 9 SDK、Python 3，以及上述游戏和 RitsuLib。构建脚本会优先查找仓库根目录的 `.dotnet/`，也支持 PATH 中的 SDK。在仓库根目录运行以下命令。提示输入路径时，选择安装了游戏和 RitsuLib 的 Steam 库中的 `steamapps` 文件夹。
 
 ```powershell
-$steamApps = 'D:\Steam\steamapps'
+$steamApps = Read-Host 'Steam 库的 steamapps 文件夹'
 $gameDir = Join-Path $steamApps 'common\Slay the Spire 2'
 
 python tools/check_loc.py

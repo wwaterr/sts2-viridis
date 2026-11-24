@@ -1,6 +1,8 @@
-﻿import struct, glob, os
-base = r"D:\all\steam\steamapps\workshop\content\2868840"
-for p in sorted(glob.glob(base + r"\*\*.pck")):
+﻿from sts2_paths import workshop_root
+
+import struct, os
+base = workshop_root()
+for p in sorted(base.glob("*/*.pck")):
     d = open(p, "rb").read()
     dir_off = struct.unpack_from("<Q", d, 32)[0]
     count = struct.unpack_from("<I", d, dir_off)[0]

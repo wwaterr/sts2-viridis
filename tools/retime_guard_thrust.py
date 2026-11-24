@@ -49,7 +49,7 @@ def main():
     side = (480, 410)
     pair = Image.new("RGB", (960,452), BG)
     pen = ImageDraw.Draw(pair)
-    font = ImageFont.truetype("C:/Windows/Fonts/msyh.ttc", 18)
+    font = ImageFont.truetype("msyh.ttc", 18)
     for i,title in enumerate(["动骨原版 · 1×", "整体提速 · 1.5×"]):
         pen.text((240+480*i,22), title, fill="#eee9dd", font=font, anchor="mm")
     timed = []

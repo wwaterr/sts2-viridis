@@ -1,6 +1,8 @@
+from sts2_paths import workshop_root
+
 import mmap, struct, os, sys
 
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 key = b"res://ThirtySevenCharacterModCode/Cards/Acceptance.cs"
 
 f = open(p, 'rb')

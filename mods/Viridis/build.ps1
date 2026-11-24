@@ -1,6 +1,6 @@
 param(
-    [string]$Sts2Dir = "",
-    [string]$RitsuLibDir = "",
+    [string]$Sts2Dir = $env:STS2_DATA_DIR,
+    [string]$RitsuLibDir = $env:STS2_RITSULIB_DIR,
     [string]$ModsDir = "",
     [switch]$Deploy
 )
@@ -8,6 +8,20 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repo = Resolve-Path (Join-Path $root '..\..')
+
+if (-not $Sts2Dir) {
+    throw 'Pass -Sts2Dir or set STS2_DATA_DIR.'
+}
+$Sts2Dir = (Resolve-Path -LiteralPath $Sts2Dir).Path
+
+if (-not $RitsuLibDir) {
+    throw 'Pass -RitsuLibDir or set STS2_RITSULIB_DIR.'
+}
+$RitsuLibDir = (Resolve-Path -LiteralPath $RitsuLibDir).Path
+
+if ($Deploy -and -not $ModsDir) {
+    $ModsDir = Join-Path (Split-Path -Parent $Sts2Dir) 'mods'
+}
 
 # Locate a dotnet SDK: env override -> workspace-local SDK -> PATH
 $dotnet = $env:STS2_DOTNET
@@ -32,7 +46,7 @@ $pck = Join-Path $root 'bin\Viridis.pck'
 if ($LASTEXITCODE -ne 0) { throw "pck packing failed ($LASTEXITCODE)" }
 
 if ($Deploy) {
-    $target = if ($ModsDir) { $ModsDir } else { 'D:\all\steam\steamapps\common\Slay the Spire 2\mods' }
+    $target = $ModsDir
     New-Item -ItemType Directory -Force (Join-Path $target 'Viridis') | Out-Null
     Copy-Item $pck (Join-Path $target 'Viridis\Viridis.pck') -Force
     Write-Host "Deployed to: $target\Viridis"

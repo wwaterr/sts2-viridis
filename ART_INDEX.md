@@ -2,7 +2,7 @@
 
 制作 Viridis 模组素材时，请查[图片资产规格](design/IMAGE_ASSETS.md)。本页仅记录从原版游戏抽取的样本。
 
-- 来源：`D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck`（v0.111.0，1.9 GB）
+- 来源：游戏安装目录中的 `SlayTheSpire2.pck`（v0.111.0，1.9 GB）
 - 抽取时间：2026-11-07 ｜ 脚本：`extract_sts2_art.py`（根目录，可重跑）
 - 结果：**2,310 个 PNG / 415 MB**，按资源原始路径分类
 

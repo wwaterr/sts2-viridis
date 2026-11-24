@@ -1,6 +1,8 @@
-﻿import struct, os
+﻿from sts2_paths import game_pack
+
+import struct, os
 from collections import Counter
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, "rb"); h = f.read(112)
 file_base, dir_off = struct.unpack_from("<QQ", h, 24)
 f.seek(dir_off); (count,) = struct.unpack("<I", f.read(4)); f.seek(dir_off + 4)

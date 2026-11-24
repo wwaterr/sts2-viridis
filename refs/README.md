@@ -13,10 +13,14 @@
 
 | 路径 | 说明 |
 |---|---|
-| [`../mods/EmptyCharacterMod`](../mods/EmptyCharacterMod) | 已跑通的空 MOD（清单 + DLL + 构建脚本），`build.ps1 -Deploy` 可直接装进游戏 |
+| [`../mods/EmptyCharacterMod`](../mods/EmptyCharacterMod) | 已跑通的空 MOD（清单 + DLL + 构建脚本），见目录内的构建与部署说明 |
 | [`../tools/pck_scrape.py`](../tools/pck_scrape.py) | 从 Godot `.pck` 抽取资源路径清单 |
 | [`../tools/ApiDump`](../tools/ApiDump) | 反查 `sts2.dll` / RitsuLib 程序集公开 API 的小工具 |
 | `../.dotnet` | 工作区内的 .NET 9 SDK（9.0.320），未安装到系统 |
+
+## 本地资源工具
+
+使用原版资源的脚本从 `STS2_GAME_PCK` 读取游戏目录中的 `SlayTheSpire2.pck`。分析订阅模组的脚本从 `STS2_WORKSHOP_DIR` 读取 Steam 库中的 `steamapps/workshop/content/2868840/`。
 
 ## raw/ 原始数据
 
