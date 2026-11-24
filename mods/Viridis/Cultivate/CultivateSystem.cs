@@ -17,7 +17,8 @@ namespace Viridis.Cultivate;
 /// <summary>栽培机制核心逻辑（原型版）。</summary>
 public static class CultivateSystem
 {
-    public static int XOf(CardModel card) => Math.Clamp(card.EnergyCost.Canonical, 1, 3);
+    public static int XOf(CardModel card) =>
+        card.EnergyCost.CostsX ? 1 : Math.Clamp(card.EnergyCost.Canonical, 1, 3);
 
     public static CardRarity? TargetRarity(CardRarity r) => r switch
     {
@@ -138,19 +139,28 @@ public static class CultivateSystem
         => player.Creature?.GetPower<CultivateFieldPower>()?.Pending.Count ?? 0;
 
     /// <summary>生长 N：所有栽培牌剩余回合 -N，到 0 立即收获。</summary>
-    public static async Task Grow(PlayerChoiceContext ctx, Player player, int n)
+    public static Task Grow(PlayerChoiceContext ctx, Player player, int n)
+        => Grow(ctx, player, n, cultivatedOnTurn: null);
+
+    public static Task GrowCultivatedThisTurn(PlayerChoiceContext ctx, Player player, int n)
+        => player.PlayerCombatState is { } combat
+            ? Grow(ctx, player, n, combat.TurnNumber)
+            : Task.CompletedTask;
+
+    private static async Task Grow(PlayerChoiceContext ctx, Player player, int n, int? cultivatedOnTurn)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending.Where(p => !p.Permanent))
+        var crops = power.Pending.Where(p => !p.Permanent &&
+            (cultivatedOnTurn is null || p.CultivatedOnTurn == cultivatedOnTurn));
+        foreach (var p in crops)
             p.TurnsLeft = Math.Max(0, p.TurnsLeft - n);
 
         Log.Info($"[Cultivate] grow {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
 
-        await HarvestAll(ctx, player, power);
-        CultivatePileUI.Refresh(player);
+        await HarvestReady(ctx, player, power, crops);
     }
 
     /// <summary>把所有栽培牌的剩余回合设为指定值。</summary>
@@ -373,8 +383,7 @@ public static class CultivateSystem
                 return;
             }
 
-            int canonical = target.EnergyCost.Canonical;
-            int x = Math.Clamp(canonical, 1, 3);
+            int x = XOf(target);
             bool isAncient = target.Rarity == CardRarity.Ancient;
 
             var planting = new Planting(
@@ -384,7 +393,10 @@ public static class CultivateSystem
                 isAncient ? 2 : 1,
                 target.Rarity,
                 target.IsUpgraded,
-                target.Title + (target.IsUpgraded ? "+" : ""));
+                target.Title + (target.IsUpgraded ? "+" : ""))
+            {
+                CultivatedOnTurn = player.PlayerCombatState?.TurnNumber
+            };
 
             // 老树盘根：下一次栽培剩余回合为 1
             var fast = player.Creature?.GetPower<NextCultivateFastPower>();
@@ -410,7 +422,7 @@ public static class CultivateSystem
             if (target is CultivateCard cultivatedCard)
                 await cultivatedCard.OnCultivated(ctx, player);
 
-            Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
+            Log.Info($"[Cultivate] planted {target.Id} X={x} count={planting.Count}");
         }
         catch (Exception e)
         {
@@ -447,6 +459,7 @@ public static class CultivateSystem
                 target.Title + (target.IsUpgraded ? "+" : ""))
             {
                 Permanent = true,
+                CultivatedOnTurn = player.PlayerCombatState?.TurnNumber,
                 TurnsLeft = int.MaxValue,
                 StoredBlock = block,
                 StoredDamage = damage,
@@ -525,12 +538,16 @@ public static class CultivateSystem
         return player.Creature.GetPower<CultivateFieldPower>();
     }
 
-    public static async Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+    public static Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+        => HarvestReady(ctx, player, power, power.Pending);
+
+    private static async Task HarvestReady(PlayerChoiceContext ctx, Player player, CultivateFieldPower power, IEnumerable<Planting> crops)
     {
         var harvestBonus = player.Creature?.GetPower<FarmerFormPower>()?.Amount ?? 0;
-        foreach (var p in power.Pending.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
+        foreach (var p in crops.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
         {
-            power.Pending.Remove(p);
+            if (!power.Pending.Remove(p))
+                continue;
             for (int i = 0; i < p.Count + harvestBonus; i++)
             {
                 // 钩子里抛异常会直接搞死战斗循环，必须自己吞掉
@@ -589,7 +606,7 @@ public static class CultivateSystem
             }
         }
 
-        if (p.X > 1)
+        if (p.X > 1 && !card.EnergyCost.CostsX)
             card.EnergyCost.SetUntilPlayed(1, reduceOnly: true);
 
         // 手牌满则溢出到弃牌堆
@@ -645,7 +662,8 @@ public static class CultivateSystem
 
     private static CardModel? Pick(CardRarity? rarity, int x, bool statusOnly)
     {
-        var all = Pool(statusOnly).Where(c => c.Rarity == rarity).ToList();
+        // X 费可作材料，普通收获的同费池和回退池都只给固定费用的牌。
+        var all = Pool(statusOnly).Where(c => c.Rarity == rarity && !c.EnergyCost.CostsX).ToList();
 
         // 先要求可生成，实在没有就放宽（原型期避免因为标志位导致空池）
         var generatable = all.Where(c => c.CanBeGeneratedInCombat).ToList();
@@ -688,6 +706,9 @@ public sealed class Planting
     public bool Upgraded { get; }
     public string Title { get; }
     public int TurnsLeft { get; set; }
+
+    /// <summary>被栽培时的玩家回合号；直接复制的作物没有栽培动作。</summary>
+    public int? CultivatedOnTurn { get; init; }
 
     /// <summary>永久栽培：不参与倒计时和收获。</summary>
     public bool Permanent { get; set; }
