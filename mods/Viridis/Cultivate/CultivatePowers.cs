@@ -138,7 +138,7 @@ public sealed class MotherPlantPower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
-        if (Pile(player) > 0)
+        if (player != Owner.Player || Pile(player) > 0)
             return;
 
         await CultivateSystem.CultivateFromHand(ctx, player, this);
@@ -310,7 +310,10 @@ public sealed class SpringCyclePower : CultivatePowerBase
 public sealed class WorldTreePower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
-        => await CultivateSystem.CultivateFromHand(ctx, player, this);
+    {
+        if (player == Owner.Player)
+            await CultivateSystem.CultivateFromHand(ctx, player, this);
+    }
 }
 
 /// <summary>始祖孢子：栽培牌库被清空时，对所有敌人造成 20 点伤害。</summary>

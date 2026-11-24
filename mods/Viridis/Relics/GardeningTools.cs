@@ -37,8 +37,7 @@ public sealed class GardeningTools : RelicModel
     {
         try
         {
-            var combat = player?.Creature?.CombatState;
-            if (combat is null)
+            if (player != Owner || player.Creature.CombatState is not { } combat)
                 return;
 
             // 每进入一场新战斗，重置一次性开关
@@ -53,10 +52,10 @@ public sealed class GardeningTools : RelicModel
 
             _usedThisCombat = true;
 
-            await CardPileCmd.Draw(choiceContext, 1m, player!);
+            await CardPileCmd.Draw(choiceContext, 1m, player);
             Log.Info("[Cultivate] Gardening Tools: first turn, drew 1, prompting cultivate");
 
-            await CultivateSystem.CultivateFromHand(choiceContext, player!, this);
+            await CultivateSystem.CultivateFromHand(choiceContext, player, this);
         }
         catch (Exception e)
         {
