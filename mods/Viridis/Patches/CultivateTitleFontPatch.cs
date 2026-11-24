@@ -25,7 +25,7 @@ internal static class CultivateTitleFontPatch
 
         if (__instance.Model?.Title is { } title && title.Contains('苔'))
             label.AddThemeFontOverride("font", CjkTitleFont);
-        else
+        else if (ReferenceEquals(label.GetThemeFont("font"), CjkTitleFont))
             label.RemoveThemeFontOverride("font");
     }
 }
