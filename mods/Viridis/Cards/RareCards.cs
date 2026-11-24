@@ -81,7 +81,7 @@ public sealed class RainOfChange : CultivateCard
             if (target is null)
                 break;
 
-            await Hit(ctx, play, target, DynamicVars.Damage.BaseValue);
+            await CreatureCmd.Damage(ctx, target, DynamicVars.Damage.BaseValue, DamageProps.card, this, play);
         }
     }
 
@@ -202,8 +202,7 @@ public sealed class LeafStorm : CultivateCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         int hits = 1 + Pile(play);
-        for (int i = 0; i < hits; i++)
-            await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
+        await HitAll(ctx, play, DynamicVars.Damage.BaseValue, hits);
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);

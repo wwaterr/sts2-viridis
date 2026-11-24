@@ -141,8 +141,7 @@ public sealed class Nettle : CultivateCard
         if (play.Target is null)
             return;
 
-        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue, hits: 2);
     }
 }
 
