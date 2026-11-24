@@ -21,14 +21,6 @@ public sealed class HypeCounterPower : PowerModel
         if (Owner.Player is null || cardPlay.Card.Owner != Owner.Player)
             return Task.CompletedTask;
 
-        // 反踩在“打牌之后”才结算，但这里必须先判断，否则能力钩子顺序会决定结果。
-        var antiStomp = Owner.GetPower<AntiStompPower>();
-        if (antiStomp is not null && antiStomp.TryBlockCard())
-        {
-            HypeCounterUI.Refresh(Owner.Player);
-            return Task.CompletedTask;
-        }
-
         HypeSystem.Add(Owner.Player, 1);
         return Task.CompletedTask;
     }

@@ -13,26 +13,26 @@ using Viridis.Powers;
 
 namespace Viridis.Cards;
 
-/// <summary>娘养：获得考子。</summary>
+/// <summary>娘养：获得入脑。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class NiangCare : PlaceholderArtCard, IHypeCard
 {
     public NiangCare() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[] { new PowerVar<KaoziPower>(4m) };
+        new DynamicVar[] { new PowerVar<EarwormPower>(4m) };
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { KaoziKeyword.Value };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { EarwormKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, DynamicVars["KaoziPower"].BaseValue);
+        await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars["KaoziPower"].UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["EarwormPower"].UpgradeValueBy(2m);
 }
 
-/// <summary>娘摇：获得格挡与考子。</summary>
+/// <summary>娘摇：获得格挡与入脑。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class NiangWave : PlaceholderArtCard, IHypeCard
 {
@@ -44,25 +44,25 @@ public sealed class NiangWave : PlaceholderArtCard, IHypeCard
         new DynamicVar[]
         {
             new BlockVar(5m, ValueProp.Move),
-            new PowerVar<KaoziPower>(1m),
+            new PowerVar<EarwormPower>(1m),
         };
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { KaoziKeyword.Value };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { EarwormKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, DynamicVars["KaoziPower"].BaseValue);
+        await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Block.UpgradeValueBy(3m);
-        DynamicVars["KaoziPower"].UpgradeValueBy(1m);
+        DynamicVars["EarwormPower"].UpgradeValueBy(1m);
     }
 }
 
-/// <summary>娘笑：造成伤害并获得考子。</summary>
+/// <summary>娘笑：造成伤害并获得入脑。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class NiangSmile : PlaceholderArtCard, IHypeCard
 {
@@ -72,10 +72,10 @@ public sealed class NiangSmile : PlaceholderArtCard, IHypeCard
         new DynamicVar[]
         {
             new DamageVar(6m, ValueProp.Move),
-            new PowerVar<KaoziPower>(1m),
+            new PowerVar<EarwormPower>(1m),
         };
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { KaoziKeyword.Value };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { EarwormKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -83,13 +83,13 @@ public sealed class NiangSmile : PlaceholderArtCard, IHypeCard
             return;
 
         await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, DynamicVars["KaoziPower"].BaseValue);
+        await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars["KaoziPower"].UpgradeValueBy(1m);
+        DynamicVars["EarwormPower"].UpgradeValueBy(1m);
     }
 }
 

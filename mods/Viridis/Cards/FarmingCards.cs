@@ -127,9 +127,9 @@ public sealed class CultivationMastery : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class KaoziSlayer : CultivateCard, IHypeCard
+public sealed class EarwormSlayer : CultivateCard, IHypeCard
 {
-    public KaoziSlayer()
+    public EarwormSlayer()
         : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
     {
     }
@@ -143,9 +143,13 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        var kaozi = play.Player.Creature.GetPower<KaoziPower>();
-        var spentKaozi = kaozi is { Amount: > 0 };
-        await PowerCmd.Remove(kaozi);
+        var kaozi = play.Player.Creature.GetPower<EarwormPower>();
+        var spentEarworm = kaozi is { Amount: > 0 };
+        if (kaozi is not null)
+        {
+            await PowerCmd.Remove(kaozi);
+            PolarityBarUI.Refresh(play.Player);
+        }
 
         if (CombatState is not { } combat || combat.HittableEnemies.Count == 0)
             return;
@@ -156,11 +160,11 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
         await CreatureCmd.TriggerAnim(play.Player.Creature, "Attack", play.Player.Character.AttackAnimDelay);
         foreach (var enemy in targets)
         {
-            var triggersKaoziBonus = spentKaozi && enemy.Monster?.IntendsToAttack != true;
-            var damage = DynamicVars.Damage.BaseValue * (triggersKaoziBonus ? 3m : 1m);
+            var triggersEarwormBonus = spentEarworm && enemy.Monster?.IntendsToAttack != true;
+            var damage = DynamicVars.Damage.BaseValue * (triggersEarwormBonus ? 3m : 1m);
             results.AddRange(await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play));
 
-            if (triggersKaoziBonus && enemy.IsAlive)
+            if (triggersEarwormBonus && enemy.IsAlive)
                 await CreatureCmd.Stun(enemy);
         }
         attack.AddHit(results);

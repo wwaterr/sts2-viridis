@@ -27,6 +27,9 @@ public class ModEntry
             Log.Error($"[{ModId}] DustyTome fallback patch failed: {ex}");
         }
 
+        // 枼绿素的跨局计数（Profile 作用域存档）
+        Hype.PolaritySave.EnsureRegistered();
+
         Log.Info($"[{ModId}] Initialize() called - character scaffold loaded.");
     }
 }

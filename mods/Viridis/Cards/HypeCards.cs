@@ -12,7 +12,7 @@ using Viridis.Pools;
 
 namespace Viridis.Cards;
 
-/// <summary>起承转考：造成伤害，获得同接与考子。</summary>
+/// <summary>起承转考：造成伤害，获得同接与入脑。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class GoLive : CultivateCard, IHypeCard
 {
@@ -26,7 +26,7 @@ public sealed class GoLive : CultivateCard, IHypeCard
         };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { ViewerCountKeyword.Value, KaoziKeyword.Value };
+        new[] { ViewerCountKeyword.Value, EarwormKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -35,7 +35,7 @@ public sealed class GoLive : CultivateCard, IHypeCard
 
         await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
         HypeSystem.Add(play.Player, (int)DynamicVars["ViewerGain"].BaseValue);
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, 1m);
+        await HypeSystem.GainEarworm(ctx, play.Player, 1);
     }
 
     protected override void OnUpgrade()
@@ -45,7 +45,7 @@ public sealed class GoLive : CultivateCard, IHypeCard
     }
 }
 
-/// <summary>xsl开播了兄弟们撤：本回合已打出过牌则无法打出；高伤害并给同接/考子。</summary>
+/// <summary>xsl开播了兄弟们撤：本回合已打出过牌则无法打出；高伤害并给同接/入脑。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SurpriseStream : CultivateCard, IHypeCard
 {
@@ -59,7 +59,7 @@ public sealed class SurpriseStream : CultivateCard, IHypeCard
         };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { ViewerCountKeyword.Value, KaoziKeyword.Value };
+        new[] { ViewerCountKeyword.Value, EarwormKeyword.Value };
 
     protected override bool IsPlayable => !HasPlayedCardThisTurn;
 
@@ -77,7 +77,7 @@ public sealed class SurpriseStream : CultivateCard, IHypeCard
 
         await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
         HypeSystem.Add(play.Player, (int)DynamicVars["ViewerGain"].BaseValue);
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, 1m);
+        await HypeSystem.GainEarworm(ctx, play.Player, 1);
     }
 
     protected override void OnUpgrade()
@@ -94,7 +94,7 @@ public sealed class SleepStream : CultivateCard, IHypeCard
     public SleepStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { CardKeyword.Exhaust, AntiStompKeyword.Value, ChuanziKeyword.Value };
+        new[] { CardKeyword.Exhaust, BacklashKeyword.Value, ChuanziKeyword.Value };
 
     protected override bool IsPlayable => !HasPlayedCardThisTurn;
 
@@ -107,7 +107,7 @@ public sealed class SleepStream : CultivateCard, IHypeCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Apply<AntiStompPower>(ctx, play, play.Player.Creature, 3m);
+        await HypeSystem.GainBacklash(ctx, play.Player, 3);
         await Apply<ChuanziPower>(ctx, play, play.Player.Creature, 3m);
         await CreatureCmd.Heal(play.Player.Creature, Math.Floor(play.Player.Creature.MaxHp * 0.3m));
         PlayerCmd.EndTurn(play.Player, canBackOut: false);

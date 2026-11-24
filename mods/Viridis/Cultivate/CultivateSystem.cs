@@ -77,6 +77,9 @@ public static class CultivateSystem
 
     private static async Task NotifyCultivated(PlayerChoiceContext ctx, Player player)
     {
+        // 手牌联动（锡纸帽减费）先结算，避免能力钩子里再抛异常影响它
+        Hype.HypeSystem.OnCultivated(player);
+
         foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
         {
             try

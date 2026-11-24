@@ -7,5 +7,8 @@
     "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.flavor":  "Orobas polished the blades, and the gloves fit better than before.",
     "VIRIDIS_RELIC_HARVEST_CHARM.title":  "Harvest Charm",
     "VIRIDIS_RELIC_HARVEST_CHARM.description":  "The first time you harvest a card each combat, gain {Block} Block.",
-    "VIRIDIS_RELIC_HARVEST_CHARM.flavor":  "The first sprout gets the charm."
+    "VIRIDIS_RELIC_HARVEST_CHARM.flavor":  "The first sprout gets the charm.",
+    "VIRIDIS_RELIC_CHLOROPHYLL.title":  "Chlorophyll",
+    "VIRIDIS_RELIC_CHLOROPHYLL.description":  "At the end of combat, overwrite this counter with your remaining [gold]Earworm[/gold] (positive) or [gold]Backlash[/gold] (negative) stacks. At the start of combat, gain that many stacks.",
+    "VIRIDIS_RELIC_CHLOROPHYLL.flavor":  "Even after the stream ends, chat's echo lingers into the next fight."
 }

@@ -7,12 +7,18 @@
     "VIRIDIS_KEYWORD_WITHER.description":  "Remove a card from your Cultivate Pile. It is not harvested, and the original card is not returned.",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "Viewer",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "A counter. Whenever you play a card during your turn, gain 1 Viewer. Viewers reset to 0 at the end of your turn.",
-    "VIRIDIS_KEYWORD_KAOZI.title":  "Kaozi",
-    "VIRIDIS_KEYWORD_KAOZI.description":  "At the start of your turn, gain Viewer equal to your Kaozi stacks.",
-    "VIRIDIS_KEYWORD_ANTI_STOMP.title":  "Anti-Stomp",
-    "VIRIDIS_KEYWORD_ANTI_STOMP.description":  "The first X cards you play each turn do not grant Viewer.",
+    "VIRIDIS_KEYWORD_EARWORM.title":  "Earworm",
+    "VIRIDIS_KEYWORD_EARWORM.description":  "At the start of your turn, gain Viewer equal to your Earworm stacks, add a Foil Hat to your hand, and lose 1 stack. Max 8; excess converts to Stretch. Cancels with Backlash.",
+    "VIRIDIS_KEYWORD_BACKLASH.title":  "Backlash",
+    "VIRIDIS_KEYWORD_BACKLASH.description":  "Whenever you receive damage (including blocked damage), gain 1 Viewer. At the start of your turn, add a Unicycle to your hand and lose 1 stack. Max 8; excess converts to Vigor. Cancels with Earworm.",
     "VIRIDIS_KEYWORD_CHUANZI.title":  "Troll",
     "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch.",
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
-    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn."
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_KEYWORD_PLANT_IN.title":  "Plant In",
+    "VIRIDIS_KEYWORD_PLANT_IN.description":  "Triggers when this card is [gold]Cultivated[/gold].",
+    "VIRIDIS_KEYWORD_LURKING.title":  "Lurking",
+    "VIRIDIS_KEYWORD_LURKING.description":  "The state where both Earworm and Backlash are 0.",
+    "VIRIDIS_KEYWORD_DEFERRED.title":  "Deferred",
+    "VIRIDIS_KEYWORD_DEFERRED.description":  "This card is never in your opening hand."
 }
