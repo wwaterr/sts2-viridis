@@ -1,6 +1,8 @@
+from sts2_paths import game_pack, repo_path
+
 import mmap, re
 
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, 'rb')
 m = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
@@ -28,6 +30,6 @@ for kw in (b'scenes/characters/', b'/spine/', b'animated_character'):
     for s in seen[:45]:
         w("  " + s)
 
-open(r"D:\study\ai\viridis\refs\vanilla_scene_paths.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/vanilla_scene_paths.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("done")
 m.close(); f.close()

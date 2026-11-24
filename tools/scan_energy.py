@@ -1,5 +1,7 @@
-﻿import re
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+﻿from sts2_paths import game_pack
+
+import re
+p = game_pack()
 names = set()
 tail = b""
 with open(p, "rb") as f:

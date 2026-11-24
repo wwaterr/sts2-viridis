@@ -1,6 +1,8 @@
+from sts2_paths import game_pack, repo_path
+
 import mmap, re, sys
 
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, 'rb')
 m = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 print("size", m.size())
@@ -33,6 +35,6 @@ w("\n### version candidates near first .atlas hits")
 for off in [x for x in re.finditer(rb'\d\.\d\.\d+', bytes(m[:2000000]))][:0]:
     pass
 
-open(r"D:\study\ai\viridis\refs\vanilla_spine_scan.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/vanilla_spine_scan.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("written", len(out), "lines")
 m.close(); f.close()

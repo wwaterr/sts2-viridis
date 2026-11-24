@@ -1,5 +1,7 @@
-﻿import re
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+﻿from sts2_paths import repo_path, workshop_root
+
+import re
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 d = open(p, "rb").read()
 seen = []
 for m in re.finditer(rb'THIRTY_SEVEN_CHARACTER_MOD_CHARACTER', d):
@@ -7,5 +9,5 @@ for m in re.finditer(rb'THIRTY_SEVEN_CHARACTER_MOD_CHARACTER', d):
     for frag in re.findall(r'[A-Z0-9_\.]{20,}', s):
         if 'CHARACTER' in frag and frag not in seen:
             seen.append(frag)
-open(r"D:\study\ai\viridis\refs\loc_character.txt", "w", encoding="utf-8").write("\n".join(seen[:80]))
+open(repo_path("refs/loc_character.txt"), "w", encoding="utf-8").write("\n".join(seen[:80]))
 print(len(seen))

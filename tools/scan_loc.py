@@ -1,5 +1,7 @@
-﻿import re
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+﻿from sts2_paths import workshop_root
+
+import re
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 d = open(p, "rb").read()
 print("size", len(d))
 # look for localization json content: keys like "SOME_ID.title" or {"id": {"name": ...}}

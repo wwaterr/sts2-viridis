@@ -1,6 +1,8 @@
+from sts2_paths import game_pack
+
 import struct, sys, re
 
-P = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+P = game_pack()
 
 f = open(P, "rb")
 h = f.read(112)

@@ -1,6 +1,7 @@
 """把 SlayTheSpire2.pck 里的美术资源按分类抽成 PNG，存到工作区根目录。
 
 用法:  python extract_sts2_art.py [pck路径] [输出根目录]
+省略 pck 路径时，从 STS2_GAME_PCK 读取。
 
 原理: Godot 4.5 打包，目录表在文件尾部（不是标准布局）。
       纹理是 .ctex 容器，其中 2311 个内部嵌了无损 WebP(RIFF/WEBP)，
@@ -16,7 +17,8 @@ import sys
 
 from PIL import Image
 
-DEFAULT_PCK = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+from tools.sts2_paths import game_pack
+
 DEFAULT_OUT = os.path.dirname(os.path.abspath(__file__))
 
 # 分类规则：按源路径前缀归到根目录下的文件夹（长前缀优先）
@@ -66,7 +68,7 @@ def categorize(src_path):
 
 
 def main():
-    pck = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_PCK
+    pck = sys.argv[1] if len(sys.argv) > 1 else game_pack()
     out_root = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_OUT
 
     fh = open(pck, "rb")

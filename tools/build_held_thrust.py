@@ -126,7 +126,7 @@ def longer_extension():
         assert np.array_equal(held,np.array(new.frame("attack",t)))
     idle=new.frame("attack",0)
     sheet=Image.new("RGB",(960,452),(40,49,54))
-    draw=ImageDraw.Draw(sheet);font=ImageFont.truetype("C:/Windows/Fonts/msyh.ttc",18)
+    draw=ImageDraw.Draw(sheet);font=ImageFont.truetype("msyh.ttc",18)
     for i,label in enumerate(["上一版","新版 · 出刺更舒展"]):
         draw.text((240+480*i,22),label,font=font,anchor="mm",fill="#eee9dd")
     pair=[];single=[]

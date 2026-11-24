@@ -1,11 +1,20 @@
 param(
-    [string]$Sts2Dir = "",
+    [string]$Sts2Dir = $env:STS2_DATA_DIR,
     [string]$ModsDir = "",
     [switch]$Deploy
 )
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+if (-not $Sts2Dir) {
+    throw 'Pass -Sts2Dir or set STS2_DATA_DIR.'
+}
+$Sts2Dir = (Resolve-Path -LiteralPath $Sts2Dir).Path
+
+if ($Deploy -and -not $ModsDir) {
+    $ModsDir = Join-Path (Split-Path -Parent $Sts2Dir) 'mods'
+}
 
 # Locate a dotnet SDK: env override -> workspace-local SDK -> PATH
 $dotnet = $env:STS2_DOTNET
@@ -35,7 +44,7 @@ $dll = Join-Path $root 'bin\Release\net9.0\EmptyCharacterMod.dll'
 Write-Host ""
 Write-Host "Built: $dll"
 if ($Deploy) {
-    $target = if ($ModsDir) { $ModsDir } else { 'D:\all\steam\steamapps\common\Slay the Spire 2\mods' }
+    $target = $ModsDir
     Write-Host "Deployed to: $target\EmptyCharacterMod"
 } else {
     Write-Host "Not deployed. Re-run with -Deploy to copy into the game's mods folder."

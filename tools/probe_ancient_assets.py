@@ -1,6 +1,8 @@
+from sts2_paths import game_pack, repo_path
+
 import mmap
 
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, 'rb')
 m = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
@@ -24,6 +26,6 @@ for kw in (b'ancient', b'Ancient'):
         if len(seen) <= 40:
             out.append(txt)
 
-open(r"D:\study\ai\viridis\refs\raw\ancient_asset_probe.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/raw/ancient_asset_probe.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("ok")
 m.close(); f.close()

@@ -1,5 +1,7 @@
-﻿import re
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+﻿from sts2_paths import workshop_root
+
+import re
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 d = open(p, "rb").read()
 for pat in [rb'THIRTY_SEVEN_CHARACTER_MOD_CHARACTER', rb'_CHARACTER_\.title', rb'CHARACTER_\.']:
     hits = [m.start() for m in re.finditer(pat, d)]

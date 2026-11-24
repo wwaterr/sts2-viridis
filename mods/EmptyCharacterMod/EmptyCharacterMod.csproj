@@ -13,13 +13,17 @@
     <NoWarn>$(NoWarn);CS0436</NoWarn>
 
     <!-- 游戏安装目录（可用 -p:Sts2Dir=... 覆盖） -->
-    <Sts2Dir Condition="'$(Sts2Dir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64</Sts2Dir>
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">$(STS2_DATA_DIR)</Sts2Dir>
     <!-- 本地 mods 目录（可用 -p:ModsDir=... 覆盖） -->
-    <ModsDir Condition="'$(ModsDir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\mods</ModsDir>
+    <ModsDir Condition="'$(ModsDir)' == '' and '$(Sts2Dir)' != ''">$(Sts2Dir)\..\mods</ModsDir>
     <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
   </PropertyGroup>
 
   <!-- 只编译，不把这些程序集复制到输出目录 -->
+  <Target Name="CheckBuildPaths" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(Sts2Dir)\sts2.dll')" Text="Set Sts2Dir or STS2_DATA_DIR to the Slay the Spire 2 assemblies directory." />
+  </Target>
+
   <ItemGroup>
     <Reference Include="sts2">
       <HintPath>$(Sts2Dir)\sts2.dll</HintPath>

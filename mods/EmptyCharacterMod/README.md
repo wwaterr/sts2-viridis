@@ -14,19 +14,14 @@ EmptyCharacterMod/
 
 ## 编译
 
-```powershell
-# 只编译
-.\build.ps1
-
-# 编译并直接拷进游戏 mods 目录
-.\build.ps1 -Deploy
-```
-
-默认引用 `D:\all\steam\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64\sts2.dll`，
-换机器/换目录时：
+从此模组目录运行。输入游戏安装目录后，脚本引用其中的 `data_sts2_windows_x86_64`。指定 `-Deploy` 可部署到游戏的 `mods` 目录。
 
 ```powershell
-.\build.ps1 -Deploy -Sts2Dir "X:\...\data_sts2_windows_x86_64" -ModsDir "X:\...\Slay the Spire 2\mods"
+$gameDir = Read-Host '游戏安装目录'
+$dataDir = Join-Path $gameDir 'data_sts2_windows_x86_64'
+.\build.ps1 -Sts2Dir $dataDir
+# 编译并部署
+.\build.ps1 -Sts2Dir $dataDir -Deploy
 ```
 
 ## 验证是否加载成功

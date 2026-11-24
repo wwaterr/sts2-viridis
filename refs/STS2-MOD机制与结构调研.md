@@ -8,12 +8,14 @@
 
 ## 1. 文件到底存在哪
 
+Steam 安装路径以安装该游戏的库目录为起点。
+
 | 内容 | 路径 |
 |---|---|
-| 游戏本体 | `D:\all\steam\steamapps\common\Slay the Spire 2` |
-| **创意工坊 MOD** | `D:\all\steam\steamapps\workshop\content\2868840\<PublishedFileID>\` |
-| 工坊订阅清单 | `D:\all\steam\steamapps\workshop\appworkshop_2868840.acf` |
-| 本地（非工坊）MOD | `D:\all\steam\steamapps\common\Slay the Spire 2\mods\<任意子目录>\` |
+| 游戏本体 | `steamapps/common/Slay the Spire 2/` |
+| **创意工坊 MOD** | `steamapps/workshop/content/2868840/<PublishedFileID>/` |
+| 工坊订阅清单 | `steamapps/workshop/appworkshop_2868840.acf` |
+| 本地（非工坊）MOD | `steamapps/common/Slay the Spire 2/mods/<任意子目录>/` |
 | MOD 启用状态 / 加载顺序 | `%APPDATA%\SlayTheSpire2\steam\<SteamID>\settings.save` → `mod_settings.mod_list` |
 | 加载日志（排错必备） | `%APPDATA%\SlayTheSpire2\logs\godot.log` |
 | Modded 存档（独立于原版） | `%APPDATA%\SlayTheSpire2\steam\<SteamID>\modded\` |
@@ -212,7 +214,7 @@ Capabilities/  Keywords/  Patches/  Utils/  Systems/
 ## 6. 环境与工具链
 
 - 游戏运行时是 .NET 9 → 项目目标框架 `net9.0`。
-- **本机原先没有 SDK**，已在工作区内安装独立 SDK：`D:\study\ai\viridis\.dotnet`（9.0.320），不污染系统环境。
+- 可在仓库根目录的 `.dotnet/` 安装独立的 .NET 9 SDK。
 - Godot 4.5.1：只在编辑 `.tscn`、导入图片、打包 `.pck` 时需要；纯 DLL 逻辑 MOD 可以不装。
 - 打包 pck：Godot 工程 `--export-pack`，或社区 pck 工具。
 - 启动参数 `nomods` 可禁用全部 MOD；游戏目录放 `steam_appid.txt`（内容 `2868840`）可脱离 Steam 启动。
@@ -221,7 +223,7 @@ Capabilities/  Keywords/  Patches/  Utils/  Systems/
 ### 已建好的空 MOD 工程（可直接开工）
 
 ```
-D:\study\ai\viridis\mods\EmptyCharacterMod\
+mods/EmptyCharacterMod/
 ├── EmptyCharacterMod.csproj   # net9.0，引用 sts2.dll（Private=false）
 ├── EmptyCharacterMod.json     # 清单
 ├── ModEntry.cs                # [ModInitializer(nameof(Initialize))]
@@ -230,8 +232,10 @@ D:\study\ai\viridis\mods\EmptyCharacterMod\
 ```
 
 ```powershell
-cd D:\study\ai\viridis\mods\EmptyCharacterMod
-.\build.ps1 -Deploy
+Set-Location mods/EmptyCharacterMod
+$gameDir = Read-Host '游戏安装目录'
+$dataDir = Join-Path $gameDir 'data_sts2_windows_x86_64'
+.\build.ps1 -Deploy -Sts2Dir $dataDir
 # 验证
 Select-String -Path "$env:APPDATA\SlayTheSpire2\logs\godot.log" -Pattern "EmptyCharacterMod"
 ```

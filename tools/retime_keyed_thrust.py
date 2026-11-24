@@ -34,7 +34,7 @@ def main():
     for a, b in zip(OLD_FRAMES, NEW_FRAMES):
         delta = abs(np.asarray(old.pose(a), dtype=float) - np.asarray(new.pose(b)))
         assert delta.mean() < .01, (a, b, delta.mean())
-    title = ImageFont.truetype("C:/Windows/Fonts/msyh.ttc", 20)
+    title = ImageFont.truetype("msyh.ttc", 20)
     frames = []
     for frame in range(60):
         pair = Image.new("RGB", (1120, 540), BG)

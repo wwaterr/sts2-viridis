@@ -1,6 +1,8 @@
+from sts2_paths import game_pack
+
 import struct, sys, os, re
 
-P = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+P = game_pack()
 PATTERN = sys.argv[1] if len(sys.argv) > 1 else r"character"
 
 f = open(P, "rb")
