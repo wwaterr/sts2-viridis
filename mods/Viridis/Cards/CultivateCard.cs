@@ -16,7 +16,7 @@ namespace Viridis.Cards;
 public abstract class CultivateCard : ModCardTemplate
 {
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/{System.Text.Json.JsonNamingPolicy.SnakeCaseLower.ConvertName(GetType().Name)}.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/{System.Text.Json.JsonNamingPolicy.SnakeCaseLower.ConvertName(GetType().Name)}.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
 
     protected CultivateCard(int cost, CardType type, CardRarity rarity, TargetType target)
         : base(cost, type, rarity, target)

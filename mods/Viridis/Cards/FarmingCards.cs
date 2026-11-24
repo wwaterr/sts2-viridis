@@ -27,7 +27,7 @@ public sealed class FarmerForm : CultivateCard
     }
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/farmer_form_card.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/farmer_form_card.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -78,7 +78,7 @@ public sealed class CultivationMastery : CultivateCard
     }
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/cultivation_mastery.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/cultivation_mastery.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
     {
