@@ -6,6 +6,7 @@
   2. assets/localization/<lang>/*.json 全部能解析
   3. 各语言的键集合一致（漏翻会报错）
   4. 每个 [RegisterCard] / [RegisterCharacter] / [RegisterPotion] 类都有对应的 title / description
+  5. 自定义能力的名称和说明能在 powers.json 中找到
 
 用法：
   python tools/check_loc.py
@@ -160,6 +161,27 @@ def check_keys(loc: dict[str, dict[str, dict[str, str]]]) -> None:
                         )
 
 
+def check_power_keys(loc: dict[str, dict[str, dict[str, str]]]) -> None:
+    sources = (
+        path
+        for folder in ("Cultivate", "Hype", "Powers")
+        for path in (MOD / folder).glob("*.cs")
+    )
+    required: set[str] = set()
+    for path in sources:
+        source = strip_comments(path.read_text(encoding="utf-8-sig"))
+        children = re.findall(r"\bclass\s+(\w+)\s*:\s*CultivatePowerBase\b", source)
+        for name in children:
+            required.update(f"VIRIDIS_POWER_{snake(name)}.{suffix}" for suffix in ("title", "description"))
+        required.update(re.findall(r'new(?:\s+LocString)?\(\s*"powers"\s*,\s*"(VIRIDIS_POWER_[^"]+)"', source))
+
+    for lang, files in loc.items():
+        table = files.get("powers.json", {})
+        for key in sorted(required):
+            if not table.get(key, "").strip():
+                errors.append(f"{lang}/powers.json 缺少能力文本: {key}")
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -172,6 +194,7 @@ def main() -> int:
     loc = load_localization()
     check_parity(loc)
     check_keys(loc)
+    check_power_keys(loc)
 
     for w in warnings:
         print(f"warning: {w}")

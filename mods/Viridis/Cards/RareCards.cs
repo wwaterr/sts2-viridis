@@ -40,6 +40,8 @@ public sealed class ForestLord : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<ForestLordPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -47,11 +49,15 @@ public sealed class AllGrowth : CultivateCard
 {
     public AllGrowth() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await CultivateSystem.Grow(ctx, play.Player, 3);
-        await CardPileCmd.Draw(ctx, 2m, play.Player);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -89,6 +95,8 @@ public sealed class Canopy : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<CanopyPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -137,6 +145,8 @@ public sealed class SpringRitual : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.SetAllTurns(ctx, play.Player, 0);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -166,6 +176,8 @@ public sealed class DeepRoot : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<DeepRootPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -175,6 +187,8 @@ public sealed class SpringCycle : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<SpringCyclePower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -191,6 +205,8 @@ public sealed class LeafStorm : CultivateCard
         for (int i = 0; i < hits; i++)
             await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -218,6 +234,8 @@ public sealed class MotherPlant : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<MotherPlantPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -240,6 +258,8 @@ public sealed class LeafVein : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<LeafVeinPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -280,6 +300,8 @@ public sealed class HumusCycle : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<HumusCyclePower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -349,6 +371,8 @@ public sealed class WitherBloom : CultivateCard
         await PowerCmd.Apply<StrengthPower>(ctx, play.Player.Creature, 2m * n, play.Player.Creature, this);
         await PowerCmd.Apply<DexterityPower>(ctx, play.Player.Creature, 2m * n, play.Player.Creature, this);
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -368,4 +392,6 @@ public sealed class PhotosyntheticStorm : CultivateCard
         for (int i = 0; i < hits && play.Target.IsAlive; i++)
             await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }

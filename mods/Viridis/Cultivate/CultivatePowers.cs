@@ -9,12 +9,20 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Viridis.Cultivate;
 
 /// <summary>栽培相关能力的基类：提供"栽培 / 收获 / 清库"三个事件钩子。</summary>
-public abstract class CultivatePowerBase : PowerModel
+public abstract class CultivatePowerBase : ModPowerTemplate
 {
+    public override LocString Title => new("powers", $"VIRIDIS_POWER_{Id.Entry}.title");
+
+    public override LocString Description => new("powers", $"VIRIDIS_POWER_{Id.Entry}.description");
+
+    public override PowerAssetProfile AssetProfile =>
+        new($"{ModEntry.ResPath}/images/ui/cultivate_pile.ctex", $"{ModEntry.ResPath}/images/ui/cultivate_pile.ctex");
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Single;
@@ -59,8 +67,6 @@ public sealed class TempDexterityPower : CultivatePowerBase
 public sealed class SymbiosisPower : CultivatePowerBase
 {
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override LocString Title => new("cards", "VIRIDIS_CARD_SYMBIOSIS.title");
-    public override LocString Description => new("powers", "VIRIDIS_POWER_SYMBIOSIS_POWER.description");
 
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
     {
@@ -81,8 +87,6 @@ public sealed class RootNetworkPower : CultivatePowerBase
 {
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("powers", "VIRIDIS_POWER_ROOT_NETWORK_POWER.title");
-    public override LocString Description => new("powers", "VIRIDIS_POWER_ROOT_NETWORK_POWER.description");
 
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
@@ -95,8 +99,6 @@ public sealed class RootNetworkPower : CultivatePowerBase
 public sealed class AncientTreePower : CultivatePowerBase
 {
     public decimal BonusBlock { get; set; }
-
-    public override LocString Title => new("cards", "VIRIDIS_CARD_ANCIENT_TREE.title");
 
     public override LocString Description
     {
@@ -127,6 +129,9 @@ public sealed class CanopyPower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
+        if (player != Owner.Player)
+            return;
+
         int n = Pile(player);
         if (n > 0)
             await PlayerCmd.GainEnergy(n, player);
@@ -151,10 +156,6 @@ public sealed class TundraPower : CultivatePowerBase
 {
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("cards", "VIRIDIS_CARD_TUNDRA.title");
-
-    public override LocString Description => new("powers", "VIRIDIS_POWER_TUNDRA_POWER.description");
-
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
         if (player.Creature == Owner)
@@ -174,8 +175,6 @@ public sealed class TreeRingMarkPower : CultivatePowerBase
 {
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("powers", "VIRIDIS_POWER_TREE_RING_MARK_POWER.title");
-    public override LocString Description => new("powers", "VIRIDIS_POWER_TREE_RING_MARK_POWER.description");
 
     public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
         => await Block(player, Amount);
@@ -210,8 +209,12 @@ public sealed class FlowerBudPower : CultivatePowerBase
 {
     private bool _used;
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
-        => _used = false;
+    public override Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
+    {
+        if (player == Owner.Player)
+            _used = false;
+        return Task.CompletedTask;
+    }
 
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
     {
@@ -241,10 +244,6 @@ public sealed class NextCultivateFastPower : CultivatePowerBase
 /// <summary>落地生根：自己的牌每命中一名敌人，获得 1 点格挡。</summary>
 public sealed class LandedRootPower : CultivatePowerBase
 {
-    public override LocString Title => new("cards", "VIRIDIS_CARD_LANDED_ROOT.title");
-
-    public override LocString Description => new("cards", "VIRIDIS_CARD_LANDED_ROOT.description");
-
     public override async Task AfterDamageGiven(PlayerChoiceContext ctx, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
         if (dealer == Owner && cardSource?.Owner.Creature == Owner && target.Side == CombatSide.Enemy)
@@ -288,10 +287,6 @@ public sealed class DelayedGrowPower : CultivatePowerBase
 public sealed class SpringCyclePower : CultivatePowerBase
 {
     private int _turns;
-
-    public override LocString Title => new("cards", "VIRIDIS_CARD_SPRING_CYCLE.title");
-
-    public override LocString Description => new("cards", "VIRIDIS_CARD_SPRING_CYCLE.description");
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {

@@ -12,9 +12,9 @@ public sealed class FarmerFormPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("card_keywords", "VIRIDIS_KEYWORD_FARMER_FORM.title");
+    public override LocString Title => new("powers", "VIRIDIS_POWER_FARMER_FORM_POWER.title");
 
-    public override LocString Description => new("card_keywords", "VIRIDIS_KEYWORD_FARMER_FORM.description");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_FARMER_FORM_POWER.description");
 
     public override PowerAssetProfile AssetProfile =>
         new("res://Viridis/images/powers/farmer_form.ctex", "res://Viridis/images/powers/farmer_form.ctex");

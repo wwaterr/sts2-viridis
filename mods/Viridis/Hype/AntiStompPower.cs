@@ -16,9 +16,9 @@ public sealed class AntiStompPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override LocString Title => new("card_keywords", "VIRIDIS_KEYWORD_ANTI_STOMP.title");
+    public override LocString Title => new("powers", "VIRIDIS_POWER_ANTI_STOMP_POWER.title");
 
-    public override LocString Description => new("card_keywords", "VIRIDIS_KEYWORD_ANTI_STOMP.description");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_ANTI_STOMP_POWER.description");
 
     public override PowerAssetProfile AssetProfile =>
         new("res://Viridis/images/powers/anti_stomp.ctex", "res://Viridis/images/powers/anti_stomp.ctex");

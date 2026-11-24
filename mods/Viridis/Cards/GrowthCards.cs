@@ -16,12 +16,17 @@ public sealed class Humus : CultivateCard
 {
     public Humus() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(4m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, 4m);
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
         await CultivateSystem.Grow(ctx, play.Player, 1);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
 /// <summary>蚯蚓松土：生长 1；抽 1 张。</summary>
@@ -30,12 +35,15 @@ public sealed class Earthworm : CultivateCard
 {
     public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await CultivateSystem.Grow(ctx, play.Player, 1);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
 /// <summary>催芽：栽培 1 张手牌；生长 1。</summary>
@@ -46,12 +54,15 @@ public sealed class Germinate : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Growth", 1m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
-        await CultivateSystem.Grow(ctx, play.Player, 1);
+        await CultivateSystem.Grow(ctx, play.Player, DynamicVars["Growth"].IntValue);
     }
+
+    protected override void OnUpgrade() => DynamicVars["Growth"].UpgradeValueBy(1m);
 }
 
 /// <summary>春化：生长 2。</summary>
@@ -60,9 +71,12 @@ public sealed class Vernalization : CultivateCard
 {
     public Vernalization() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Growth", 2m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.Grow(ctx, play.Player, 2);
+        => await CultivateSystem.Grow(ctx, play.Player, DynamicVars["Growth"].IntValue);
+
+    protected override void OnUpgrade() => DynamicVars["Growth"].UpgradeValueBy(1m);
 }
 
 /// <summary>硼砂：抽 2（3）张牌。</summary>
@@ -105,11 +119,14 @@ public sealed class Compost : CultivateCard
 {
     public Compost() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         Log.Info("[Cultivate] compost: set all turns to 1");
         await CultivateSystem.SetAllTurns(ctx, play.Player, 1);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
     }
+
+    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }

@@ -46,6 +46,8 @@ public sealed class Gymnosperm : CultivateCard
         else if (ReferenceEquals(selected, delay))
             await CultivateSystem.DelayAll(ctx, player, 1);
     }
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(TokenCardPool))]
@@ -73,6 +75,8 @@ public sealed class Transplant : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateNow(ctx, play.Player, this);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -101,6 +105,8 @@ public sealed class Mycorrhiza : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<MycorrhizaPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -132,6 +138,8 @@ public sealed class Division : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await CultivateSystem.CultivateMultiple(ctx, play.Player, this, 2, 1);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -379,6 +387,8 @@ public sealed class FlowerBud : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<FlowerBudPower>(ctx, play, play.Player.Creature, 1m);
+
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
