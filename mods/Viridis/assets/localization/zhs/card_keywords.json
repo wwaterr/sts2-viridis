@@ -14,5 +14,7 @@
     "VIRIDIS_KEYWORD_CHUANZI.title":  "串子",
     "VIRIDIS_KEYWORD_CHUANZI.description":  "回合开始时，随机获得 X 次 1 点活力或 1 点拉伸。",
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "老农形态",
-    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。"
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。",
+    "VIRIDIS_KEYWORD_GROW.title":  "生长",
+    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有非永久作物的剩余回合数减少 X。X 由卡牌效果决定。"
 }

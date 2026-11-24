@@ -47,6 +47,8 @@ public sealed class ForestLord : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class AllGrowth : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public AllGrowth() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
@@ -183,6 +185,8 @@ public sealed class DeepRoot : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringCycle : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public SpringCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

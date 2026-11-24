@@ -383,6 +383,8 @@ public sealed class ApicalGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class FlowerBud : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public FlowerBud() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

@@ -14,6 +14,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Humus : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Humus() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
@@ -33,6 +35,8 @@ public sealed class Humus : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Earthworm : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
@@ -50,6 +54,8 @@ public sealed class Earthworm : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Germinate : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Germinate() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
@@ -69,6 +75,8 @@ public sealed class Germinate : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Vernalization : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Vernalization() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Growth", 2m)];
@@ -98,6 +106,8 @@ public sealed class Borax : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Bolting : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];

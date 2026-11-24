@@ -26,8 +26,21 @@ public abstract class CultivateCard : ModCardTemplate
     /// <summary>卡面是否显示“栽培”关键词；只给真正执行栽培的牌开启。</summary>
     protected virtual bool ShowsCultivateKeyword => false;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        ShowsCultivateKeyword ? new[] { CultivateKeyword.Value } : base.CanonicalKeywords;
+    /// <summary>卡面是否显示“生长”关键词；只给描述里带生长效果的牌开启。</summary>
+    protected virtual bool ShowsGrowKeyword => false;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords
+    {
+        get
+        {
+            var keywords = base.CanonicalKeywords.ToList();
+            if (ShowsCultivateKeyword)
+                keywords.Add(CultivateKeyword.Value);
+            if (ShowsGrowKeyword)
+                keywords.Add(GrowKeyword.Value);
+            return keywords;
+        }
+    }
 
     /// <summary>这张牌被栽培时触发；默认无效果。</summary>
     public virtual Task OnCultivated(PlayerChoiceContext ctx, Player player) => Task.CompletedTask;

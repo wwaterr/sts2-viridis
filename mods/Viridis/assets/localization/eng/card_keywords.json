@@ -14,5 +14,7 @@
     "VIRIDIS_KEYWORD_CHUANZI.title":  "Troll",
     "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch.",
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
-    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn."
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_KEYWORD_GROW.title":  "Grow",
+    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all non-permanent crops in your Cultivate Pile by X. X is set by the card."
 }

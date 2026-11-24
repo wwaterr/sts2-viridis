@@ -148,6 +148,8 @@ public sealed class Nettle : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Resin : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Resin() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
