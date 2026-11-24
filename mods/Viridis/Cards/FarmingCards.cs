@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -146,21 +147,23 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
         var spentKaozi = kaozi is { Amount: > 0 };
         await PowerCmd.Remove(kaozi);
 
-        var enemies = play.Player.Creature.CombatState?.HittableEnemies;
-        if (enemies is null || enemies.Count == 0)
+        if (CombatState is not { } combat || combat.HittableEnemies.Count == 0)
             return;
 
-        var targets = enemies.ToList();
-        await PlayAttackAnim(play);
+        var targets = combat.HittableEnemies.ToList();
+        var results = new List<DamageResult>();
+        await using var attack = await AttackContext.CreateAsync(combat, ctx, play);
+        await CreatureCmd.TriggerAnim(play.Player.Creature, "Attack", play.Player.Character.AttackAnimDelay);
         foreach (var enemy in targets)
         {
             var triggersKaoziBonus = spentKaozi && enemy.Monster?.IntendsToAttack != true;
             var damage = DynamicVars.Damage.BaseValue * (triggersKaoziBonus ? 3m : 1m);
-            await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play);
+            results.AddRange(await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play));
 
             if (triggersKaoziBonus && enemy.IsAlive)
                 await CreatureCmd.Stun(enemy);
         }
+        attack.AddHit(results);
     }
 
     protected override void OnUpgrade()

@@ -422,10 +422,7 @@ public sealed class NeedleRain : CultivateCard
         new[] { new DamageVar(5m, ValueProp.Move) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
-        await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
-    }
+        => await HitAll(ctx, play, DynamicVars.Damage.BaseValue, hits: 2);
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }
