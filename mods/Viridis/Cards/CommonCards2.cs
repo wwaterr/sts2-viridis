@@ -1,7 +1,9 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
 using Viridis.Pools;
@@ -15,10 +17,14 @@ public sealed class VineWhip : CultivateCard
 {
     public VineWhip() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is not null)
-            await Hit(ctx, play, play.Target, 7m);
+            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
     }
 }
 
@@ -39,8 +45,12 @@ public sealed class SporePowder : CultivateCard
 {
     public SporePowder() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await HitAll(ctx, play, 4m);
+        => await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -48,8 +58,14 @@ public sealed class Bark : CultivateCard
 {
     public Bark() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Block(ctx, play, 8m);
+        => await Block(ctx, play, DynamicVars.Block.BaseValue);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -61,8 +77,8 @@ public sealed class Cutting : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
         await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
     }
 }
 
@@ -71,12 +87,16 @@ public sealed class Aphid : CultivateCard
 {
     public Aphid() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is null)
             return;
 
-        await Hit(ctx, play, play.Target, 5m);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
         await Apply<WeakPower>(ctx, play, play.Target, 1m);
     }
 }
@@ -86,9 +106,15 @@ public sealed class Dew : CultivateCard
 {
     public Dew() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(3m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(2m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, 3m);
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
         await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
 }
@@ -98,13 +124,17 @@ public sealed class Nettle : CultivateCard
 {
     public Nettle() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is null)
             return;
 
-        await Hit(ctx, play, play.Target, 4m);
-        await Hit(ctx, play, play.Target, 4m);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
     }
 }
 
@@ -116,7 +146,7 @@ public sealed class Resin : CultivateCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Block(ctx, play, 6m);
-        await CultivateSystem.Grow(ctx, play.Player, 1);
+        await CultivateSystem.GrowCultivatedThisTurn(ctx, play.Player, 1);
     }
 }
 
@@ -125,9 +155,15 @@ public sealed class MossCover : CultivateCard
 {
     public MossCover() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override bool GainsBlock => true;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, 5m);
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
         if (Pile(play) > 0)
             await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
@@ -149,12 +185,16 @@ public sealed class ResinTrap : CultivateCard
 {
     public ResinTrap() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is null)
             return;
 
-        await Hit(ctx, play, play.Target, 10m);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
         await Apply<VulnerablePower>(ctx, play, play.Target, 2m);
     }
 }
@@ -191,10 +231,14 @@ public sealed class FernLeaf : CultivateCard
 {
     public FernLeaf() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, ValueProp.Move)];
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is not null)
-            await Hit(ctx, play, play.Target, 3m);
+            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
 
         await CardPileCmd.Draw(ctx, 1m, play.Player);
     }

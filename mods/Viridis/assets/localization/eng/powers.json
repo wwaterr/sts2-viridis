@@ -8,5 +8,12 @@
     "VIRIDIS_POWER_FARMER_FORM_POWER.title":  "Farmer Form",
     "VIRIDIS_POWER_FARMER_FORM_POWER.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
     "VIRIDIS_POWER_CUTE_COMMOTION_POWER.title":  "Cute Commotion",
-    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.description":  "Whenever you play Niang Xiao, Niang Yao, or Niang Yang, draw 1 card."
+    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.description":  "Whenever you play Niang Xiao, Niang Yao, or Niang Yang, draw 1 card.",
+    "VIRIDIS_POWER_ROOT_NETWORK_POWER.title":  "Root Network",
+    "VIRIDIS_POWER_ROOT_NETWORK_POWER.description":  "At the start of your turn, after crops ripen, gain {Amount} Block plus 1 for each remaining crop. Playing this Power again keeps the highest base Block.",
+    "VIRIDIS_POWER_TREE_RING_MARK_POWER.title":  "Tree Ring Mark",
+    "VIRIDIS_POWER_TREE_RING_MARK_POWER.description":  "Gain {Amount} Block for each main harvest card you receive. Playing this Power again keeps the highest value.",
+    "VIRIDIS_POWER_ANCIENT_TREE_POWER.description":  "At the start of your turn, gain 1 Energy and Block equal to the number of cards in your Cultivate Pile{HasBonusBlock: plus {BonusBlock}|}.",
+    "VIRIDIS_POWER_TUNDRA_POWER.description":  "At the start of your turn, gain {Amount} Block.",
+    "VIRIDIS_POWER_SYMBIOSIS_POWER.description":  "Whenever you [gold]Cultivate[/gold] a card, deal {Amount} damage to a random enemy."
 }

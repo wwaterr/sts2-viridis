@@ -10,7 +10,9 @@ namespace Viridis.Cultivate;
 /// <summary>挂在玩家身上的能力：记录已栽培的牌与倒计时。</summary>
 public sealed class CultivateFieldPower : PowerModel
 {
-    public List<Planting> Pending { get; } = new();
+    public List<Planting> Pending => GetInternalData<List<Planting>>();
+
+    protected override object InitInternalData() => new List<Planting>();
 
     public override PowerType Type => PowerType.Buff;
 
@@ -21,7 +23,7 @@ public sealed class CultivateFieldPower : PowerModel
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        if (Pending.Count == 0)
+        if (player != Owner.Player || Pending.Count == 0)
             return;
 
         var progress = 1 + (Owner.GetPower<FarmerFormPower>()?.Amount ?? 0);

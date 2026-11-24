@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -34,18 +35,9 @@ public abstract class CultivatePowerBase : PowerModel
 }
 
 /// <summary>本回合力量（回合结束时移除）。</summary>
-public sealed class TempStrengthPower : CultivatePowerBase
+public sealed class TempStrengthPower : TemporaryStrengthPower
 {
-    public decimal Value { get; set; } = 1m;
-
-    public override async Task BeforeSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (!participants.Contains(Owner))
-            return;
-
-        await PowerCmd.Apply<StrengthPower>(ctx, Owner, -Value, Owner, null);
-        await PowerCmd.Remove(this);
-    }
+    public override AbstractModel OriginModel => ModelDb.Card<Viridis.Cards.FriedEgg>();
 }
 
 /// <summary>本回合敏捷（回合结束时移除）。</summary>
@@ -63,40 +55,68 @@ public sealed class TempDexterityPower : CultivatePowerBase
     }
 }
 
-/// <summary>共生：回合开始时获得等同于库数的力量（本回合）。</summary>
+/// <summary>共生：每次栽培成功后，对一个随机敌人造成等同于层数的伤害。</summary>
 public sealed class SymbiosisPower : CultivatePowerBase
 {
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
+    public override PowerStackType StackType => PowerStackType.Counter;
+    public override LocString Title => new("cards", "VIRIDIS_CARD_SYMBIOSIS.title");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_SYMBIOSIS_POWER.description");
+
+    public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
     {
-        int n = Pile(player);
-        if (n <= 0)
+        if (Owner != player.Creature || Owner.CombatState?.HittableEnemies is not { Count: > 0 } enemies)
             return;
 
-        var p = await PowerCmd.Apply<TempStrengthPower>(ctx, player.Creature, 1m, player.Creature, null);
-        p.Value = n;
-        await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, n, player.Creature, null);
+        var target = player.RunState.Rng.CombatTargets.NextItem(enemies);
+        if (target is null)
+            return;
+
+        Flash();
+        await CreatureCmd.Damage(ctx, target, Amount, ValueProp.Unpowered, Owner);
     }
 }
 
-/// <summary>根系网络：回合开始时获得等同于库数的格挡。</summary>
+/// <summary>根系网络：自然成熟后，获得基础格挡，每株留田作物额外提供 1 点。</summary>
 public sealed class RootNetworkPower : CultivatePowerBase
 {
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override LocString Title => new("powers", "VIRIDIS_POWER_ROOT_NETWORK_POWER.title");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_ROOT_NETWORK_POWER.description");
+
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
-        int n = Pile(player);
-        if (n > 0)
-            await Block(player, n);
+        if (player == Owner.Player)
+            await Block(player, Amount + Pile(player));
     }
 }
 
-/// <summary>千年古树：回合开始时获得库数格挡与 1 点能量。</summary>
+/// <summary>千年古树：自己的回合开始时，获得每株 1 点格挡、升级额外格挡与 1 点能量。</summary>
 public sealed class AncientTreePower : CultivatePowerBase
 {
+    public decimal BonusBlock { get; set; }
+
+    public override LocString Title => new("cards", "VIRIDIS_CARD_ANCIENT_TREE.title");
+
+    public override LocString Description
+    {
+        get
+        {
+            var description = new LocString("powers", "VIRIDIS_POWER_ANCIENT_TREE_POWER.description");
+            description.Add("HasBonusBlock", BonusBlock > 0m);
+            description.Add("BonusBlock", BonusBlock);
+            return description;
+        }
+    }
+
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
-        int n = Pile(player);
-        if (n > 0)
-            await Block(player, n);
+        if (Owner.Player != player)
+            return;
+
+        decimal block = Pile(player) + BonusBlock;
+        if (block > 0m)
+            await Block(player, block);
 
         await PlayerCmd.GainEnergy(1m, player);
     }
@@ -113,19 +133,12 @@ public sealed class CanopyPower : CultivatePowerBase
     }
 }
 
-/// <summary>生长期：回合开始时生长 1。</summary>
-public sealed class GrowthPeriodPower : CultivatePowerBase
-{
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
-        => await CultivateSystem.Grow(ctx, player, 1);
-}
-
 /// <summary>母株：回合开始时若栽培牌库为空，栽培 2 张手牌。</summary>
 public sealed class MotherPlantPower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
-        if (Pile(player) > 0)
+        if (player != Owner.Player || Pile(player) > 0)
             return;
 
         await CultivateSystem.CultivateFromHand(ctx, player, this);
@@ -133,13 +146,19 @@ public sealed class MotherPlantPower : CultivatePowerBase
     }
 }
 
-/// <summary>苔原：回合开始时若栽培牌库为空，栽培 1 张手牌。</summary>
+/// <summary>苔原：自己的回合开始时获得等同层数的格挡。</summary>
 public sealed class TundraPower : CultivatePowerBase
 {
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override LocString Title => new("cards", "VIRIDIS_CARD_TUNDRA.title");
+
+    public override LocString Description => new("powers", "VIRIDIS_POWER_TUNDRA_POWER.description");
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
-        if (Pile(player) == 0)
-            await CultivateSystem.CultivateFromHand(ctx, player, this);
+        if (player.Creature == Owner)
+            await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);
     }
 }
 
@@ -150,11 +169,16 @@ public sealed class MycorrhizaPower : CultivatePowerBase
         => await Draw(ctx, player, 1);
 }
 
-/// <summary>年轮刻印：每当你收获 1 张牌，获得 2 点格挡。</summary>
+/// <summary>年轮刻印：每张主收获品产生一次格挡。</summary>
 public sealed class TreeRingMarkPower : CultivatePowerBase
 {
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override LocString Title => new("powers", "VIRIDIS_POWER_TREE_RING_MARK_POWER.title");
+    public override LocString Description => new("powers", "VIRIDIS_POWER_TREE_RING_MARK_POWER.description");
+
     public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
-        => await Block(player, 2m);
+        => await Block(player, Amount);
 }
 
 /// <summary>叶脉：每当你收获 1 张牌，抽 1 张牌。</summary>
@@ -214,19 +238,17 @@ public sealed class NextCultivateFastPower : CultivatePowerBase
 {
 }
 
-/// <summary>落地生根：当你打出攻击牌造成伤害时，获得 1 点格挡。</summary>
+/// <summary>落地生根：自己的牌每命中一名敌人，获得 1 点格挡。</summary>
 public sealed class LandedRootPower : CultivatePowerBase
 {
-    public override async Task AfterDamageGiven(PlayerChoiceContext ctx, Creature dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
+    public override LocString Title => new("cards", "VIRIDIS_CARD_LANDED_ROOT.title");
+
+    public override LocString Description => new("cards", "VIRIDIS_CARD_LANDED_ROOT.description");
+
+    public override async Task AfterDamageGiven(PlayerChoiceContext ctx, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
-        if (cardSource is null || dealer != Owner)
-            return;
-
-        var player = Owner.Player;
-        if (player is null || Pile(player) == 0)
-            return;
-
-        await Block(player, 1m);
+        if (dealer == Owner && cardSource?.Owner.Creature == Owner && target.Side == CombatSide.Enemy)
+            await CreatureCmd.GainBlock(Owner, 1m, ValueProp.Unpowered, null);
     }
 }
 
@@ -262,15 +284,22 @@ public sealed class DelayedGrowPower : CultivatePowerBase
     }
 }
 
-/// <summary>年轮循环：每 3 个回合生长 3。</summary>
+/// <summary>年轮循环：每两次自己的回合开始，生长 3。</summary>
 public sealed class SpringCyclePower : CultivatePowerBase
 {
     private int _turns;
 
+    public override LocString Title => new("cards", "VIRIDIS_CARD_SPRING_CYCLE.title");
+
+    public override LocString Description => new("cards", "VIRIDIS_CARD_SPRING_CYCLE.description");
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
+        if (Owner.Player != player)
+            return;
+
         _turns++;
-        if (_turns % 3 != 0)
+        if (_turns % 2 != 0)
             return;
 
         await CultivateSystem.Grow(ctx, player, 3);
@@ -281,7 +310,10 @@ public sealed class SpringCyclePower : CultivatePowerBase
 public sealed class WorldTreePower : CultivatePowerBase
 {
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
-        => await CultivateSystem.CultivateFromHand(ctx, player, this);
+    {
+        if (player == Owner.Player)
+            await CultivateSystem.CultivateFromHand(ctx, player, this);
+    }
 }
 
 /// <summary>始祖孢子：栽培牌库被清空时，对所有敌人造成 20 点伤害。</summary>

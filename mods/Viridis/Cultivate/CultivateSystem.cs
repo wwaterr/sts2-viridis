@@ -17,7 +17,8 @@ namespace Viridis.Cultivate;
 /// <summary>栽培机制核心逻辑（原型版）。</summary>
 public static class CultivateSystem
 {
-    public static int XOf(CardModel card) => Math.Clamp(card.EnergyCost.Canonical, 1, 3);
+    public static int XOf(CardModel card) =>
+        card.EnergyCost.CostsX ? 1 : Math.Clamp(card.EnergyCost.Canonical, 1, 3);
 
     public static CardRarity? TargetRarity(CardRarity r) => r switch
     {
@@ -31,7 +32,14 @@ public static class CultivateSystem
     };
 
     /// <summary>弹出手牌选择并栽培选中的那张；没有可选目标时返回 false。</summary>
-    public static async Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
+    public static Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
+        => PlantFromHand(ctx, player, source, extraTurns, harvestImmediately: false);
+
+    /// <summary>栽培并立即收获这一次种下的非永久作物（移栽）。</summary>
+    public static Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
+        => PlantFromHand(ctx, player, source, extraTurns: 0, harvestImmediately: true);
+
+    private static async Task<bool> PlantFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns, bool harvestImmediately)
     {
         if (!CultivateFlags.CanCultivate(player))
         {
@@ -39,17 +47,14 @@ public static class CultivateSystem
             return false;
         }
 
-        var hand = player.PlayerCombatState?.Hand.Cards;
-        var candidates = hand?
-            .Where(c => c.Pile?.Type == PileType.Hand)
-            .ToList() ?? new List<CardModel>();
-
-        if (candidates.Count == 0)
+        var hand = player.PlayerCombatState?.Hand;
+        if (hand is null || hand.Cards.Count == 0)
         {
             Log.Info("[Cultivate] no cultivable card in hand");
             return false;
         }
 
+        var candidates = hand.Cards.ToList();
         var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_CULTIVATE_HAND_PROMPT"), 1)
         {
             Cancelable = false,
@@ -65,20 +70,7 @@ public static class CultivateSystem
             return false;
         }
 
-        await Cultivate(ctx, player, target);
-
-        if (extraTurns != 0)
-        {
-            var power = player.Creature?.GetPower<CultivateFieldPower>();
-            var last = power?.Pending.LastOrDefault();
-            if (last is not null && !last.Permanent)
-            {
-                last.TurnsLeft += extraTurns;
-                CultivatePileUI.Refresh(player);
-            }
-        }
-
-        return true;
+        return await PlantCard(ctx, player, target, hand, extraTurns, harvestImmediately);
     }
 
     // ---------- 事件通知 ----------
@@ -138,19 +130,28 @@ public static class CultivateSystem
         => player.Creature?.GetPower<CultivateFieldPower>()?.Pending.Count ?? 0;
 
     /// <summary>生长 N：所有栽培牌剩余回合 -N，到 0 立即收获。</summary>
-    public static async Task Grow(PlayerChoiceContext ctx, Player player, int n)
+    public static Task Grow(PlayerChoiceContext ctx, Player player, int n)
+        => Grow(ctx, player, n, cultivatedOnTurn: null);
+
+    public static Task GrowCultivatedThisTurn(PlayerChoiceContext ctx, Player player, int n)
+        => player.PlayerCombatState is { } combat
+            ? Grow(ctx, player, n, combat.TurnNumber)
+            : Task.CompletedTask;
+
+    private static async Task Grow(PlayerChoiceContext ctx, Player player, int n, int? cultivatedOnTurn)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
         if (power is null || power.Pending.Count == 0)
             return;
 
-        foreach (var p in power.Pending.Where(p => !p.Permanent))
+        var crops = power.Pending.Where(p => !p.Permanent &&
+            (cultivatedOnTurn is null || p.CultivatedOnTurn == cultivatedOnTurn));
+        foreach (var p in crops)
             p.TurnsLeft = Math.Max(0, p.TurnsLeft - n);
 
         Log.Info($"[Cultivate] grow {n} -> {string.Join(", ", power.Pending.Select(p => $"{p.Title}:{p.TurnsLeft}"))}");
 
-        await HarvestAll(ctx, player, power);
-        CultivatePileUI.Refresh(player);
+        await HarvestReady(ctx, player, power, crops);
     }
 
     /// <summary>把所有栽培牌的剩余回合设为指定值。</summary>
@@ -298,6 +299,9 @@ public static class CultivateSystem
     /// <summary>从抽牌堆选一张牌栽培。</summary>
     public static async Task<bool> CultivateFromDrawPile(PlayerChoiceContext ctx, Player player, AbstractModel source)
     {
+        if (!CultivateFlags.CanCultivate(player))
+            return false;
+
         var pile = player.PlayerCombatState?.DrawPile;
         if (pile is null || pile.Cards.Count == 0)
             return false;
@@ -313,8 +317,7 @@ public static class CultivateSystem
         if (target is null)
             return false;
 
-        await Cultivate(ctx, player, target);
-        return true;
+        return await PlantCard(ctx, player, target, pile);
     }
 
     /// <summary>连续栽培若干张手牌。</summary>
@@ -330,51 +333,35 @@ public static class CultivateSystem
         return done;
     }
 
-    /// <summary>栽培并立即收获（移栽）。</summary>
-    public static async Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
-    {
-        if (!await CultivateFromHand(ctx, player, source))
-            return false;
+    public static Task Cultivate(PlayerChoiceContext ctx, Player player, CardModel target)
+        => target.Pile is { IsCombatPile: true } pile
+            ? PlantCard(ctx, player, target, pile)
+            : Task.CompletedTask;
 
-        var power = player.Creature?.GetPower<CultivateFieldPower>();
-        if (power is null || power.Pending.Count == 0)
-            return false;
-
-        var last = power.Pending[^1];
-        if (last.Permanent)
-            return true;
-
-        power.Pending.Remove(last);
-        last.TurnsLeft = 0;
-        power.Pending.Add(last);
-        await HarvestAll(ctx, player, power);
-        return true;
-    }
-
-    public static async Task Cultivate(PlayerChoiceContext ctx, Player player, CardModel target)
+    private static async Task<bool> PlantCard(PlayerChoiceContext ctx, Player player, CardModel target,
+        CardPile sourcePile, int extraTurns = 0, bool harvestImmediately = false)
     {
         try
         {
             if (!CultivateFlags.CanCultivate(player))
             {
                 Log.Info("[Cultivate] blocked by NoCultivatePower");
-                return;
+                return false;
             }
 
             // 永久栽培：不进收获倒计时，而是留在栽培区里
             if (target is CultivateCard { CultivatesPermanently: true } permanent)
             {
-                await CultivatePermanent(
+                return await CultivatePermanent(
                     ctx,
                     player,
                     target,
+                    sourcePile,
                     permanent.PermanentBlockValue,
                     permanent.PermanentDamageValue);
-                return;
             }
 
-            int canonical = target.EnergyCost.Canonical;
-            int x = Math.Clamp(canonical, 1, 3);
+            int x = XOf(target);
             bool isAncient = target.Rarity == CardRarity.Ancient;
 
             var planting = new Planting(
@@ -384,37 +371,56 @@ public static class CultivateSystem
                 isAncient ? 2 : 1,
                 target.Rarity,
                 target.IsUpgraded,
-                target.Title + (target.IsUpgraded ? "+" : ""));
+                target.Title + (target.IsUpgraded ? "+" : ""))
+            {
+                CultivatedOnTurn = player.PlayerCombatState?.TurnNumber
+            };
 
             // 老树盘根：下一次栽培剩余回合为 1
             var fast = player.Creature?.GetPower<NextCultivateFastPower>();
             if (fast is not null)
-            {
                 planting.TurnsLeft = 1;
-                await PowerCmd.Remove(fast);
-            }
-
-            await CardPileCmd.RemoveFromCombat(target);
 
             var power = await GetOrApply(ctx, player, target);
             if (power is null)
             {
                 Log.Error("[Cultivate] failed to get field power");
-                return;
+                return false;
             }
 
+            if (!await TryRemoveTarget(player, target, sourcePile))
+                return false;
+
             power.Pending.Add(planting);
+            if (fast is not null)
+                await PowerCmd.Remove(fast);
             CultivatePileUI.Refresh(player);
             await NotifyCultivated(ctx, player);
 
             if (target is CultivateCard cultivatedCard)
                 await cultivatedCard.OnCultivated(ctx, player);
 
-            Log.Info($"[Cultivate] planted {target.Id} cost={canonical} X={x} count={planting.Count}");
+            Log.Info($"[Cultivate] planted {target.Id} from {sourcePile.Type} X={x} count={planting.Count}");
+            // 栽培触发可能已收获或移除这株作物。
+            if ((harvestImmediately || extraTurns != 0) && power.Pending.Contains(planting))
+            {
+                if (harvestImmediately)
+                {
+                    planting.TurnsLeft = 0;
+                    await HarvestReady(ctx, player, power, [planting]);
+                }
+                else
+                {
+                    planting.TurnsLeft += extraTurns;
+                    CultivatePileUI.Refresh(player);
+                }
+            }
+            return true;
         }
         catch (Exception e)
         {
             Log.Error($"[Cultivate] plant failed: {e}");
+            return false;
         }
     }
 
@@ -426,6 +432,16 @@ public static class CultivateSystem
         PlayerChoiceContext ctx,
         Player player,
         CardModel target,
+        decimal block,
+        decimal damage)
+        => target.Pile is { IsCombatPile: true } pile
+            && await CultivatePermanent(ctx, player, target, pile, block, damage);
+
+    private static async Task<bool> CultivatePermanent(
+        PlayerChoiceContext ctx,
+        Player player,
+        CardModel target,
+        CardPile sourcePile,
         decimal block,
         decimal damage)
     {
@@ -447,13 +463,12 @@ public static class CultivateSystem
                 target.Title + (target.IsUpgraded ? "+" : ""))
             {
                 Permanent = true,
+                CultivatedOnTurn = player.PlayerCombatState?.TurnNumber,
                 TurnsLeft = int.MaxValue,
                 StoredBlock = block,
                 StoredDamage = damage,
                 Card = target,
             };
-
-            await CardPileCmd.RemoveFromCombat(target);
 
             var power = await GetOrApply(ctx, player, target);
             if (power is null)
@@ -462,11 +477,14 @@ public static class CultivateSystem
                 return false;
             }
 
+            if (!await TryRemoveTarget(player, target, sourcePile))
+                return false;
+
             power.Pending.Add(planting);
             CultivatePileUI.Refresh(player);
             await NotifyCultivated(ctx, player);
 
-            Log.Info($"[Cultivate] permanently planted {target.Id} block={block} damage={damage}");
+            Log.Info($"[Cultivate] permanently planted {target.Id} from {sourcePile.Type} block={block} damage={damage}");
             return true;
         }
         catch (Exception e)
@@ -474,6 +492,22 @@ public static class CultivateSystem
             Log.Error($"[Cultivate] permanent plant failed: {e}");
             return false;
         }
+    }
+
+    private static async Task<bool> TryRemoveTarget(Player player, CardModel target, CardPile sourcePile)
+    {
+        if (target.Owner != player || target.Pile != sourcePile)
+        {
+            Log.Warn($"[Cultivate] {target.Id} is no longer eligible in {sourcePile.Type}");
+            return false;
+        }
+
+        await CardPileCmd.RemoveFromCombat(target);
+        if (target.Pile is null && target.HasBeenRemovedFromState)
+            return true;
+
+        Log.Error($"[Cultivate] {target.Id} did not leave combat (pile={target.Pile?.Type})");
+        return false;
     }
 
     /// <summary>触发栽培区中所有永久栽培牌的效果。</summary>
@@ -525,12 +559,16 @@ public static class CultivateSystem
         return player.Creature.GetPower<CultivateFieldPower>();
     }
 
-    public static async Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+    public static Task HarvestAll(PlayerChoiceContext ctx, Player player, CultivateFieldPower power)
+        => HarvestReady(ctx, player, power, power.Pending);
+
+    private static async Task HarvestReady(PlayerChoiceContext ctx, Player player, CultivateFieldPower power, IEnumerable<Planting> crops)
     {
         var harvestBonus = player.Creature?.GetPower<FarmerFormPower>()?.Amount ?? 0;
-        foreach (var p in power.Pending.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
+        foreach (var p in crops.Where(p => !p.Permanent && p.TurnsLeft <= 0).ToList())
         {
-            power.Pending.Remove(p);
+            if (!power.Pending.Remove(p))
+                continue;
             for (int i = 0; i < p.Count + harvestBonus; i++)
             {
                 // 钩子里抛异常会直接搞死战斗循环，必须自己吞掉
@@ -589,7 +627,7 @@ public static class CultivateSystem
             }
         }
 
-        if (p.X > 1)
+        if (p.X > 1 && !card.EnergyCost.CostsX)
             card.EnergyCost.SetUntilPlayed(1, reduceOnly: true);
 
         // 手牌满则溢出到弃牌堆
@@ -645,7 +683,8 @@ public static class CultivateSystem
 
     private static CardModel? Pick(CardRarity? rarity, int x, bool statusOnly)
     {
-        var all = Pool(statusOnly).Where(c => c.Rarity == rarity).ToList();
+        // X 费可作材料，普通收获的同费池和回退池都只给固定费用的牌。
+        var all = Pool(statusOnly).Where(c => c.Rarity == rarity && !c.EnergyCost.CostsX).ToList();
 
         // 先要求可生成，实在没有就放宽（原型期避免因为标志位导致空池）
         var generatable = all.Where(c => c.CanBeGeneratedInCombat).ToList();
@@ -688,6 +727,9 @@ public sealed class Planting
     public bool Upgraded { get; }
     public string Title { get; }
     public int TurnsLeft { get; set; }
+
+    /// <summary>被栽培时的玩家回合号；直接复制的作物没有栽培动作。</summary>
+    public int? CultivatedOnTurn { get; init; }
 
     /// <summary>永久栽培：不参与倒计时和收获。</summary>
     public bool Permanent { get; set; }
