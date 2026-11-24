@@ -1,5 +1,7 @@
-﻿import struct, sys, os
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+﻿from sts2_paths import game_pack
+
+import struct, sys, os
+p = game_pack()
 f = open(p, "rb")
 h = f.read(112)
 magic, ver, a, b, c, flags = struct.unpack_from("<IIIIII", h, 0)

@@ -7,11 +7,15 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>CultivatePrototype</AssemblyName>
     <RootNamespace>CultivatePrototype</RootNamespace>
-    <Sts2Dir Condition="'$(Sts2Dir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2</Sts2Dir>
-    <ModsDir Condition="'$(ModsDir)' == ''">$(Sts2Dir)\mods</ModsDir>
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">$(STS2_GAME_DIR)</Sts2Dir>
+    <ModsDir Condition="'$(ModsDir)' == '' and '$(Sts2Dir)' != ''">$(Sts2Dir)\mods</ModsDir>
     <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
+
+  <Target Name="CheckBuildPaths" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(Sts2Dir)\data_sts2_windows_x86_64\sts2.dll')" Text="Set Sts2Dir or STS2_GAME_DIR to the Slay the Spire 2 installation directory." />
+  </Target>
 
   <ItemGroup>
     <Reference Include="sts2">

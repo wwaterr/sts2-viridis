@@ -143,8 +143,8 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var kaozi = play.Player.Creature.GetPower<KaoziPower>();
-        if (kaozi is not null)
-            await PowerCmd.Remove(kaozi);
+        var spentKaozi = kaozi is { Amount: > 0 };
+        await PowerCmd.Remove(kaozi);
 
         var enemies = play.Player.Creature.CombatState?.HittableEnemies;
         if (enemies is null || enemies.Count == 0)
@@ -154,11 +154,11 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
         await PlayAttackAnim(play);
         foreach (var enemy in targets)
         {
-            var attacks = enemy.Monster?.IntendsToAttack ?? false;
-            var damage = DynamicVars.Damage.BaseValue * (attacks ? 1m : 3m);
+            var triggersKaoziBonus = spentKaozi && enemy.Monster?.IntendsToAttack != true;
+            var damage = DynamicVars.Damage.BaseValue * (triggersKaoziBonus ? 3m : 1m);
             await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play);
 
-            if (!attacks && enemy.IsAlive)
+            if (triggersKaoziBonus && enemy.IsAlive)
                 await CreatureCmd.Stun(enemy);
         }
     }

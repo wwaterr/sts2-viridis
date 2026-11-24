@@ -1,4 +1,6 @@
-﻿p = r"D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck"
+﻿from sts2_paths import workshop_root
+
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 d = open(p, "rb").read()
 needle = b'_CHARACTER_THIRTY_SEVEN_CHARACTER.'
 i = 0; fields = []

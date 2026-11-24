@@ -30,7 +30,7 @@ public sealed class GardeningToolsUpgraded : RelicModel
     {
         try
         {
-            if (player?.Creature?.CombatState is null)
+            if (player != Owner || player.Creature.CombatState is null)
                 return;
 
             await CardPileCmd.Draw(choiceContext, 1m, player);

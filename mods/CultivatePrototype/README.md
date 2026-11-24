@@ -73,6 +73,7 @@ Select-String -Path "$env:APPDATA\SlayTheSpire2\logs\godot.log" -Pattern "Cultiv
 ## 构建
 
 ```powershell
-cd D:\study\ai\viridis\mods\CultivatePrototype
-.\build.ps1 -Deploy
+Set-Location mods/CultivatePrototype
+$gameDir = Read-Host '游戏安装目录'
+.\build.ps1 -Deploy -Sts2Dir $gameDir
 ```

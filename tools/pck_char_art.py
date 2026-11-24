@@ -1,6 +1,8 @@
+from sts2_paths import game_pack
+
 import struct, sys, os, re
 
-P = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+P = game_pack()
 
 
 def load_dir(f):

@@ -1,5 +1,7 @@
-﻿import struct
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3749627968\RestSiteFondleCursorMod.pck"
+﻿from sts2_paths import workshop_root
+
+import struct
+p = workshop_root() / "3749627968/RestSiteFondleCursorMod.pck"
 d = open(p, "rb").read()
 print("size", len(d))
 print("head64:", d[:64].hex(' '))

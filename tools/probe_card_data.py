@@ -1,6 +1,8 @@
+from sts2_paths import game_pack, repo_path
+
 import mmap, re
 
-p = r"D:\all\steam\steamapps\common\Slay the Spire 2\SlayTheSpire2.pck"
+p = game_pack()
 f = open(p, 'rb')
 m = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
@@ -23,6 +25,6 @@ for kw in (b'"rarity"', b'"Rarity"', b'rarity:', b'"pool_id"'):
         w(f"--- @{off} ---")
         w(ctx(off))
 
-open(r"D:\study\ai\viridis\refs\raw\card_data_probe.txt", "w", encoding="utf-8").write("\n".join(out))
+open(repo_path("refs/raw/card_data_probe.txt"), "w", encoding="utf-8").write("\n".join(out))
 print("done, hits written")
 m.close(); f.close()

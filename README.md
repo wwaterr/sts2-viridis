@@ -4,17 +4,28 @@
 
 当前版本 **0.2.1**，包含 112 张卡牌（含 7 张先古牌）、专属遗物和药水，支持简体中文与英文。102 张牌已接入专属插画，另有 10 张使用占位图。小松绿在战斗中持铲待机，攻击时向前平刺。
 
+## 0.2.1 本轮更新
+
+- 重新分配 99 张常规奖励牌的稀有度，同步调整卡牌效果、升级和中英文说明。
+- 「菌丝蔓延」每消耗 1 点能量就对全体敌人造成一次伤害。「千年松」按消耗的能量一次性获得格挡。
+- 「松脂」只催长本回合种下的作物。「幼苗移栽」可将弃牌堆中的一张牌放回抽牌堆顶。「生长期」每回合开始时额外抽一张牌。后两张牌和「菌丝蔓延」更新了插画。
+- 「吸芽」从抽牌堆选一张牌栽培。「移栽」立即收获自己种下的非永久作物。联机时，母株和园艺遗物在持有者的回合触发。
+
+[完整卡牌调整与验证记录](https://github.com/wwaterr/sts2-viridis/pull/15)
+
 ## 安装测试包
+
+本轮测试包为 `Viridis-0.2.1-PR15-4b702a0.zip`，对应提交 [`4b702a0`](https://github.com/wwaterr/sts2-viridis/commit/4b702a0b861b9e3ba0e675bf42af119dbaac897a)。
 
 已验收的环境为 Windows、《杀戮尖塔 2》Steam 版 **v0.113.1** 和 **RitsuLib 0.6.14**。
 
 1. 在 Steam 创意工坊订阅并启用 [RitsuLib](https://steamcommunity.com/sharedfiles/filedetails/?id=3747602295)。
 2. 退出游戏。打开 Steam 中游戏的「浏览本地文件」，将测试包里的整个 `Viridis` 文件夹解压到游戏目录下的 `mods` 文件夹。
-3. 检查 `mods/Viridis/` 下直接放着 `Viridis.dll`、`Viridis.json`、`Viridis.pck` 三个文件。启动游戏，在模组列表中启用 Viridis，进入角色选择界面即可选到小松绿。
+3. 确认 `mods/Viridis/` 下直接放着同一测试包里的三个文件 `Viridis.dll`、`Viridis.json` 和 `Viridis.pck`。更新旧版时一起替换这三个文件。启动游戏后，在模组列表启用 Viridis。
 
 ## 第一次玩小松绿
 
-- **看收获时间。** 普通栽培会让选中的牌离开本场战斗。等待时间取决于牌的基础费用，最短 1 回合、最长 3 回合。每个自己的回合开始时，倒计时减 1；归零时，收获的牌进入手牌。多数普通收获会给你一张更高稀有度的牌。
+- **看收获时间。** 选中的原牌从原牌堆移出，放入栽培牌堆。等待时间按基础能量费用计算，最短 1 回合、最长 3 回合，X 费牌按 1 回合计算。你的回合开始时倒计时减 1。归零时，按收获规则生成新牌加入手牌。普通收获通常生成高一级稀有度的固定费用牌，手牌满时产物进入弃牌堆。
 - **把收获提前到这一回合。** 如果栽培库里有一张牌只差 1 回合，使用「生长药剂」就能立刻收获。若佩戴「初收护符」，且这是本场第一次收获，还会同时获得 8 点格挡。
 - **留意当前同接。** 「枼绿素出击」的伤害等于当前同接。手里还有能增加同接的牌时，出牌顺序会直接影响这一击的伤害。
 
@@ -24,10 +35,10 @@
 
 ## 从源码构建
 
-在 Windows 上准备 PowerShell 7、.NET 9 SDK、Python 3，以及上述游戏和 RitsuLib。构建脚本会优先查找仓库根目录的 `.dotnet/`，也支持 PATH 中的 SDK。以下命令从仓库根目录运行，假设 Steam 库位于 `D:\Steam`，请改成自己的路径。
+在 Windows 上准备 PowerShell 7、.NET 9 SDK、Python 3，以及上述游戏和 RitsuLib。构建脚本会优先查找仓库根目录的 `.dotnet/`，也支持 PATH 中的 SDK。在仓库根目录运行以下命令。提示输入路径时，选择安装了游戏和 RitsuLib 的 Steam 库中的 `steamapps` 文件夹。
 
 ```powershell
-$steamApps = 'D:\Steam\steamapps'
+$steamApps = Read-Host 'Steam 库的 steamapps 文件夹'
 $gameDir = Join-Path $steamApps 'common\Slay the Spire 2'
 
 python tools/check_loc.py

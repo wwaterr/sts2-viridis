@@ -1,5 +1,7 @@
-﻿import mmap, struct
-p = r'D:\all\steam\steamapps\workshop\content\2868840\3815352089\ThirtySevenCharacterMod.pck'
+﻿from sts2_paths import workshop_root
+
+import mmap, struct
+p = workshop_root() / "3815352089/ThirtySevenCharacterMod.pck"
 f = open(p,'rb'); m = mmap.mmap(f.fileno(),0,access=mmap.ACCESS_READ)
 key = b'res://ThirtySevenCharacterModCode/Cards/Acceptance.cs'
 i = m.find(key)

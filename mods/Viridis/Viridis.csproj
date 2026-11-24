@@ -12,15 +12,20 @@
     <DebugType>none</DebugType>
 
     <!-- 游戏程序集目录；换机器时用 -p:Sts2Dir=... 覆盖 -->
-    <Sts2Dir Condition="'$(Sts2Dir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64</Sts2Dir>
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">$(STS2_DATA_DIR)</Sts2Dir>
     <!-- RitsuLib 安装目录（工坊物品 3747602295） -->
-    <RitsuLibDir Condition="'$(RitsuLibDir)' == ''">D:\all\steam\steamapps\workshop\content\2868840\3747602295</RitsuLibDir>
+    <RitsuLibDir Condition="'$(RitsuLibDir)' == ''">$(STS2_RITSULIB_DIR)</RitsuLibDir>
     <!-- compat 目录必须与游戏版本匹配 -->
     <RitsuLibTarget Condition="'$(RitsuLibTarget)' == ''">0.113.0</RitsuLibTarget>
 
-    <ModsDir Condition="'$(ModsDir)' == ''">D:\all\steam\steamapps\common\Slay the Spire 2\mods</ModsDir>
+    <ModsDir Condition="'$(ModsDir)' == '' and '$(Sts2Dir)' != ''">$(Sts2Dir)\..\mods</ModsDir>
     <DeployMod Condition="'$(DeployMod)' == ''">false</DeployMod>
   </PropertyGroup>
+
+  <Target Name="CheckBuildPaths" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(Sts2Dir)\sts2.dll')" Text="Set Sts2Dir or STS2_DATA_DIR to the Slay the Spire 2 assemblies directory." />
+    <Error Condition="!Exists('$(RitsuLibDir)\compat\$(RitsuLibTarget)\STS2-RitsuLib.Runtime.dll')" Text="Set RitsuLibDir or STS2_RITSULIB_DIR to the RitsuLib workshop item directory." />
+  </Target>
 
   <ItemGroup>
     <Reference Include="sts2">

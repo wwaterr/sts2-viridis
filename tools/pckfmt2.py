@@ -1,5 +1,7 @@
-﻿import struct
-p = r"D:\all\steam\steamapps\workshop\content\2868840\3749627968\RestSiteFondleCursorMod.pck"
+﻿from sts2_paths import workshop_root
+
+import struct
+p = workshop_root() / "3749627968/RestSiteFondleCursorMod.pck"
 d = open(p, "rb").read()
 dir_off = struct.unpack_from("<Q", d, 32)[0]
 print("dir_off", dir_off, "size", len(d))
