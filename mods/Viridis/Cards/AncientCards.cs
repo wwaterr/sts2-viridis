@@ -29,7 +29,7 @@ public sealed class SmallPine : CultivateCard
 
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/small_pine.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/small_pine.ctex");
 
     protected override bool ShowsCultivateKeyword => false;
 
@@ -89,7 +89,7 @@ public sealed class MountainHedge : CultivateCard
 
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/mountain_hedge.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/mountain_hedge.ctex");
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]

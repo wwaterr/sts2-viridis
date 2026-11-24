@@ -15,5 +15,5 @@ public abstract class PlaceholderArtCard : CultivateCard
     }
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/card_placeholder.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/card_placeholder.ctex");
 }

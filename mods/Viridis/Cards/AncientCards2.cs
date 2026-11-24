@@ -28,7 +28,7 @@ public abstract class AncientPlaceholderArtCard : PlaceholderArtCard
     }
 
     public override CardAssetProfile AssetProfile =>
-        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/card_placeholder_ancient.ctex", BannerTexturePath: $"{ModEntry.ResPath}/images/ui/card_banner.ctex");
+        new(PortraitPath: $"{ModEntry.ResPath}/images/cards/card_placeholder_ancient.ctex");
 }
 
 /// <summary>珍珠梅：获得 15（20）格挡，移除自身所有负面状态，每移除一种抽 1 张牌。</summary>
