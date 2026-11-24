@@ -56,5 +56,9 @@
     "VIRIDIS_POWER_FARMER_FORM_POWER.title":  "Farmer Form",
     "VIRIDIS_POWER_FARMER_FORM_POWER.description":  "At the start of your turn, reduce each non-permanent crop’s remaining turns by {Amount} more. Each harvest yields {Amount} additional cards.",
     "VIRIDIS_POWER_CUTE_COMMOTION_POWER.title":  "Cute Commotion",
-    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.description":  "Whenever you play Niang Xiao, Niang Yao, or Niang Yang, draw {Amount} {Amount:plural:card|cards}."
+    "VIRIDIS_POWER_CUTE_COMMOTION_POWER.description":  "Whenever you play Niang Xiao, Niang Yao, or Niang Yang, draw {Amount} {Amount:plural:card|cards}.",
+    "VIRIDIS_POWER_YELLOW_ROSE_POWER.title":  "Yellow Rose",
+    "VIRIDIS_POWER_YELLOW_ROSE_POWER.description":  "Whenever you play an Attack, gain {Amount} [gold]Thorns[/gold].",
+    "VIRIDIS_POWER_MICA_WARD_POWER.title":  "Mica Philodendron",
+    "VIRIDIS_POWER_MICA_WARD_POWER.description":  "For the next {Amount} turns, retain your [gold]Hand[/gold], [gold]Energy[/gold], and [gold]Block[/gold]."
 }

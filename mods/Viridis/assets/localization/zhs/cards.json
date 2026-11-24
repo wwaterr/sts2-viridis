@@ -345,5 +345,17 @@
     "VIRIDIS_CARD_APPLE.smartDescription":  "获得{Block:diff()}点[gold]格挡[/gold]，造成{Damage:diff()}点伤害。",
     "VIRIDIS_CARD_BLACK_EYED_SUSAN.title":  "金光菊",
     "VIRIDIS_CARD_BLACK_EYED_SUSAN.description":  "造成{Damage:diff()}点伤害。获得{Energy:diff()}点[gold]能量[/gold]。下个回合开始时获得{Energy:diff()}点[gold]能量[/gold]。",
-    "VIRIDIS_CARD_BLACK_EYED_SUSAN.smartDescription":  "造成{Damage:diff()}点伤害。获得{Energy:diff()}点[gold]能量[/gold]。下个回合开始时获得{Energy:diff()}点[gold]能量[/gold]。"
+    "VIRIDIS_CARD_BLACK_EYED_SUSAN.smartDescription":  "造成{Damage:diff()}点伤害。获得{Energy:diff()}点[gold]能量[/gold]。下个回合开始时获得{Energy:diff()}点[gold]能量[/gold]。",
+    "VIRIDIS_CARD_EVENING_PRIMROSE.title":  "美丽月见草",
+    "VIRIDIS_CARD_EVENING_PRIMROSE.description":  "给予{VulnerablePower:diff()}层[gold]易伤[/gold]，然后对其造成等同于其攻击意图总和的伤害。[gold]消耗[/gold]。[gold]虚无[/gold]。",
+    "VIRIDIS_CARD_EVENING_PRIMROSE.smartDescription":  "给予{VulnerablePower:diff()}层[gold]易伤[/gold]，然后对其造成等同于其攻击意图总和的伤害。[gold]消耗[/gold]。[gold]虚无[/gold]。",
+    "VIRIDIS_CARD_YELLOW_ROSE.title":  "黄刺玫",
+    "VIRIDIS_CARD_YELLOW_ROSE.description":  "你每打出一张攻击牌，获得{YellowRosePower:diff()}点[gold]荆棘[/gold]。",
+    "VIRIDIS_CARD_YELLOW_ROSE.smartDescription":  "你每打出一张攻击牌，获得{YellowRosePower:diff()}点[gold]荆棘[/gold]。",
+    "VIRIDIS_CARD_MICA_PHILODENDRON.title":  "云母蔓绿绒",
+    "VIRIDIS_CARD_MICA_PHILODENDRON.description":  "抽3张牌。在接下来{MicaWardPower:diff()}个回合内，保留你的[gold]手牌[/gold]、[gold]能量[/gold]和[gold]格挡[/gold]。",
+    "VIRIDIS_CARD_MICA_PHILODENDRON.smartDescription":  "抽3张牌。在接下来{MicaWardPower:diff()}个回合内，保留你的[gold]手牌[/gold]、[gold]能量[/gold]和[gold]格挡[/gold]。",
+    "VIRIDIS_CARD_BITTERCRESS.title":  "苦苣苔",
+    "VIRIDIS_CARD_BITTERCRESS.description":  "造成{Damage:diff()}点伤害。抽{Draw:diff()}张牌。",
+    "VIRIDIS_CARD_BITTERCRESS.smartDescription":  "造成{Damage:diff()}点伤害。抽{Draw:diff()}张牌。"
 }
