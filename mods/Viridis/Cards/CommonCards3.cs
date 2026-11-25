@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -18,6 +19,8 @@ public sealed class ToiletPaper : PlaceholderArtCard
 {
     public ToiletPaper() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { AntiStompKeyword.Value };
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -33,6 +36,8 @@ public sealed class ToiletPaper : PlaceholderArtCard
 public sealed class Protection : PlaceholderArtCard
 {
     public Protection() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
 
     public override bool GainsBlock => true;
 
@@ -53,6 +58,11 @@ public sealed class Protection : PlaceholderArtCard
 public sealed class Applause : PlaceholderArtCard
 {
     public Applause() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<WeakPower>()
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -81,12 +91,20 @@ public sealed class Documentary : PlaceholderArtCard
 {
     public Documentary() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { KaoziKeyword.Value };
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<NextCultivateEnergyPower>()
+    ];
+
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(13m, ValueProp.Move),
-        new PowerVar<KaoziPower>(1m)
+        new PowerVar<KaoziPower>(1m),
+        new EnergyVar(1)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -108,6 +126,8 @@ public sealed class BrainDeadGame : PlaceholderArtCard
 {
     public BrainDeadGame() : base(3, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         int multiplier = IsUpgraded ? 6 : 4;
@@ -121,6 +141,8 @@ public sealed class BrainDeadGame : PlaceholderArtCard
 public sealed class Confrontation : PlaceholderArtCard
 {
     public Confrontation() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { AntiStompKeyword.Value };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -148,6 +170,11 @@ public sealed class Confrontation : PlaceholderArtCard
 public sealed class SingAnywhere : PlaceholderArtCard
 {
     public SingAnywhere() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<HeavenlyMelody>()
+    ];
 
     public override bool GainsBlock => true;
 

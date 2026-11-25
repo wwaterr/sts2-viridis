@@ -67,7 +67,12 @@ public sealed class HeavenlyMelody : CultivateCard
 {
     public HeavenlyMelody() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+    {
+        CardKeyword.Exhaust,
+        ViewerCountKeyword.Value,
+        KaoziKeyword.Value
+    };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]

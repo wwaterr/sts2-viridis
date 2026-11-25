@@ -168,6 +168,8 @@ public sealed class LeafReturn : CultivateCard
 {
     public LeafReturn() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { ViewerCountKeyword.Value };
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var pile = play.Player.PlayerCombatState?.DiscardPile;

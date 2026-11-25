@@ -139,7 +139,11 @@ public sealed class KaoziSlayer : CultivateCard, IHypeCard
     {
     }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+    {
+        CardKeyword.Exhaust,
+        KaoziKeyword.Value
+    };
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {

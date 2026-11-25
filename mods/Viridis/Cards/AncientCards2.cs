@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
@@ -124,6 +125,11 @@ public sealed class BlackEyedSusan : AncientPlaceholderArtCard
 {
     public BlackEyedSusan() : base(1, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<EnergyNextTurnPower>()
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]
         {
@@ -152,6 +158,11 @@ public sealed class BlackEyedSusan : AncientPlaceholderArtCard
 public sealed class EveningPrimrose : AncientPlaceholderArtCard
 {
     public EveningPrimrose() : base(0, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>()
+    ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         new[] { CardKeyword.Exhaust, CardKeyword.Ethereal };
@@ -191,6 +202,12 @@ public sealed class YellowRose : AncientPlaceholderArtCard
 {
     public YellowRose() : base(3, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<YellowRosePower>(),
+        HoverTipFactory.FromPower<ThornsPower>()
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[] { new PowerVar<YellowRosePower>(1m) };
 
@@ -211,6 +228,11 @@ public sealed class YellowRose : AncientPlaceholderArtCard
 public sealed class MicaPhilodendron : AncientPlaceholderArtCard
 {
     public MicaPhilodendron() : base(1, CardType.Skill, CardRarity.Ancient, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MicaWardPower>()
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[] { new PowerVar<MicaWardPower>(1m) };
