@@ -14,6 +14,9 @@ namespace Viridis.Enchantments;
 [RegisterEnchantment]
 public sealed class Sticky : ModEnchantmentTemplate
 {
+    public override EnchantmentAssetProfile AssetProfile =>
+        new EnchantmentAssetProfile("res://images/enchantments/goopy.png");
+
     public override bool ShowAmount => true;
 
     public override bool HasExtraCardText => true;

@@ -21,7 +21,8 @@ public sealed class SlowStartSong : CultivateCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromCard<Infection>()
+        HoverTipFactory.FromCard<Infection>(),
+        HoverTipFactory.FromCard<HeavenlyMelody>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
