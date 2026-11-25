@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Enchantments;
+using Viridis.Hype;
 using Viridis.Pools;
 using Viridis.Powers;
 
@@ -69,17 +70,25 @@ public sealed class HeavenlyMelody : CultivateCard
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[] { new EnergyVar(1) };
+        new DynamicVar[]
+        {
+            new IntVar("Viewer", 2m),
+            new PowerVar<KaoziPower>(2m),
+            new EnergyVar(1)
+        };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await ApplyAll<StrengthPower>(ctx, play, -1m);
+        HypeSystem.Add(play.Player, (int)DynamicVars["Viewer"].BaseValue);
+        await Apply<KaoziPower>(ctx, play, play.Player.Creature, DynamicVars["KaoziPower"].BaseValue);
         await Energy(ctx, play, (int)DynamicVars.Energy.BaseValue);
         await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
 
     protected override void OnUpgrade()
     {
+        DynamicVars["Viewer"].UpgradeValueBy(1m);
+        DynamicVars["KaoziPower"].UpgradeValueBy(1m);
         DynamicVars.Energy.UpgradeValueBy(1m);
     }
 }

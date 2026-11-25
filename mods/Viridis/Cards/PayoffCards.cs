@@ -54,42 +54,19 @@ public sealed class ApicalDominance : CultivateCard
 {
     public ApicalDominance() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(5m),
-        new ExtraDamageVar(5m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card) > 0 ? 1 : 0)
-    ];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
+        if (play.Target is null)
+            return;
+
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (Pile(play) > 0)
+            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
-}
-
-/// <summary>年轮：6（9）伤害，每株作物额外 2 点。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class TreeRing : CultivateCard
-{
-    public TreeRing() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(6m),
-        new ExtraDamageVar(2m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
-    ];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
-    }
-
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
 /// <summary>引水：获得 1 能量；库数非空时抽 1 张。</summary>

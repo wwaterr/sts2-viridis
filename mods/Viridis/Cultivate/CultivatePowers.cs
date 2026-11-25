@@ -241,6 +241,17 @@ public sealed class NextCultivateFastPower : CultivatePowerBase
 {
 }
 
+/// <summary>纪录片回：下一次栽培时获得 1 点能量并抽 1 张牌。</summary>
+public sealed class NextCultivateEnergyPower : CultivatePowerBase
+{
+    public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
+    {
+        await PlayerCmd.GainEnergy(1m, player);
+        await Draw(ctx, player, 1);
+        await PowerCmd.Remove(this);
+    }
+}
+
 /// <summary>落地生根：自己的牌每命中一名敌人，获得 1 点格挡。</summary>
 public sealed class LandedRootPower : CultivatePowerBase
 {

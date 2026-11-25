@@ -60,5 +60,7 @@
     "VIRIDIS_POWER_YELLOW_ROSE_POWER.title":  "Yellow Rose",
     "VIRIDIS_POWER_YELLOW_ROSE_POWER.description":  "Whenever you play an Attack, gain {Amount} [gold]Thorns[/gold].",
     "VIRIDIS_POWER_MICA_WARD_POWER.title":  "Mica Philodendron",
-    "VIRIDIS_POWER_MICA_WARD_POWER.description":  "For the next {Amount} turns, retain your [gold]Hand[/gold], [gold]Energy[/gold], and [gold]Block[/gold]."
+    "VIRIDIS_POWER_MICA_WARD_POWER.description":  "For the next {Amount} turns, retain your [gold]Hand[/gold], [gold]Energy[/gold], and [gold]Block[/gold].",
+    "VIRIDIS_POWER_NEXT_CULTIVATE_ENERGY_POWER.title":  "Next Cultivate",
+    "VIRIDIS_POWER_NEXT_CULTIVATE_ENERGY_POWER.description":  "The next time you cultivate, gain 1 Energy and draw 1 card."
 }

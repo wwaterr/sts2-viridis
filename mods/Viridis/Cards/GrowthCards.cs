@@ -31,25 +31,6 @@ public sealed class Humus : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
-/// <summary>蚯蚓松土：生长 1；抽 1 张。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class Earthworm : CultivateCard
-{
-    protected override bool ShowsGrowKeyword => true;
-
-    public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await CultivateSystem.Grow(ctx, play.Player, 1);
-        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
-}
-
 /// <summary>催芽：栽培 1 张手牌；生长 1。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Germinate : CultivateCard

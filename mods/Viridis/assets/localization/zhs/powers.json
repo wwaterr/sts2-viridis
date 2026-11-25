@@ -60,5 +60,7 @@
     "VIRIDIS_POWER_YELLOW_ROSE_POWER.title":  "黄刺玫",
     "VIRIDIS_POWER_YELLOW_ROSE_POWER.description":  "每当你打出一张攻击牌，获得{Amount}点[gold]荆棘[/gold]。",
     "VIRIDIS_POWER_MICA_WARD_POWER.title":  "云母蔓绿绒",
-    "VIRIDIS_POWER_MICA_WARD_POWER.description":  "在接下来的{Amount}个回合内，保留你的[gold]手牌[/gold]、[gold]能量[/gold]和[gold]格挡[/gold]。"
+    "VIRIDIS_POWER_MICA_WARD_POWER.description":  "在接下来的{Amount}个回合内，保留你的[gold]手牌[/gold]、[gold]能量[/gold]和[gold]格挡[/gold]。",
+    "VIRIDIS_POWER_NEXT_CULTIVATE_ENERGY_POWER.title":  "下次栽培",
+    "VIRIDIS_POWER_NEXT_CULTIVATE_ENERGY_POWER.description":  "你的下一次栽培时，获得1点能量并抽1张牌。"
 }
