@@ -8,6 +8,7 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
 using Viridis.Hype;
 using Viridis.Pools;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace Viridis.Cards;
 
@@ -17,6 +18,11 @@ namespace Viridis.Cards;
 public sealed class VineWhip : CultivateCard
 {
     public VineWhip() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4m, ValueProp.Move)];
 

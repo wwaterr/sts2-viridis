@@ -26,6 +26,11 @@ public sealed class FarmerForm : CultivateCard
     {
     }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<FarmerFormPower>(),
+    ];
+
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/farmer_form_card.ctex");
 

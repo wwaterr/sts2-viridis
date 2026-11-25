@@ -94,6 +94,11 @@ public sealed class FriedEgg : CultivateCard
 {
     public FriedEgg() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<TempStrengthPower>(),
+    ];
+
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(3m)];
 

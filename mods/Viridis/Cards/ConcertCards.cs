@@ -19,6 +19,11 @@ public sealed class CoinStream : CultivateCard
 {
     public CoinStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<CoinStreamPower>(),
+    ];
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)

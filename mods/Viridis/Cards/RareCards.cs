@@ -20,6 +20,11 @@ public sealed class AncientTree : CultivateCard
 {
     public AncientTree() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<AncientTreePower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new IntVar("BonusBlock", 0m) };
 
@@ -38,6 +43,11 @@ public sealed class AncientTree : CultivateCard
 public sealed class ForestLord : CultivateCard
 {
     public ForestLord() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<ForestLordPower>(),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<ForestLordPower>(ctx, play, play.Player.Creature, 1m);
@@ -101,6 +111,11 @@ public sealed class Canopy : CultivateCard
 {
     public Canopy() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<CanopyPower>(),
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<CanopyPower>(ctx, play, play.Player.Creature, 1m);
 
@@ -162,6 +177,11 @@ public sealed class StranglerFig : CultivateCard
 {
     public StranglerFig() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new DamageVar(15m, ValueProp.Move) };
 
@@ -182,6 +202,11 @@ public sealed class DeepRoot : CultivateCard
 {
     public DeepRoot() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<DeepRootPower>(),
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<DeepRootPower>(ctx, play, play.Player.Creature, 1m);
 
@@ -194,6 +219,15 @@ public sealed class SpringCycle : CultivateCard
     protected override bool ShowsGrowKeyword => true;
 
     public SpringCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+
+    [
+
+        HoverTipFactory.FromPower<SpringCyclePower>(),
+
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<SpringCyclePower>(ctx, play, play.Player.Creature, 1m);
@@ -223,6 +257,11 @@ public sealed class MotherPlant : CultivateCard
 {
     public MotherPlant() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MotherPlantPower>(),
+    ];
+
     protected override bool ShowsCultivateKeyword => true;
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -248,6 +287,11 @@ public sealed class ExtremeGrowth : CultivateCard
 public sealed class LeafVein : CultivateCard
 {
     public LeafVein() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<LeafVeinPower>(),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<LeafVeinPower>(ctx, play, play.Player.Creature, 1m);
@@ -278,6 +322,11 @@ public sealed class Symbiosis : CultivateCard
 {
     public Symbiosis() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<SymbiosisPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<SymbiosisPower>(3m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -291,6 +340,11 @@ public sealed class HumusCycle : CultivateCard
 {
     public HumusCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<HumusCyclePower>(),
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<HumusCyclePower>(ctx, play, play.Player.Creature, 1m);
 
@@ -301,6 +355,11 @@ public sealed class HumusCycle : CultivateCard
 public sealed class GrowthPeriod : CultivateCard
 {
     public GrowthPeriod() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MachineLearningPower>(),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<MachineLearningPower>(ctx, play, play.Player.Creature, 1m);
