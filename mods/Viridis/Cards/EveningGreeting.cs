@@ -9,7 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 
 namespace Viridis.Cards;
 
-/// <summary>晚上好！：0 费衍生技能。获得 1 能量，入脑 2（3）。消耗。</summary>
+/// <summary>晚上好！：0 费衍生技能。获得 1 能量和 2 同接。入脑 2（3）。消耗。</summary>
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class EveningGreeting : PlaceholderArtCard
 {
@@ -17,6 +17,7 @@ public sealed class EveningGreeting : PlaceholderArtCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new IHoverTip[]
     {
+        HoverTipFactory.FromKeyword(ViewerCountKeyword.Value),
         HoverTipFactory.FromKeyword(EarwormKeyword.Value),
     };
 
@@ -28,6 +29,7 @@ public sealed class EveningGreeting : PlaceholderArtCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Energy(ctx, play, 1);
+        HypeSystem.Add(play.Player, 2);
         await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
     }
 

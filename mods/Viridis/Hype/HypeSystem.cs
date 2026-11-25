@@ -17,6 +17,53 @@ public static class HypeSystem
 {
     public const int MaxPolarityStacks = 8;
 
+    /// <summary>隐藏独立变量：记录本场结束时的入脑（正）或反踩（负）层数，并传递到下场/下局。</summary>
+    private static int _carryoverPolarity;
+    private static bool _carryoverLoaded;
+
+    public static int CarryoverPolarity
+    {
+        get
+        {
+            if (!_carryoverLoaded)
+            {
+                _carryoverPolarity = PolaritySave.Load();
+                _carryoverLoaded = true;
+            }
+            return _carryoverPolarity;
+        }
+        private set
+        {
+            _carryoverPolarity = Math.Clamp(value, -MaxPolarityStacks, MaxPolarityStacks);
+            _carryoverLoaded = true;
+            PolaritySave.Store(_carryoverPolarity);
+        }
+    }
+
+    /// <summary>战斗开始时按隐藏独立变量还原入脑或反踩层数。</summary>
+    public static async Task RestoreCarryover(Player? player)
+    {
+        if (player?.Character is not ViridisCharacter)
+            return;
+
+        int balance = CarryoverPolarity;
+        if (balance > 0)
+            await GainEarworm(new BlockingPlayerChoiceContext(), player, balance);
+        else if (balance < 0)
+            await GainBacklash(new BlockingPlayerChoiceContext(), player, -balance);
+
+        PolarityBarUI.Refresh(player);
+    }
+
+    /// <summary>战斗结束时记录剩余入脑（正）或反踩（负）层数到隐藏独立变量。</summary>
+    public static void SaveCarryover(Player? player)
+    {
+        if (player?.Character is not ViridisCharacter)
+            return;
+
+        CarryoverPolarity = EarwormStacks(player) - BacklashStacks(player);
+    }
+
     public static int GetAmount(Player? player)
         => (int)(player?.Creature?.GetPower<HypeCounterPower>()?.Amount ?? 0);
 
@@ -85,6 +132,7 @@ public static class HypeSystem
 
         power?.SetAmount(0);
         HypeCounterUI.Refresh(player);
+        await RestoreCarryover(player);
     }
 
     /// <summary>增加同接（会经过全力绿的倍率）。</summary>
@@ -123,9 +171,10 @@ public static class HypeSystem
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
     }
 
-    /// <summary>栽培成功后的手牌联动：锡纸帽本回合每栽培一张减 1 费。</summary>
+    /// <summary>栽培成功后的手牌联动（锡纸帽代码已注释，保留空入口）。</summary>
     public static void OnCultivated(Player player)
     {
+        /*
         try
         {
             foreach (var card in PileType.Hand.GetPile(player).Cards)
@@ -138,6 +187,7 @@ public static class HypeSystem
         {
             // 栽培流程里不能因为费用调整失败而中断
         }
+        */
     }
 
     /// <summary>取走全部同接并清零，返回取走的数量。</summary>

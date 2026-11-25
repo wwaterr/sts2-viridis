@@ -1,3 +1,5 @@
+// 已按改版要求暂时注释停用（锡纸帽）
+/*
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -45,3 +47,4 @@ public sealed class FoilHat : PlaceholderArtCard
         DynamicVars.Cards.UpgradeValueBy(1m);
     }
 }
+*/

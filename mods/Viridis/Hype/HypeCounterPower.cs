@@ -4,10 +4,11 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
 
 namespace Viridis.Hype;
 
-/// <summary>本回合已经累计的同接数；回合结束时清零。</summary>
+/// <summary>本回合已经累计的同接数；玩家回合结束时清零。同时在战斗结束时保存入脑/反踩跨局余额。</summary>
 public sealed class HypeCounterPower : PowerModel
 {
     public override PowerType Type => PowerType.Buff;
@@ -36,6 +37,14 @@ public sealed class HypeCounterPower : PowerModel
         SetAmount(0);
         if (Owner.Player is not null)
             HypeCounterUI.Refresh(Owner.Player);
+
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterCombatEnd(CombatRoom _)
+    {
+        if (Owner.Player is not null)
+            HypeSystem.SaveCarryover(Owner.Player);
 
         return Task.CompletedTask;
     }

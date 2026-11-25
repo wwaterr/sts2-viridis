@@ -11,7 +11,7 @@ public sealed class PolarityRecord
 }
 
 /// <summary>
-/// 枼绿素的计数落盘处。用 Profile 作用域，让它在不同局之间保留。
+/// 入脑/反踩隐藏跨局变量的落盘处。用 Profile 作用域，让它在不同局之间保留。
 /// </summary>
 public static class PolaritySave
 {

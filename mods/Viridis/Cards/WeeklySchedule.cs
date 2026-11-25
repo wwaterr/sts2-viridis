@@ -10,13 +10,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 namespace Viridis.Cards;
 
 /// <summary>
-/// 周表：0 费初始技能。［固无］从「厕纸」和「晚上好！」中选择一张获得。
+/// 周表：1 费初始技能。【固无。】（固有。）从“厕纸”和“晚上好！”中选择一张获得。
 /// </summary>
 [RegisterCard(typeof(ViridisCardPool))]
 [RegisterCharacterStarterCard(typeof(ViridisCharacter), 1)]
 public sealed class WeeklySchedule : CultivateCard
 {
-    public WeeklySchedule() : base(0, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
+    public WeeklySchedule() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new IHoverTip[]
     {

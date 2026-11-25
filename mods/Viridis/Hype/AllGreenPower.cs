@@ -10,7 +10,7 @@ public sealed class AllGreenPower : ModPowerTemplate
 {
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override LocString Title => new("powers", "VIRIDIS_POWER_ALL_GREEN.title");
 

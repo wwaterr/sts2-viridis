@@ -20,7 +20,7 @@ public sealed class SheIsTalkingPower : ModPowerTemplate
 
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override LocString Title => new("powers", "VIRIDIS_POWER_SHE_IS_TALKING.title");
 

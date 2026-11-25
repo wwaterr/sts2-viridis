@@ -4,13 +4,14 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Scaffolding.Content;
-using Viridis.Cards;
+using Viridis.Powers;
 
 namespace Viridis.Hype;
 
 /// <summary>
-/// 入脑：回合开始时获得等同于层数的同接，将一张「锡纸帽」加入手牌，然后失去 1 层。
+/// 入脑：回合开始时，获得 X 点拉伸、3 点同接，并失去 1 层入脑。
 /// 上限 8 层，溢出转化为拉伸。
 /// </summary>
 public sealed class EarwormPower : ModPowerTemplate
@@ -40,8 +41,8 @@ public sealed class EarwormPower : ModPowerTemplate
         if (stacks <= 0)
             return;
 
-        HypeSystem.Add(player, stacks);
-        await HypeSystem.GiveToken<FoilHat>(choiceContext, player);
+        await PowerCmd.Apply<StretchPower>(choiceContext, player.Creature, stacks, player.Creature, null);
+        HypeSystem.Add(player, 3);
 
         if (stacks <= 1)
             await PowerCmd.Remove(this);

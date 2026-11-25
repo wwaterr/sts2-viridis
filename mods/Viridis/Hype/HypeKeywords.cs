@@ -5,7 +5,7 @@ using STS2RitsuLib.Keywords;
 
 namespace Viridis.Hype;
 
-/// <summary>入脑：回合开始时获得层数点同接，并把一张锡纸帽加入手牌。</summary>
+/// <summary>入脑：回合开始时获得层数点拉伸与 3 点同接，并失去 1 层。</summary>
 [RegisterOwnedCardKeyword("Earworm", IconPath = "res://Viridis/images/powers/kaozi.ctex", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.None)]
 public sealed class EarwormKeyword
 {
@@ -13,7 +13,7 @@ public sealed class EarwormKeyword
         ModContentRegistry.GetQualifiedKeywordId(ModEntry.ModId, "Earworm").GetModCardKeyword();
 }
 
-/// <summary>反踩：每受到一次伤害获得 1 同接，并把一张独轮车加入手牌。</summary>
+/// <summary>反踩：每受到一次伤害获得 1 同接；回合开始时获得层数点活力，并失去 1 层。</summary>
 [RegisterOwnedCardKeyword("Backlash", IconPath = "res://Viridis/images/powers/anti_stomp.ctex", CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.None)]
 public sealed class BacklashKeyword
 {

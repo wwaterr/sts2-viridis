@@ -7,8 +7,5 @@
     "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.flavor":  "",
     "VIRIDIS_RELIC_HARVEST_CHARM.title":  "初收护符",
     "VIRIDIS_RELIC_HARVEST_CHARM.description":  "每场战斗中，你第一次收获卡牌时，获得 {Block} 点格挡。",
-    "VIRIDIS_RELIC_HARVEST_CHARM.flavor":  "第一株出土的嫩芽会戴上这枚护符。",
-    "VIRIDIS_RELIC_CHLOROPHYLL.title":  "枼绿素",
-    "VIRIDIS_RELIC_CHLOROPHYLL.description":  "每场战斗结束时，用剩余的[gold]入脑[/gold]或[gold]反踩[/gold]层数覆盖此计数（入脑为正，反踩为负）。每场战斗开始时，赋予你对应层数的入脑或反踩。",
-    "VIRIDIS_RELIC_CHLOROPHYLL.flavor":  "哪怕直播间熄了灯，弹幕的余温也会留到下一场。"
+    "VIRIDIS_RELIC_HARVEST_CHARM.flavor":  "第一株出土的嫩芽会戴上这枚护符。"
 }

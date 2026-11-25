@@ -6,15 +6,15 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Scaffolding.Content;
-using Viridis.Cards;
 
 namespace Viridis.Hype;
 
 /// <summary>
 /// 反踩：每受到一次伤害（含被格挡的部分）获得 1 同接；
-/// 回合开始时将一张「独轮车」加入手牌，然后失去 1 层。上限 8 层，溢出转化为活力。
+/// 回合开始时，获得 X 点活力，并失去 1 层反踩。上限 8 层，溢出转化为活力。
 /// </summary>
 public sealed class BacklashPower : ModPowerTemplate
 {
@@ -61,7 +61,7 @@ public sealed class BacklashPower : ModPowerTemplate
         if (stacks <= 0)
             return;
 
-        await HypeSystem.GiveToken<Unicycle>(choiceContext, player);
+        await PowerCmd.Apply<VigorPower>(choiceContext, player.Creature, stacks, player.Creature, null);
 
         if (stacks <= 1)
             await PowerCmd.Remove(this);
