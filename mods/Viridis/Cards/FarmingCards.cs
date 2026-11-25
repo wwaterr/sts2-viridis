@@ -54,6 +54,11 @@ public sealed class ScaleInsect : CultivateCard
         new PowerVar<VulnerablePower>(2m)
     };
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+    {
+        HoverTipFactory.FromKeyword(WitherKeyword.Value)
+    };
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (CultivateSystem.Wither(play.Player))

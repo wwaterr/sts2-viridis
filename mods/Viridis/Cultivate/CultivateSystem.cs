@@ -108,21 +108,6 @@ public static class CultivateSystem
             await charm.OnHarvested(player);
     }
 
-    private static async Task NotifyCleared(PlayerChoiceContext ctx, Player player, int count)
-    {
-        foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
-        {
-            try
-            {
-                await p.OnPileCleared(ctx, player, count);
-            }
-            catch (Exception e)
-            {
-                Log.Error($"[Cultivate] {p.GetType().Name}.OnPileCleared failed: {e.Message}");
-            }
-        }
-    }
-
     // ---------- 库数 / 生长 / 清库 ----------
 
     /// <summary>栽培牌库中的牌数（无上限）。</summary>
@@ -168,21 +153,17 @@ public static class CultivateSystem
         CultivatePileUI.Refresh(player);
     }
 
-    /// <summary>清空栽培牌库（不收获），返回清掉的张数。</summary>
-    public static async Task<int> ClearPileAsync(PlayerChoiceContext ctx, Player player)
+    /// <summary>令栽培区所有牌枯萎（不收获、不返还原卡），返回枯萎的张数。</summary>
+    public static int WitherAll(Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
-        if (power is null)
+        if (power is null || power.Pending.Count == 0)
             return 0;
 
         int n = power.Pending.Count;
         power.Pending.Clear();
         CultivatePileUI.Refresh(player);
-        Log.Info($"[Cultivate] pile cleared ({n} cards)");
-
-        if (n > 0)
-            await NotifyCleared(ctx, player, n);
-
+        Log.Info($"[Cultivate] withered all ({n} cards)");
         return n;
     }
 
