@@ -26,6 +26,11 @@ public sealed class FarmerForm : CultivateCard
     {
     }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<FarmerFormPower>(),
+    ];
+
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/farmer_form_card.ctex");
 
@@ -52,6 +57,11 @@ public sealed class ScaleInsect : CultivateCard
     {
         new DamageVar(10m, ValueProp.Move),
         new PowerVar<VulnerablePower>(2m)
+    };
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+    {
+        HoverTipFactory.FromKeyword(WitherKeyword.Value)
     };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -134,7 +144,11 @@ public sealed class EarwormSlayer : CultivateCard, IHypeCard
     {
     }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+    {
+        CardKeyword.Exhaust,
+        EarwormKeyword.Value
+    };
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new DynamicVar[]
     {
@@ -144,12 +158,7 @@ public sealed class EarwormSlayer : CultivateCard, IHypeCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var kaozi = play.Player.Creature.GetPower<EarwormPower>();
-        var spentEarworm = kaozi is { Amount: > 0 };
-        if (kaozi is not null)
-        {
-            await PowerCmd.Remove(kaozi);
-            PolarityBarUI.Refresh(play.Player);
-        }
+        await PowerCmd.Remove(kaozi);
 
         if (CombatState is not { } combat || combat.HittableEnemies.Count == 0)
             return;
@@ -160,7 +169,7 @@ public sealed class EarwormSlayer : CultivateCard, IHypeCard
         await CreatureCmd.TriggerAnim(play.Player.Creature, "Attack", play.Player.Character.AttackAnimDelay);
         foreach (var enemy in targets)
         {
-            var triggersEarwormBonus = spentEarworm && enemy.Monster?.IntendsToAttack != true;
+            var triggersEarwormBonus = enemy.Monster?.IntendsToAttack != true;
             var damage = DynamicVars.Damage.BaseValue * (triggersEarwormBonus ? 3m : 1m);
             results.AddRange(await CreatureCmd.Damage(ctx, enemy, damage, DamageProps.card, this, play));
 

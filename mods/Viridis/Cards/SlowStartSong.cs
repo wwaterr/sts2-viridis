@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -17,6 +18,12 @@ namespace Viridis.Cards;
 public sealed class SlowStartSong : CultivateCard
 {
     public SlowStartSong() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<Infection>(),
+        HoverTipFactory.FromCard<HeavenlyMelody>()
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {

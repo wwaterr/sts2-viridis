@@ -10,6 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 using Viridis.Characters;
 using Viridis.Cultivate;
 using Viridis.Pools;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace Viridis.Cards;
 
@@ -86,6 +87,12 @@ public sealed class SmallPine : CultivateCard
 public sealed class MountainHedge : CultivateCard
 {
     public MountainHedge() : base(4, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<IntangiblePower>(),
+        HoverTipFactory.FromPower<PoisonPower>(),
+    ];
 
 
     public override CardAssetProfile AssetProfile =>

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Enchantments;
+using Viridis.Hype;
 using Viridis.Pools;
 using Viridis.Powers;
 
@@ -17,6 +18,11 @@ namespace Viridis.Cards;
 public sealed class CoinStream : CultivateCard
 {
     public CoinStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<CoinStreamPower>(),
+    ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
@@ -31,7 +37,7 @@ public sealed class CoinStream : CultivateCard
     }
 }
 
-/// <summary>下播mua：将一张歌回124加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
+/// <summary>“最后一首”：将一张歌回124加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LastSong : CultivateCard
 {
@@ -66,20 +72,33 @@ public sealed class HeavenlyMelody : CultivateCard
 {
     public HeavenlyMelody() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+    {
+        CardKeyword.Exhaust,
+        ViewerCountKeyword.Value,
+        EarwormKeyword.Value
+    };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[] { new EnergyVar(1) };
+        new DynamicVar[]
+        {
+            new IntVar("Viewer", 2m),
+            new PowerVar<EarwormPower>(2m),
+            new EnergyVar(1)
+        };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await ApplyAll<StrengthPower>(ctx, play, -1m);
+        HypeSystem.Add(play.Player, (int)DynamicVars["Viewer"].BaseValue);
+        await Apply<EarwormPower>(ctx, play, play.Player.Creature, DynamicVars["EarwormPower"].BaseValue);
         await Energy(ctx, play, (int)DynamicVars.Energy.BaseValue);
         await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
 
     protected override void OnUpgrade()
     {
+        DynamicVars["Viewer"].UpgradeValueBy(1m);
+        DynamicVars["EarwormPower"].UpgradeValueBy(1m);
         DynamicVars.Energy.UpgradeValueBy(1m);
     }
 }

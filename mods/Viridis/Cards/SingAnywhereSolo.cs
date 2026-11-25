@@ -9,11 +9,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 
 namespace Viridis.Cards;
 
-/// <summary>随地大小唱：只有在没有其余手牌时才能打出。抽 2（3）张牌，获得 2（3）能量，入脑 3。消耗。</summary>
+/// <summary>随地大小唱（独唱版）：只有在没有其余手牌时才能打出。抽 2（3）张牌，获得 2（3）能量，入脑 3。消耗。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class SingAnywhere : CultivateCard
+public sealed class SingAnywhereSolo : CultivateCard
 {
-    public SingAnywhere() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public SingAnywhereSolo() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new IHoverTip[]
     {

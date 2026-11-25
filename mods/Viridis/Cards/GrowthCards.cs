@@ -14,11 +14,13 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Humus : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Humus() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(4m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(7m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -29,27 +31,12 @@ public sealed class Humus : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
-/// <summary>蚯蚓松土：生长 1；抽 1 张。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class Earthworm : CultivateCard
-{
-    public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await CultivateSystem.Grow(ctx, play.Player, 1);
-        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
-}
-
 /// <summary>催芽：栽培 1 张手牌；生长 1。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Germinate : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Germinate() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
@@ -69,6 +56,8 @@ public sealed class Germinate : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Vernalization : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Vernalization() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Growth", 2m)];
@@ -98,6 +87,8 @@ public sealed class Borax : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Bolting : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];

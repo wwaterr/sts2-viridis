@@ -67,10 +67,6 @@ closed_eyes, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, holding_branch, cutting_stem, focused_expression,
 gardening_shears, close-up, card_art, fantasy, painterly, dark_background
 
-蚜虫 / Aphid
-1girl, solo, viridis_(character), green_hair, pointing, swarm_of_insects, aphids, sickly_green,
-disgusted_expression, card_art, fantasy, painterly, dark_background
-
 露水 / Dew
 1girl, solo, viridis_(character), green_hair, morning, dew, water_droplets, cupped_hands,
 reflective_water, soft_light, card_art, fantasy, painterly, dark_background
@@ -83,41 +79,17 @@ single_tall_stem, low_angle, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, crouching, dark_soil, hands_in_soil, fertile_ground,
 warm_earth_tones, card_art, fantasy, painterly, dark_background
 
-荨麻 / Nettle
-1girl, solo, viridis_(character), green_hair, stinging_nettle, two_hits, dual_wield, sharp_leaves,
-angry_expression, card_art, fantasy, painterly, dark_background
-
 松脂 / Resin
 1girl, solo, viridis_(character), green_hair, amber_resin, sticky_liquid, dripping, glowing_amber,
 hand_extended, card_art, fantasy, painterly, dark_background
 
-苔藓覆盖 / Moss Cover
-1girl, solo, viridis_(character), green_hair, moss, mossy_ground, lying_down, camouflage,
-soft_green_blanket, card_art, fantasy, painterly, dark_background
-
-幼芽 / Bud
+播种 / Sow
 1girl, solo, viridis_(character), green_hair, tiny_bud, fingertip, delicate, close-up, hopeful_expression,
-card_art, fantasy, painterly, dark_background
-
-蚯蚓松土 / Earthworm
-1girl, solo, viridis_(character), green_hair, earthworm, loose_soil, tilling, garden, dirt_on_hands,
-card_art, fantasy, painterly, dark_background
-
-树脂陷阱 / Resin Trap
-1girl, solo, viridis_(character), green_hair, trap, resin_pool, sticky_amber, ensnared, smirking,
 card_art, fantasy, painterly, dark_background
 
 切片呢 / Leaf Return
 1girl, solo, viridis_(character), green_hair, picking_up_leaf, glowing_leaf, returning_light,
 nostalgic_expression, card_art, fantasy, painterly, dark_background
-
-年轮 / Tree Ring
-1girl, solo, viridis_(character), green_hair, tree_rings, cross-section, touching_tree_trunk,
-concentric_circles, ancient_tree, card_art, fantasy, painterly, dark_background
-
-蕨叶 / Fern Leaf
-1girl, solo, viridis_(character), green_hair, fern, fern_leaf, quick_slash, agile_pose,
-motion_lines, card_art, fantasy, painterly, dark_background
 
 引水 / Water Drawing
 1girl, solo, viridis_(character), green_hair, water_channel, flowing_water, glowing_energy,
@@ -331,10 +303,6 @@ time_loop, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, leaf_storm, storm_of_leaves, whirlwind,
 wide_shot, card_art, fantasy, painterly, dark_background
 
-松露 / Truffle
-1girl, solo, viridis_(character), green_hair, truffle, treasure, glowing_underground,
-delighted_expression, card_art, fantasy, painterly, dark_background
-
 母株 / Mother Plant
 1girl, solo, viridis_(character), green_hair, mother_plant, nurturing, many_plants_growing,
 warm_light, card_art, fantasy, painterly, dark_background
@@ -358,10 +326,6 @@ two_hearts_glowing, card_art, fantasy, painterly, dark_background
 腐殖循环 / Humus Cycle
 1girl, solo, viridis_(character), green_hair, cycle_of_decay, decomposing_leaf, rebirth,
 spiral_composition, card_art, fantasy, painterly, dark_background
-
-千年松 / Millennial Pine
-1girl, solo, viridis_(character), green_hair, millennial_pine, ancient_pine_tree, standing_tall,
-long_history, card_art, fantasy, painterly, dark_background
 
 生长期 / Growth Period
 1girl, solo, viridis_(character), green_hair, steady_growth, growing_taller, budding,

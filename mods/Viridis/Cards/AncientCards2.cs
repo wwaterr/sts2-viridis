@@ -1,15 +1,19 @@
 using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using Viridis.Pools;
+using Viridis.Powers;
 
 namespace Viridis.Cards;
 
@@ -121,6 +125,11 @@ public sealed class BlackEyedSusan : AncientPlaceholderArtCard
 {
     public BlackEyedSusan() : base(1, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<EnergyNextTurnPower>()
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[]
         {
@@ -141,5 +150,128 @@ public sealed class BlackEyedSusan : AncientPlaceholderArtCard
     {
         DynamicVars.Damage.UpgradeValueBy(5m);
         DynamicVars.Energy.UpgradeValueBy(1m);
+    }
+}
+
+/// <summary>美丽月见草：给予易伤，然后造成等同于目标攻击意图总和的伤害。消耗、虚无。</summary>
+[RegisterCard(typeof(ViridisCardPool))]
+public sealed class EveningPrimrose : AncientPlaceholderArtCard
+{
+    public EveningPrimrose() : base(0, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>()
+    ];
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { CardKeyword.Exhaust, CardKeyword.Ethereal };
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[] { new PowerVar<VulnerablePower>(2m) };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        var target = play.Target!;
+        await Apply<VulnerablePower>(ctx, play, target, DynamicVars["VulnerablePower"].BaseValue);
+        await Hit(ctx, play, target, GetAttackIntentDamage(target, play.Player));
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["VulnerablePower"].UpgradeValueBy(2m);
+    }
+
+    private static decimal GetAttackIntentDamage(Creature target, Player player)
+    {
+        var monster = target.Monster;
+        if (monster == null)
+        {
+            return 0m;
+        }
+
+        return monster.NextMove.Intents
+            .OfType<AttackIntent>()
+            .Sum(intent => (decimal)intent.GetTotalDamage(new[] { player.Creature }, target));
+    }
+}
+
+/// <summary>黄刺玫：每打出一张攻击牌，获得荆棘。</summary>
+[RegisterCard(typeof(ViridisCardPool))]
+public sealed class YellowRose : AncientPlaceholderArtCard
+{
+    public YellowRose() : base(3, CardType.Power, CardRarity.Ancient, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<YellowRosePower>(),
+        HoverTipFactory.FromPower<ThornsPower>()
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[] { new PowerVar<YellowRosePower>(1m) };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        await Apply<YellowRosePower>(ctx, play, play.Player.Creature,
+            DynamicVars["YellowRosePower"].BaseValue);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["YellowRosePower"].UpgradeValueBy(1m);
+    }
+}
+
+/// <summary>云母蔓绿绒：抽牌，并在接下来若干回合保留手牌、能量和格挡。</summary>
+[RegisterCard(typeof(ViridisCardPool))]
+public sealed class MicaPhilodendron : AncientPlaceholderArtCard
+{
+    public MicaPhilodendron() : base(1, CardType.Skill, CardRarity.Ancient, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MicaWardPower>()
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[] { new PowerVar<MicaWardPower>(1m) };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        await CardPileCmd.Draw(ctx, 3m, play.Player);
+        await Apply<MicaWardPower>(ctx, play, play.Player.Creature,
+            DynamicVars["MicaWardPower"].BaseValue);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["MicaWardPower"].UpgradeValueBy(1m);
+    }
+}
+
+/// <summary>苦苣苔：造成伤害并抽牌。</summary>
+[RegisterCard(typeof(ViridisCardPool))]
+public sealed class Bittercress : AncientPlaceholderArtCard
+{
+    public Bittercress() : base(0, CardType.Attack, CardRarity.Ancient, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new DamageVar(12m, ValueProp.Move),
+            new IntVar("Draw", 1m),
+        };
+
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        await Hit(ctx, play, play.Target!, DynamicVars.Damage.BaseValue);
+        await CardPileCmd.Draw(ctx, DynamicVars["Draw"].BaseValue, play.Player);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars["Draw"].UpgradeValueBy(1m);
     }
 }

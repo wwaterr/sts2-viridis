@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -27,15 +28,24 @@ public sealed class AerialRoot : CultivateCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(5m),
-        new CalculationExtraVar(2m),
-        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
+        new BlockVar(6m, ValueProp.Move),
+        new CardsVar(1)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Block(ctx, play, DynamicVars.CalculatedBlock.Calculate(play.Target));
+    {
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
+        if (Pile(play) > 0)
+            await Block(ctx, play, DynamicVars.Block.BaseValue);
+        else
+            await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
+    }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars.Cards.UpgradeValueBy(1m);
+    }
 }
 
 /// <summary>顶端优势：5（8）伤害，有作物时额外 5 点。</summary>
@@ -44,61 +54,38 @@ public sealed class ApicalDominance : CultivateCard
 {
     public ApicalDominance() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(5m),
-        new ExtraDamageVar(5m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card) > 0 ? 1 : 0)
-    ];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
+        if (play.Target is null)
+            return;
+
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (Pile(play) > 0)
+            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
-}
-
-/// <summary>年轮：6（9）伤害，每株作物额外 2 点。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class TreeRing : CultivateCard
-{
-    public TreeRing() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(6m),
-        new ExtraDamageVar(2m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
-    ];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
-    }
-
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
 /// <summary>引水：获得 1 能量；库数非空时抽 1 张。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class WaterDrawing : CultivateCard
 {
-    public WaterDrawing() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    public WaterDrawing() : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Energy(ctx, play, DynamicVars.Energy.IntValue);
-
-        if (Pile(play) > 0)
-            await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
+        int energy = Pile(play);
+        if (energy > 0)
+            await Energy(ctx, play, energy);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4m);
 }
 
 /// <summary>煎蛋！：本回合获得 3（5）点力量。</summary>
@@ -106,6 +93,11 @@ public sealed class WaterDrawing : CultivateCard
 public sealed class FriedEgg : CultivateCard
 {
     public FriedEgg() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<TempStrengthPower>(),
+    ];
 
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(3m)];
@@ -135,7 +127,7 @@ public sealed class KitaBlessing : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
-/// <summary>杀植物：清空栽培牌库；每清 1 张获得 1 能量与 3 格挡。</summary>
+/// <summary>杀植物：令栽培区所有牌枯萎；每枯萎 1 张获得 1 能量与 3 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class MeltToWater : CultivateCard
 {
@@ -145,9 +137,14 @@ public sealed class MeltToWater : CultivateCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockPerCrop", 3m)];
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+    {
+        HoverTipFactory.FromKeyword(WitherKeyword.Value)
+    };
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int n = await CultivateSystem.ClearPileAsync(ctx, play.Player);
+        int n = CultivateSystem.WitherAll(play.Player);
         if (n <= 0)
             return;
 

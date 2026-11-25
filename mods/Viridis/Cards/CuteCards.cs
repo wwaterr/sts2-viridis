@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -99,6 +100,13 @@ public sealed class CuteCommotion : PlaceholderArtCard, IHypeCard
 {
     public CuteCommotion() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromCard<NiangSmile>(),
+        HoverTipFactory.FromCard<NiangWave>(),
+        HoverTipFactory.FromCard<NiangCare>()
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var state = play.Player.Creature.CombatState;
@@ -128,6 +136,14 @@ public sealed class CuteCommotion : PlaceholderArtCard, IHypeCard
 public sealed class InternetBonsai : PlaceholderArtCard
 {
     public InternetBonsai() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>(),
+        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<FrailPower>(),
+        HoverTipFactory.FromPower<RegenPower>()
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new DynamicVar[] { new PowerVar<RegenPower>(8m) };

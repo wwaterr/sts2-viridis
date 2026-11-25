@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
 using Viridis.Pools;
+using MegaCrit.Sts2.Core.HoverTips;
 
 namespace Viridis.Cards;
 
@@ -84,6 +85,11 @@ public sealed class RootNetwork : CultivateCard
 {
     public RootNetwork() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<RootNetworkPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new PowerVar<RootNetworkPower>(1m) };
 
@@ -103,6 +109,11 @@ public sealed class Mycorrhiza : CultivateCard
 {
     public Mycorrhiza() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MycorrhizaPower>(),
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<MycorrhizaPower>(ctx, play, play.Player.Creature, 1m);
 
@@ -113,6 +124,11 @@ public sealed class Mycorrhiza : CultivateCard
 public sealed class VineEntangle : CultivateCard
 {
     public VineEntangle() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<WeakPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new DamageVar(12m, ValueProp.Move) };
@@ -201,6 +217,11 @@ public sealed class TreeRingMark : CultivateCard
 {
     public TreeRingMark() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<TreeRingMarkPower>(),
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new PowerVar<TreeRingMarkPower>(2m) };
 
@@ -245,6 +266,11 @@ public sealed class LeafWhirl : CultivateCard
 public sealed class Tundra : CultivateCard
 {
     public Tundra() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<TundraPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<TundraPower>(3m) };
 
@@ -291,6 +317,11 @@ public sealed class LandedRoot : CultivateCard
 {
     public LandedRoot() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<LandedRootPower>(),
+    ];
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<LandedRootPower>(ctx, play, play.Player.Creature, 1m);
 
@@ -301,6 +332,11 @@ public sealed class LandedRoot : CultivateCard
 public sealed class OldTreeRoots : CultivateCard
 {
     public OldTreeRoots() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<BlockNextTurnPower>(),
+    ];
 
     public override bool GainsBlock => true;
 
@@ -320,6 +356,11 @@ public sealed class OldTreeRoots : CultivateCard
 public sealed class Pollen : CultivateCard
 {
     public Pollen() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VulnerablePower>(),
+    ];
 
     protected override bool ShowsCultivateKeyword => true;
 
@@ -341,6 +382,11 @@ public sealed class Pollen : CultivateCard
 public sealed class CorkLayer : CultivateCard
 {
     public CorkLayer() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<ArtifactPower>(),
+    ];
 
     public override bool GainsBlock => true;
 
@@ -383,7 +429,18 @@ public sealed class ApicalGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class FlowerBud : CultivateCard
 {
+    protected override bool ShowsGrowKeyword => true;
+
     public FlowerBud() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
+
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+
+    [
+
+        HoverTipFactory.FromPower<FlowerBudPower>(),
+
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<FlowerBudPower>(ctx, play, play.Player.Creature, 1m);
@@ -431,6 +488,11 @@ public sealed class NeedleRain : CultivateCard
 public sealed class Peat : CultivateCard
 {
     public Peat() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<DrawCardsNextTurnPower>(),
+    ];
 
     public override bool GainsBlock => true;
 
@@ -495,6 +557,11 @@ public sealed class LeafLitter : CultivateCard
 public sealed class ResinSeal : CultivateCard
 {
     public ResinSeal() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<WeakPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<WeakPower>(2m) };
 
