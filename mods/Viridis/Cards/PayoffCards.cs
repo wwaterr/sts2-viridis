@@ -28,15 +28,24 @@ public sealed class AerialRoot : CultivateCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(5m),
-        new CalculationExtraVar(2m),
-        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
+        new BlockVar(6m, ValueProp.Move),
+        new CardsVar(1)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Block(ctx, play, DynamicVars.CalculatedBlock.Calculate(play.Target));
+    {
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
+        if (Pile(play) > 0)
+            await Block(ctx, play, DynamicVars.Block.BaseValue);
+        else
+            await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
+    }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars.Cards.UpgradeValueBy(1m);
+    }
 }
 
 /// <summary>顶端优势：5（8）伤害，有作物时额外 5 点。</summary>
@@ -87,19 +96,19 @@ public sealed class TreeRing : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class WaterDrawing : CultivateCard
 {
-    public WaterDrawing() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    public WaterDrawing() : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12m, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Energy(ctx, play, DynamicVars.Energy.IntValue);
-
-        if (Pile(play) > 0)
-            await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await HitAll(ctx, play, DynamicVars.Damage.BaseValue);
+        int energy = Pile(play);
+        if (energy > 0)
+            await Energy(ctx, play, energy);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(4m);
 }
 
 /// <summary>煎蛋！：本回合获得 3（5）点力量。</summary>
