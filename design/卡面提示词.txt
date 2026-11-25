@@ -331,10 +331,6 @@ time_loop, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, leaf_storm, storm_of_leaves, whirlwind,
 wide_shot, card_art, fantasy, painterly, dark_background
 
-松露 / Truffle
-1girl, solo, viridis_(character), green_hair, truffle, treasure, glowing_underground,
-delighted_expression, card_art, fantasy, painterly, dark_background
-
 母株 / Mother Plant
 1girl, solo, viridis_(character), green_hair, mother_plant, nurturing, many_plants_growing,
 warm_light, card_art, fantasy, painterly, dark_background
@@ -358,10 +354,6 @@ two_hearts_glowing, card_art, fantasy, painterly, dark_background
 腐殖循环 / Humus Cycle
 1girl, solo, viridis_(character), green_hair, cycle_of_decay, decomposing_leaf, rebirth,
 spiral_composition, card_art, fantasy, painterly, dark_background
-
-千年松 / Millennial Pine
-1girl, solo, viridis_(character), green_hair, millennial_pine, ancient_pine_tree, standing_tall,
-long_history, card_art, fantasy, painterly, dark_background
 
 生长期 / Growth Period
 1girl, solo, viridis_(character), green_hair, steady_growth, growing_taller, budding,

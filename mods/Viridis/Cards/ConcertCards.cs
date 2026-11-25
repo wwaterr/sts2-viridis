@@ -31,7 +31,7 @@ public sealed class CoinStream : CultivateCard
     }
 }
 
-/// <summary>下播mua：将一张歌回124加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
+/// <summary>“最后一首”：将一张歌回124加入手牌，并为其附上“黏住”；消耗，升级后获得保留。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LastSong : CultivateCard
 {

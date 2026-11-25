@@ -219,22 +219,6 @@ public sealed class LeafStorm : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class Truffle : CultivateCard
-{
-    public Truffle() : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await Apply<EnergyNextTurnPower>(ctx, play, play.Player.Creature, 2m);
-        await Apply<DrawCardsNextTurnPower>(ctx, play, play.Player.Creature, 1m);
-    }
-
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class MotherPlant : CultivateCard
 {
     public MotherPlant() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -311,26 +295,6 @@ public sealed class HumusCycle : CultivateCard
         => await Apply<HumusCyclePower>(ctx, play, play.Player.Creature, 1m);
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class MillennialPine : CultivateCard
-{
-    public MillennialPine() : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
-
-    protected override bool HasEnergyCostX => true;
-    public override bool GainsBlock => true;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockPerEnergy", 7m)];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        int x = ResolveEnergyXValue();
-        if (x > 0)
-            await Block(ctx, play, x * DynamicVars["BlockPerEnergy"].BaseValue);
-    }
-
-    protected override void OnUpgrade() => DynamicVars["BlockPerEnergy"].UpgradeValueBy(2m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
