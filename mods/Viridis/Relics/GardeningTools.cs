@@ -20,6 +20,8 @@ namespace Viridis.Relics;
 [RegisterTouchOfOrobasRefinement(typeof(GardeningToolsUpgraded))]
 public sealed class GardeningTools : RelicModel
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     /// <summary>上一次触发所属的战斗；换战斗后自动重置，实现「每场战斗一次」。</summary>
     private object? _lastCombat;
 

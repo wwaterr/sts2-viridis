@@ -18,6 +18,8 @@ namespace Viridis.Relics;
 [RegisterRelic(typeof(ViridisRelicPool))]
 public sealed class GardeningToolsUpgraded : RelicModel
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override LocString Title => new("relics", "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.title");
 
     public override RelicRarity Rarity => RelicRarity.Starter;
