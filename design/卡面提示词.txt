@@ -156,9 +156,8 @@ wide_shot, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, tree_sap, dripping, golden_liquid, playful_smile,
 card_art, fantasy, painterly, dark_background
 
-顶芽 / Terminal Bud
-1girl, solo, viridis_(character), green_hair, top_bud, growing_tip, reaching_up, vertical_composition,
-card_art, fantasy, painterly, dark_background
+门槛姐 / The Gatekeeper（terminal_bud，烂梗库 #021）
+粉丝视角的谢礼小剧场。大小礼盒放在同一台秤上，大礼盒让指针越过刻度，小松绿才冲着麦克风挥手。角落的叶绿素眯着眼看她。靛蓝色直播间、金色秤盘、珊瑚色缎带。
 
 年轮刻印 / Tree Ring Mark
 1girl, solo, viridis_(character), green_hair, glowing_mark, tree_ring_tattoo, skin_mark,
@@ -244,9 +243,11 @@ autumn_colors, card_art, fantasy, painterly, dark_background
 黑屏版聊 / Resin Seal
 观众视角。直播视频画面全黑，小松绿没有出声。不同的叶绿素粉丝在黑色画面上互相发弹幕，用一问一答或互相打招呼体现“版聊”。小松绿可通过直播间静态头像识别。
 
-幼苗移栽 / Seedling Transplant
-1girl, solo, viridis_(character), green_hair, seedling, replanting, caring_hands, small_plant,
-card_art, fantasy, painterly, dark_background
+善意引导 / Gentle Guidance（seedling_transplant，烂梗库 #015）
+点播台上，叶绿素刚送来一摞投稿。小松绿对着麦克风露出无辜的笑，把她想点的那张向日葵投稿放在最上面。观众能同时看到她的侧目和戴手套捏住的卡角。
+
+咋这样 / How Did That Happen?（scale_insect，烂梗库 #001）
+快成熟的果苗被介壳虫吸蔫了，沉甸甸的果实垂在盆沿。小松绿歪头看它，一时愣住，手里浇水壶的最后一滴水正要落下。以冷色温室和橙色果实衬出她轻声犯嘀咕的表情。
 
 ==================================================
 稀有牌

@@ -18,7 +18,7 @@
     "VIRIDIS_KEYWORD_GROW.title":  "生长",
     "VIRIDIS_KEYWORD_GROW.description":  "将栽培区中所有牌的倒计时减少指定的回合数。减至0时立即收获。",
     "VIRIDIS_KEYWORD_HARVEST.title":  "收获",
-    "VIRIDIS_KEYWORD_HARVEST.description":  "通常生成1张比原牌高一级稀有度的牌加入手牌，手牌已满则放入弃牌堆。新牌继承原牌的升级。先古牌改为生成2张同名牌。\n若原牌的基础费用至少为2，收获的牌首次打出至多消耗1点能量。",
+    "VIRIDIS_KEYWORD_HARVEST.description":  "通常生成1张比原牌高一级稀有度的牌加入手牌，手牌已满则放入弃牌堆。新牌继承原牌的升级。先古牌改为生成2张同名牌。\n若原牌的基础费用至少为2，新牌首次打出至多1费。若原牌为3费及以上的初始、普通、罕见、稀有、事件或衍生牌，则优先收获2或3费牌，首次打出0费。提前收获仍享受减费。",
     "VIRIDIS_CULTIVATE_PILE.title":  "栽培区",
     "VIRIDIS_CULTIVATE_PILE.count":  "栽培区（{Count}）",
     "VIRIDIS_CULTIVATE_PILE.empty":  "栽培区中没有牌。",

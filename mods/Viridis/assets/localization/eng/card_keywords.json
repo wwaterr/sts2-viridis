@@ -18,7 +18,7 @@
     "VIRIDIS_KEYWORD_GROW.title":  "Grow",
     "VIRIDIS_KEYWORD_GROW.description":  "Reduce all countdowns in your Cultivate Pile by the listed number of turns. Immediately Harvest cards that reach 0.",
     "VIRIDIS_KEYWORD_HARVEST.title":  "Harvest",
-    "VIRIDIS_KEYWORD_HARVEST.description":  "Add a new card to your Hand, or to your Discard Pile if your Hand is full. It is usually one rarity higher and inherits the original card’s upgrade. An Ancient yields 2 cards of the same name instead.\nIf the original card’s base cost was 2 or higher, each harvested card costs at most 1 Energy the first time you play it.",
+    "VIRIDIS_KEYWORD_HARVEST.description":  "Add a new card to your Hand, or to your Discard Pile if your Hand is full. It is usually one rarity higher and inherits the original card’s upgrade. An Ancient yields 2 cards of the same name instead.\nIf the original cost 2 or more, the new card costs at most 1 Energy on its first play. A Basic, Common, Uncommon, Rare, Event, or Token card with a base cost of 3 or more instead yields a 2- or 3-cost card when available, free on its first play. Early harvests keep the discount.",
     "VIRIDIS_CULTIVATE_PILE.title":  "Cultivate Pile",
     "VIRIDIS_CULTIVATE_PILE.count":  "Cultivate Pile ({Count})",
     "VIRIDIS_CULTIVATE_PILE.empty":  "Your Cultivate Pile is empty.",

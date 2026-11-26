@@ -270,7 +270,10 @@ public static class CultivateSystem
             return 0;
 
         var src = candidates[Random.Shared.Next(candidates.Count)];
-        var copy = new Planting(src.SourceId, src.TargetRarity, 1, src.Count, src.SourceRarity, src.Upgraded, src.Title);
+        var copy = new Planting(src.SourceId, src.TargetRarity, src.X, src.Count, src.SourceRarity, src.Upgraded, src.Title)
+        {
+            TurnsLeft = 1
+        };
         power.Pending.Add(copy);
         CultivatePileUI.Refresh(player);
         Log.Info($"[Cultivate] duplicated {src.Title}, turns=1");
@@ -569,9 +572,12 @@ public static class CultivateSystem
 
     private static async Task HarvestOne(PlayerChoiceContext ctx, Player player, Planting p)
     {
+        // 收成按种下时的档位结算，催熟只改变 TurnsLeft。
+        bool threeTurnHarvest = p.X == 3 && p.SourceRarity is
+            CardRarity.Basic or CardRarity.Common or CardRarity.Uncommon or CardRarity.Rare or CardRarity.Event or CardRarity.Token;
         var canonical = p.SourceRarity == CardRarity.Ancient
             ? ModelDb.GetByIdOrNull<CardModel>(p.SourceId)
-            : Pick(p.TargetRarity, p.X, p.SourceRarity == CardRarity.Curse);
+            : Pick(p.TargetRarity, threeTurnHarvest ? 2 : p.X, p.X, p.SourceRarity == CardRarity.Curse);
 
         if (canonical is null)
         {
@@ -609,7 +615,7 @@ public static class CultivateSystem
         }
 
         if (p.X > 1 && !card.EnergyCost.CostsX)
-            card.EnergyCost.SetUntilPlayed(1, reduceOnly: true);
+            card.EnergyCost.SetUntilPlayed(threeTurnHarvest ? 0 : 1, reduceOnly: true);
 
         // 手牌满则溢出到弃牌堆
         var hand = player.PlayerCombatState?.Hand;
@@ -626,7 +632,7 @@ public static class CultivateSystem
         if (player.Creature?.GetPower<WorldTreePower>() is not null)
         {
             bool statusExtra = canonical.Rarity == CardRarity.Status;
-            var extra = Pick(canonical.Rarity, p.X, statusExtra) ?? Pick(canonical.Rarity, p.X, statusExtra);
+            var extra = Pick(canonical.Rarity, p.X, p.X, statusExtra);
             if (extra is not null && combat.CreateCard(extra, player) is { } extraCard)
             {
                 await CardPileCmd.AddGeneratedCardToCombat(extraCard, PileType.Hand, player);
@@ -662,23 +668,23 @@ public static class CultivateSystem
             yield return c;
     }
 
-    private static CardModel? Pick(CardRarity? rarity, int x, bool statusOnly)
+    private static CardModel? Pick(CardRarity? rarity, int minCost, int maxCost, bool statusOnly)
     {
-        // X 费可作材料，普通收获的同费池和回退池都只给固定费用的牌。
+        // X 费可作材料，收获候选池只取固定费用的牌。
         var all = Pool(statusOnly).Where(c => c.Rarity == rarity && !c.EnergyCost.CostsX).ToList();
 
         // 先要求可生成，实在没有就放宽（原型期避免因为标志位导致空池）
         var generatable = all.Where(c => c.CanBeGeneratedInCombat).ToList();
         var source = generatable.Count > 0 ? generatable : all;
 
-        var exact = source.Where(c => c.EnergyCost.Canonical == x).ToList();
-        if (exact.Count > 0)
-            return exact[Random.Shared.Next(exact.Count)];
+        var preferred = source.Where(c => c.EnergyCost.Canonical >= minCost && c.EnergyCost.Canonical <= maxCost).ToList();
+        if (preferred.Count > 0)
+            return preferred[Random.Shared.Next(preferred.Count)];
 
         // 回退：同稀有度任意费用
         if (source.Count > 0)
         {
-            Log.Warn($"[Cultivate] no {rarity} card with cost {x}, falling back to any cost");
+            Log.Warn($"[Cultivate] no {rarity} card with cost in [{minCost}, {maxCost}], falling back to any cost");
             return source[Random.Shared.Next(source.Count)];
         }
 
