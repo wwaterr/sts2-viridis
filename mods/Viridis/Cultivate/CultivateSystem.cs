@@ -675,11 +675,15 @@ public static class CultivateSystem
         if (exact.Count > 0)
             return exact[Random.Shared.Next(exact.Count)];
 
-        // 回退：同稀有度任意费用
-        if (source.Count > 0)
+        // 回退：从 X-1 开始逐级向下，只接受更低费用
+        for (int fallbackCost = x - 1; fallbackCost >= 0; fallbackCost--)
         {
-            Log.Warn($"[Cultivate] no {rarity} card with cost {x}, falling back to any cost");
-            return source[Random.Shared.Next(source.Count)];
+            var lower = source.Where(c => c.EnergyCost.Canonical == fallbackCost).ToList();
+            if (lower.Count == 0)
+                continue;
+
+            Log.Info($"[Cultivate] no {rarity} card with cost {x}, falling back to cost {fallbackCost}");
+            return lower[Random.Shared.Next(lower.Count)];
         }
 
         return null;
