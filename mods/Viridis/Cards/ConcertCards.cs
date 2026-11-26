@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -24,16 +25,17 @@ public sealed class CoinStream : CultivateCard
         HoverTipFactory.FromPower<CoinStreamPower>(),
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
-
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Apply<CoinStreamPower>(ctx, play, play.Player.Creature, 1m);
     }
 
-    protected override void OnUpgrade()
+    public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        RemoveKeyword(CardKeyword.Exhaust);
+        if (card != this || !IsUpgraded)
+            return;
+
+        await CardCmd.AutoPlay(choiceContext, this, null);
     }
 }
 

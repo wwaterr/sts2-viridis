@@ -1,8 +1,11 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Pools;
@@ -87,20 +90,41 @@ public sealed class Borax : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Bolting : CultivateCard
 {
-    protected override bool ShowsGrowKeyword => true;
+    public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.RandomEnemy) { }
 
-    public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new DamageVar(12m, ValueProp.Move),
+            new PowerVar<WeakPower>(1m),
+            new PowerVar<VulnerablePower>(1m),
+        };
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
-
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<VulnerablePower>(),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (CombatState is not { } combat)
+            return;
 
-        await CultivateSystem.Grow(ctx, play.Player, 1);
+        var target = Owner.RunState.Rng.CombatTargets.NextItem(combat.HittableEnemies);
+        if (target is null)
+            return;
+
+        await Hit(ctx, play, target, DynamicVars.Damage.BaseValue);
+        await Apply<WeakPower>(ctx, play, target, DynamicVars["WeakPower"].BaseValue);
+        await Apply<VulnerablePower>(ctx, play, target, DynamicVars["VulnerablePower"].BaseValue);
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars["WeakPower"].UpgradeValueBy(1m);
+        DynamicVars["VulnerablePower"].UpgradeValueBy(1m);
     }
 }
 

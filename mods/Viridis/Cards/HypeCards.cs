@@ -49,42 +49,40 @@ public sealed class GoLive : CultivateCard, IHypeCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SurpriseStream : CultivateCard, IHypeCard
 {
-    public SurpriseStream() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    public SurpriseStream() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[]
-        {
-            new DamageVar(10m, ValueProp.Move),
-            new IntVar("ViewerGain", 3m),
-        };
+        new[] { new DamageVar(8m, ValueProp.Move) };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { ViewerCountKeyword.Value, KaoziKeyword.Value };
-
-    protected override bool IsPlayable => !HasPlayedCardThisTurn;
-
-    protected override bool ShouldGlowRedInternal => !IsPlayable;
-
-    private bool HasPlayedCardThisTurn =>
-        CombatState is { } state
-        && CombatManager.Instance.History.CardPlaysStarted.Any(e =>
-            e.HappenedThisTurn(state) && e.CardPlay.Player == Owner);
+        new[] { ViewerCountKeyword.Value };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is null)
             return;
 
-        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-        HypeSystem.Add(play.Player, (int)DynamicVars["ViewerGain"].BaseValue);
-        await Apply<KaoziPower>(ctx, play, play.Player.Creature, 1m);
+        var state = play.Player.Creature.CombatState;
+        if (state is null)
+            return;
+
+        var history = CombatManager.Instance.History;
+        var dealtDamageBefore = history.Entries
+            .OfType<DamageReceivedEntry>()
+            .Any(e => e.HappenedThisTurn(state) && e.Dealer == play.Player.Creature);
+
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue, hits: dealtDamageBefore ? 1 : 2);
+
+        var damageDealt = history.Entries
+            .OfType<DamageReceivedEntry>()
+            .Where(e => e.HappenedThisTurn(state) && e.Dealer == play.Player.Creature && e.CardSource == this)
+            .Sum(e => e.Result.UnblockedDamage);
+
+        if (damageDealt > 0)
+            HypeSystem.Add(play.Player, damageDealt);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(5m);
-        DynamicVars["ViewerGain"].UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
 /// <summary>倒下：本回合已打出过牌则无法打出；给反踩/串子，回复 30% 最大生命并结束回合。</summary>
@@ -94,7 +92,7 @@ public sealed class SleepStream : CultivateCard, IHypeCard
     public SleepStream() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { CardKeyword.Exhaust, AntiStompKeyword.Value, ChuanziKeyword.Value };
+        new[] { CardKeyword.Exhaust, AntiStompKeyword.Value };
 
     protected override bool IsPlayable => !HasPlayedCardThisTurn;
 
@@ -108,7 +106,6 @@ public sealed class SleepStream : CultivateCard, IHypeCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Apply<AntiStompPower>(ctx, play, play.Player.Creature, 3m);
-        await Apply<ChuanziPower>(ctx, play, play.Player.Creature, 3m);
         await CreatureCmd.Heal(play.Player.Creature, Math.Floor(play.Player.Creature.MaxHp * 0.3m));
         PlayerCmd.EndTurn(play.Player, canBackOut: false);
     }

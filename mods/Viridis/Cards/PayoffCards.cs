@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Pools;
 using Viridis.Cultivate;
+using Viridis.Powers;
 
 namespace Viridis.Cards;
 
@@ -190,26 +191,33 @@ public sealed class Thorns : CultivateCard
 {
     public Thorns() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    public override bool GainsBlock => true;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<ThornsPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6m, ValueProp.Move),
-        new CalculationBaseVar(2m),
-        new CalculationExtraVar(1m),
-        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
+        new DamageVar(3m, ValueProp.Move),
+        new IntVar("Hits", 3m),
+        new IntVar("Thorns", 3m),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        var block = DynamicVars.CalculatedBlock.Calculate(play.Target);
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (play.Target is null)
+            return;
 
-        await Block(ctx, play, block);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue, hits: (int)DynamicVars["Hits"].BaseValue);
+        await Apply<ViridisTempThornsPower>(ctx, play, play.Player.Creature, DynamicVars["Thorns"].BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(1m);
+        DynamicVars["Hits"].UpgradeValueBy(1m);
+        DynamicVars["Thorns"].UpgradeValueBy(1m);
+    }
 }
 
 /// <summary>树脂护壳：14（17）格挡，每株作物额外 2 格挡。</summary>
