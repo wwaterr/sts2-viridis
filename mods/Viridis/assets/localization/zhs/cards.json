@@ -362,5 +362,8 @@
     "VIRIDIS_CARD_SLG.smartDescription":  "给予一名敌人或队友{Block:diff()}点[gold]格挡[/gold]，然后获得等同于其格挡2倍的[gold]格挡[/gold]。",
     "VIRIDIS_CARD_MOE_RADIO_STREAM.title":  "萌音电台回",
     "VIRIDIS_CARD_MOE_RADIO_STREAM.description":  "获得{KaoziPower:diff()}层[gold]考子[/gold]和{Viewer:diff()}点[gold]同接[/gold]。然后随机给予一名敌人1层[gold]脆弱[/gold]、[gold]虚弱[/gold]或[gold]易伤[/gold]，重复当前同接次。",
-    "VIRIDIS_CARD_MOE_RADIO_STREAM.smartDescription":  "获得{KaoziPower:diff()}层[gold]考子[/gold]和{Viewer:diff()}点[gold]同接[/gold]。然后随机给予一名敌人1层[gold]脆弱[/gold]、[gold]虚弱[/gold]或[gold]易伤[/gold]，重复当前同接次。"
+    "VIRIDIS_CARD_MOE_RADIO_STREAM.smartDescription":  "获得{KaoziPower:diff()}层[gold]考子[/gold]和{Viewer:diff()}点[gold]同接[/gold]。然后随机给予一名敌人1层[gold]脆弱[/gold]、[gold]虚弱[/gold]或[gold]易伤[/gold]，重复当前同接次。",
+    "VIRIDIS_CARD_REBIRTH.title": "转世",
+    "VIRIDIS_CARD_REBIRTH.description": "获得{RebirthPower:diff()}层[gold]转世[/gold]。",
+    "VIRIDIS_CARD_REBIRTH.smartDescription": "获得{RebirthPower:diff()}层[gold]转世[/gold]。"
 }

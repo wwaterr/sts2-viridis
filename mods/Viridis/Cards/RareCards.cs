@@ -96,7 +96,7 @@ public sealed class RainOfChange : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int n = CultivateSystem.WitherAll(play.Player);
+        int n = await CultivateSystem.WitherAll(ctx, play.Player);
         var combat = play.Player.Creature.CombatState;
         if (combat is null)
             return;
@@ -436,7 +436,7 @@ public sealed class WitherBloom : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int n = CultivateSystem.WitherAll(play.Player);
+        int n = await CultivateSystem.WitherAll(ctx, play.Player);
         if (n <= 0)
             return;
 

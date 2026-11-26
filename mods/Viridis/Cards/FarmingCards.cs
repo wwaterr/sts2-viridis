@@ -69,7 +69,7 @@ public sealed class ScaleInsect : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (CultivateSystem.Wither(play.Player))
+        if (await CultivateSystem.Wither(ctx, play.Player))
             await Apply<VulnerablePower>(ctx, play, play.Target!, DynamicVars["VulnerablePower"].BaseValue);
 
         await Hit(ctx, play, play.Target!, DynamicVars.Damage.BaseValue);
@@ -113,7 +113,7 @@ public sealed class CultivationMastery : CultivateCard
     {
         var damage = DynamicVars.Damage.BaseValue;
         var planting = await CultivateSystem.SelectPlanting(ctx, play.Player, "VIRIDIS_CARD_SELECT_CULTIVATE_PROMPT");
-        if (planting is not null && CultivateSystem.Wither(play.Player, planting))
+        if (planting is not null && await CultivateSystem.Wither(ctx, play.Player, planting))
         {
             var upgrades = planting.SourceRarity == CardRarity.Ancient ? 2 : 1;
             for (var i = 0; i < upgrades; i++)

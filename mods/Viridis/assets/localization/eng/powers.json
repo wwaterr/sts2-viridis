@@ -70,5 +70,7 @@
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.title":  "Old Tree Roots",
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "At the end of your turn, gain {Amount} [gold]Block[/gold]. Lose this effect when you take unblocked damage.",
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "Essential Flirting",
-    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "Whenever you gain [gold]Anti-Stomp[/gold], gain that much [gold]Kaozi[/gold] instead."
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "Whenever you gain [gold]Anti-Stomp[/gold], gain that much [gold]Kaozi[/gold] instead.",
+    "VIRIDIS_POWER_REBIRTH_POWER.title": "Rebirth",
+    "VIRIDIS_POWER_REBIRTH_POWER.description": "During your turn, when a card in your Cultivate Pile is withered, spend 1 Rebirth to cultivate a copy of that card.\nDuring your turn, when your HP would be reduced to 0 or below, heal to 100% of your Max HP and lose all of your Powers."
 }

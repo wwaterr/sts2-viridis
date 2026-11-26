@@ -70,5 +70,7 @@
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.title":  "老树盘根",
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "在你的回合结束时，获得{Amount}点[gold]格挡[/gold]。受到未被格挡的伤害时失去此效果。",
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "本质调情",
-    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "你获得[gold]反踩[/gold]时，改为获得等量的[gold]考子[/gold]。"
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "你获得[gold]反踩[/gold]时，改为获得等量的[gold]考子[/gold]。",
+    "VIRIDIS_POWER_REBIRTH_POWER.title": "转世",
+    "VIRIDIS_POWER_REBIRTH_POWER.description": "在你的回合内，当一张栽培区的牌枯萎后，消耗一层转世并栽培一张那张牌的复制。\n在你的回合内，当你的生命值将被减少至0或以下时，将你回复到你最大生命值的100%并失去拥有的所有效果。"
 }

@@ -38,6 +38,8 @@ public abstract class CultivatePowerBase : ModPowerTemplate
 
     public virtual Task OnPileCleared(PlayerChoiceContext ctx, Player player, int count) => Task.CompletedTask;
 
+    public virtual Task OnWithered(PlayerChoiceContext ctx, Player player, Planting planting) => Task.CompletedTask;
+
     protected async Task Block(Player player, decimal amount)
         => await CreatureCmd.GainBlock(player.Creature, amount, BlockProps.card, null!);
 

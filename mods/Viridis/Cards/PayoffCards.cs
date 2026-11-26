@@ -152,7 +152,7 @@ public sealed class MeltToWater : PlaceholderArtCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int n = CultivateSystem.WitherAll(play.Player);
+        int n = await CultivateSystem.WitherAll(ctx, play.Player);
         if (n <= 0)
             return;
 

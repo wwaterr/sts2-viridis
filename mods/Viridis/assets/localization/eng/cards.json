@@ -362,5 +362,8 @@
     "VIRIDIS_CARD_SLG.smartDescription":  "Give an enemy or ally {Block:diff()} [gold]Block[/gold], then gain [gold]Block[/gold] equal to twice their Block.",
     "VIRIDIS_CARD_MOE_RADIO_STREAM.title":  "Moe Radio Stream",
     "VIRIDIS_CARD_MOE_RADIO_STREAM.description":  "Gain {KaoziPower:diff()} [gold]Kaozi[/gold] and {Viewer:diff()} [gold]Viewer[/gold]. Then give a random enemy 1 [gold]Frail[/gold], [gold]Weak[/gold], or [gold]Vulnerable[/gold], repeated for your current Viewer.",
-    "VIRIDIS_CARD_MOE_RADIO_STREAM.smartDescription":  "Gain {KaoziPower:diff()} [gold]Kaozi[/gold] and {Viewer:diff()} [gold]Viewer[/gold]. Then give a random enemy 1 [gold]Frail[/gold], [gold]Weak[/gold], or [gold]Vulnerable[/gold], repeated for your current Viewer."
+    "VIRIDIS_CARD_MOE_RADIO_STREAM.smartDescription":  "Gain {KaoziPower:diff()} [gold]Kaozi[/gold] and {Viewer:diff()} [gold]Viewer[/gold]. Then give a random enemy 1 [gold]Frail[/gold], [gold]Weak[/gold], or [gold]Vulnerable[/gold], repeated for your current Viewer.",
+    "VIRIDIS_CARD_REBIRTH.title": "Rebirth",
+    "VIRIDIS_CARD_REBIRTH.description": "Gain {RebirthPower:diff()} [gold]Rebirth[/gold].",
+    "VIRIDIS_CARD_REBIRTH.smartDescription": "Gain {RebirthPower:diff()} [gold]Rebirth[/gold]."
 }

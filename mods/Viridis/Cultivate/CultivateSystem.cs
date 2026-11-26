@@ -160,21 +160,26 @@ public static class CultivateSystem
     }
 
     /// <summary>令栽培区所有牌枯萎（不收获、不返还原卡），返回枯萎的张数。</summary>
-    public static int WitherAll(Player player)
+    public static async Task<int> WitherAll(PlayerChoiceContext ctx, Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
         if (power is null || power.Pending.Count == 0)
             return 0;
 
-        int n = power.Pending.Count;
+        var removed = power.Pending.ToList();
         power.Pending.Clear();
         CultivatePileUI.Refresh(player);
-        Log.Info($"[Cultivate] withered all ({n} cards)");
-        return n;
+        Log.Info($"[Cultivate] withered all ({removed.Count} cards)");
+
+        foreach (var planting in removed)
+            await NotifyWithered(ctx, player, planting);
+
+        CultivatePileUI.Refresh(player);
+        return removed.Count;
     }
 
     /// <summary>枯萎：把一张栽培牌移出栽培区，不收获，也不返还原卡。不指定目标时随机移除一张。</summary>
-    public static bool Wither(Player player, Planting? target = null)
+    public static async Task<bool> Wither(PlayerChoiceContext ctx, Player player, Planting? target = null)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
         if (power is null || power.Pending.Count == 0)
@@ -186,7 +191,24 @@ public static class CultivateSystem
 
         CultivatePileUI.Refresh(player);
         Log.Info($"[Cultivate] withered {planting.Title}");
+        await NotifyWithered(ctx, player, planting);
+        CultivatePileUI.Refresh(player);
         return true;
+    }
+
+    private static async Task NotifyWithered(PlayerChoiceContext ctx, Player player, Planting planting)
+    {
+        foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
+        {
+            try
+            {
+                await p.OnWithered(ctx, player, planting);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Cultivate] {p.GetType().Name}.OnWithered failed: {e.Message}");
+            }
+        }
     }
 
     /// <summary>从栽培区选择一张牌；返回 null 表示没有可选牌或玩家取消。</summary>
@@ -308,6 +330,51 @@ public static class CultivateSystem
     }
 
     /// <summary>从抽牌堆、手牌和弃牌堆中选牌栽培。</summary>
+    /// <summary>将一张不在战斗牌堆中的复制牌按正常规则种入栽培区。</summary>
+    public static async Task<bool> CultivateCopy(PlayerChoiceContext ctx, Player player, CardModel target)
+    {
+        if (!CultivateFlags.CanCultivate(player))
+        {
+            Log.Info("[Cultivate] copy blocked by NoCultivatePower");
+            return false;
+        }
+
+        int x = XOf(target);
+        bool isAncient = target.Rarity == CardRarity.Ancient;
+        var planting = new Planting(
+            target.Id,
+            TargetRarity(target.Rarity),
+            x,
+            isAncient ? 2 : 1,
+            target.Rarity,
+            target.IsUpgraded,
+            target.Title + (target.IsUpgraded ? "+" : ""))
+        {
+            CultivatedOnTurn = player.PlayerCombatState?.TurnNumber
+        };
+
+        var fast = player.Creature?.GetPower<NextCultivateFastPower>();
+        if (fast is not null)
+            planting.TurnsLeft = 1;
+
+        var power = await GetOrApply(ctx, player, target);
+        if (power is null)
+            return false;
+
+        power.Pending.Add(planting);
+        if (fast is not null)
+            await PowerCmd.Remove(fast);
+
+        CultivatePileUI.Refresh(player);
+        await NotifyCultivated(ctx, player);
+
+        if (target is CultivateCard cultivatedCard)
+            await cultivatedCard.OnCultivated(ctx, player);
+
+        Log.Info($"[Cultivate] cultivated copy {target.Id} X={x} count={planting.Count}");
+        return true;
+    }
+
     public static async Task<int> CultivateFromAllPiles(PlayerChoiceContext ctx, Player player, AbstractModel source, int count)
     {
         if (!CultivateFlags.CanCultivate(player) || count <= 0)
