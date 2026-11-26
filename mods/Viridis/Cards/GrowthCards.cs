@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -14,6 +15,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Humus : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Humus() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
@@ -33,6 +36,8 @@ public sealed class Humus : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Earthworm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Earthworm() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
@@ -50,6 +55,8 @@ public sealed class Earthworm : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Germinate : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Grow, CultivateTips.Harvest];
+
     public Germinate() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
@@ -69,6 +76,8 @@ public sealed class Germinate : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Vernalization : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Vernalization() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Growth", 2m)];
@@ -98,6 +107,8 @@ public sealed class Borax : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Bolting : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Bolting() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
@@ -113,10 +124,12 @@ public sealed class Bolting : CultivateCard
     }
 }
 
-/// <summary>腐熟：把非永久作物的剩余回合设为 1，然后抽 1 张牌。</summary>
+/// <summary>腐熟：把有倒计时的牌的剩余回合设为 1，然后抽 1 张牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Compost : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Compost() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];

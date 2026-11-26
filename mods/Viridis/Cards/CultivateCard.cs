@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using STS2RitsuLib.Scaffolding.Content;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -29,6 +30,9 @@ public abstract class CultivateCard : ModCardTemplate
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         ShowsCultivateKeyword ? new[] { CultivateKeyword.Value } : base.CanonicalKeywords;
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+        ShowsCultivateKeyword ? [CultivateTips.Harvest] : base.AdditionalHoverTips;
+
     /// <summary>这张牌被栽培时触发；默认无效果。</summary>
     public virtual Task OnCultivated(PlayerChoiceContext ctx, Player player) => Task.CompletedTask;
 
@@ -41,7 +45,7 @@ public abstract class CultivateCard : ModCardTemplate
     /// <summary>永久栽培时首次触发使用的伤害值。</summary>
     public virtual decimal PermanentDamageValue => 0m;
 
-    /// <summary>当前栽培牌库中的牌数。</summary>
+    /// <summary>当前栽培区中的牌数。</summary>
     protected static int Pile(CardPlay play) => CultivateSystem.PileCount(play.Player);
 
     protected async Task Hit(PlayerChoiceContext ctx, CardPlay play, Creature target, decimal amount, int hits = 1)

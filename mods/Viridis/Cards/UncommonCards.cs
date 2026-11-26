@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -20,6 +21,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Gymnosperm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Gymnosperm() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -54,6 +57,8 @@ public sealed class Gymnosperm : CultivateCard
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class GymnospermAccelerateOption : PlaceholderArtCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public GymnospermAccelerateOption() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
 
     public override bool CanBeGeneratedInCombat => false;
@@ -62,6 +67,8 @@ public sealed class GymnospermAccelerateOption : PlaceholderArtCard
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class GymnospermDelayOption : PlaceholderArtCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public GymnospermDelayOption() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
 
     public override bool CanBeGeneratedInCombat => false;
@@ -83,6 +90,8 @@ public sealed class Transplant : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class RootNetwork : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public RootNetwork() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -102,6 +111,8 @@ public sealed class RootNetwork : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Mycorrhiza : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Mycorrhiza() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -146,6 +157,8 @@ public sealed class Division : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class PineconeBurst : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public PineconeBurst() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -203,6 +216,8 @@ public sealed class TerminalBud : CultivateCard, IHypeCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class TreeRingMark : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public TreeRingMark() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -222,6 +237,8 @@ public sealed class TreeRingMark : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafWhirl : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public LeafWhirl() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -363,6 +380,8 @@ public sealed class CorkLayer : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ApicalGrowth : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public ApicalGrowth() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -387,6 +406,8 @@ public sealed class ApicalGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class FlowerBud : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public FlowerBud() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -474,6 +495,8 @@ public sealed class Trunk : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafLitter : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public LeafLitter() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override bool GainsBlock => true;

@@ -1,12 +1,14 @@
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.HoverTips;
 
 namespace Viridis.Cultivate;
 
 /// <summary>
-/// 栽培牌堆：战斗界面左下角一个和抽牌/弃牌/消耗牌堆并列的按钮，
+/// 栽培区：战斗界面左下角一个和抽牌/弃牌/消耗牌堆并列的按钮，
 /// 显示栽培中的卡，并标出剩余回合数。
 /// 游戏原生的牌堆容器只认 Draw/Discard/Exhaust 三个按钮，所以这里自建。
 /// </summary>
@@ -42,7 +44,6 @@ public static class CultivatePileUI
             {
                 Icon = GD.Load<Texture2D>("res://Viridis/images/ui/cultivate_pile.ctex"),
                 Text = "0",
-                TooltipText = "栽培牌堆",
                 CustomMinimumSize = new Vector2(96, 44),
                 Size = new Vector2(96, 44),
                 MouseDefaultCursorShape = Control.CursorShape.PointingHand
@@ -58,6 +59,10 @@ public static class CultivatePileUI
             button.Size = new Vector2(96, 44);
             button.GlobalPosition = new Vector2(rect.Position.X, rect.Position.Y - 58);
             button.Pressed += TogglePanel;
+            button.MouseEntered += () => ShowTips(button);
+            button.MouseExited += () => NHoverTipSet.Remove(button);
+            button.FocusEntered += () => ShowTips(button);
+            button.FocusExited += () => NHoverTipSet.Remove(button);
 
             Log.Info($"[Cultivate] anchor=discard at {rect.Position}, button at {button.GlobalPosition}");
 
@@ -115,7 +120,16 @@ public static class CultivatePileUI
             var power = player?.Creature?.GetPower<CultivateFieldPower>();
             var pending = power?.Pending ?? new List<Planting>();
 
-            _button.Text = _button.Icon is null ? $"栽培 {pending.Count}" : pending.Count.ToString();
+            if (_button.Icon is null)
+            {
+                var count = PileText("count");
+                count.Add("Count", pending.Count);
+                _button.Text = count.GetFormattedText();
+            }
+            else
+            {
+                _button.Text = pending.Count.ToString();
+            }
 
             if (_list is null || !GodotObject.IsInstanceValid(_list))
                 return;
@@ -123,17 +137,22 @@ public static class CultivatePileUI
             foreach (var child in _list.GetChildren())
                 child.QueueFree();
 
+            _list.AddChild(new Label { Text = PileText("title").GetFormattedText() });
             if (pending.Count == 0)
             {
-                _list.AddChild(new Label { Text = "（空）" });
+                _list.AddChild(new Label { Text = PileText("empty").GetFormattedText() });
                 return;
             }
 
             foreach (var p in pending)
             {
+                var entry = PileText(p.Permanent ? "permanent" : "turns");
+                entry.Add("CardTitle", p.Title);
+                if (!p.Permanent)
+                    entry.Add("Turns", p.TurnsLeft);
                 var label = new Label
                 {
-                    Text = p.Permanent ? $"{p.Title}  永久" : $"{p.Title}  剩余 {p.TurnsLeft} 回合",
+                    Text = entry.GetFormattedText(),
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 };
                 label.AddThemeFontSizeOverride("font_size", 16);
@@ -144,6 +163,14 @@ public static class CultivatePileUI
         {
             Log.Error($"[Cultivate] refresh cultivate pile failed: {e}");
         }
+    }
+
+    private static LocString PileText(string key) => new("card_keywords", $"VIRIDIS_CULTIVATE_PILE.{key}");
+
+    private static void ShowTips(Button button)
+    {
+        if (_panel?.Visible != true)
+            NHoverTipSet.CreateAndShow(button, [CultivateTips.Cultivate, CultivateTips.Harvest]);
     }
 
     private static NCombatPilesContainer? FindPiles(SceneTree tree)
@@ -184,6 +211,8 @@ public static class CultivatePileUI
             return;
 
         _panel.Visible = !_panel.Visible;
+        if (_panel.Visible && _button is not null)
+            NHoverTipSet.Remove(_button);
     }
 
     public static void Reset()
@@ -191,7 +220,10 @@ public static class CultivatePileUI
         try
         {
             if (_button is not null && GodotObject.IsInstanceValid(_button))
+            {
+                NHoverTipSet.Remove(_button);
                 _button.QueueFree();
+            }
             if (_panel is not null && GodotObject.IsInstanceValid(_panel))
                 _panel.QueueFree();
         }

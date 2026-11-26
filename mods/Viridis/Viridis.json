@@ -2,7 +2,7 @@
     "id":  "Viridis",
     "name":  "小松绿 Viridis",
     "author":  "you",
-    "description":  "栽培（Cultivate）机制角色：把卡牌种下，数回合后收获稀有度更高的牌。含 112 张卡牌（其中 102 张带专属插画）、园艺工具起始遗物与独立栽培牌堆 UI。",
+    "description":  "小松绿可以将牌放入栽培区，倒计时归零时收获新牌。起始遗物园丁手套让你在每场战斗的第一回合栽培一张手牌。",
     "version":  "0.2.1",
     "has_pck":  true,
     "has_dll":  true,

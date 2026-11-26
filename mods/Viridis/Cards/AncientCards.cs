@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -23,6 +24,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SmallPine : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public SmallPine() : base(1, CardType.Attack, CardRarity.Ancient, TargetType.RandomEnemy) { }
 
     public override bool GainsBlock => true;
@@ -30,8 +33,6 @@ public sealed class SmallPine : CultivateCard
 
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/small_pine.ctex");
-
-    protected override bool ShowsCultivateKeyword => false;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         new[] { PermanentCultivateKeyword.Value };

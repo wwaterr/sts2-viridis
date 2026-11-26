@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -148,6 +149,8 @@ public sealed class Nettle : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Resin : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public Resin() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
@@ -166,6 +169,8 @@ public sealed class Resin : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class MossCover : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public MossCover() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;

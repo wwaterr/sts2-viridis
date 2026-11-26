@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
@@ -66,6 +67,8 @@ public sealed class TempDexterityPower : CultivatePowerBase
 /// <summary>共生：每次栽培成功后，对一个随机敌人造成等同于层数的伤害。</summary>
 public sealed class SymbiosisPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
@@ -82,9 +85,11 @@ public sealed class SymbiosisPower : CultivatePowerBase
     }
 }
 
-/// <summary>根系网络：自然成熟后，获得基础格挡，每株留田作物额外提供 1 点。</summary>
+/// <summary>根系网络：自然成熟后，获得基础格挡，栽培区每剩一张牌额外提供 1 点。</summary>
 public sealed class RootNetworkPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override PowerStackType StackType => PowerStackType.Counter;
 
 
@@ -95,9 +100,11 @@ public sealed class RootNetworkPower : CultivatePowerBase
     }
 }
 
-/// <summary>千年古树：自己的回合开始时，获得每株 1 点格挡、升级额外格挡与 1 点能量。</summary>
+/// <summary>千年古树：自己的回合开始时，栽培区每有一张牌获得 1 点格挡，再获得升级额外格挡与 1 点能量。</summary>
 public sealed class AncientTreePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public decimal BonusBlock { get; set; }
 
     public override LocString Description
@@ -127,6 +134,8 @@ public sealed class AncientTreePower : CultivatePowerBase
 /// <summary>冠层：回合开始时按库数获得能量（无上限）。</summary>
 public sealed class CanopyPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
         if (player != Owner.Player)
@@ -138,9 +147,11 @@ public sealed class CanopyPower : CultivatePowerBase
     }
 }
 
-/// <summary>母株：回合开始时若栽培牌库为空，栽培 2 张手牌。</summary>
+/// <summary>母株：回合开始时若栽培区为空，栽培 2 张手牌。</summary>
 public sealed class MotherPlantPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
         if (player != Owner.Player || Pile(player) > 0)
@@ -166,6 +177,8 @@ public sealed class TundraPower : CultivatePowerBase
 /// <summary>菌根：每当你栽培 1 张牌，抽 1 张牌。</summary>
 public sealed class MycorrhizaPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
         => await Draw(ctx, player, 1);
 }
@@ -173,6 +186,8 @@ public sealed class MycorrhizaPower : CultivatePowerBase
 /// <summary>年轮刻印：每张主收获品产生一次格挡。</summary>
 public sealed class TreeRingMarkPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override PowerStackType StackType => PowerStackType.Counter;
 
 
@@ -183,6 +198,8 @@ public sealed class TreeRingMarkPower : CultivatePowerBase
 /// <summary>叶脉：每当你收获 1 张牌，抽 1 张牌。</summary>
 public sealed class LeafVeinPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
         => await Draw(ctx, player, 1);
 }
@@ -190,6 +207,8 @@ public sealed class LeafVeinPower : CultivatePowerBase
 /// <summary>森林之主：每当你收获 1 张牌，获得 2 点力量。</summary>
 public sealed class ForestLordPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
         => await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, 2m, player.Creature, null);
 }
@@ -197,6 +216,8 @@ public sealed class ForestLordPower : CultivatePowerBase
 /// <summary>深根：每当你栽培 1 张牌，获得 1 点力量与 1 点敏捷。</summary>
 public sealed class DeepRootPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
     {
         await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, 1m, player.Creature, null);
@@ -207,6 +228,8 @@ public sealed class DeepRootPower : CultivatePowerBase
 /// <summary>花芽分化：每回合第一次栽培时，生长 1。</summary>
 public sealed class FlowerBudPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     private bool _used;
 
     public override Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
@@ -229,6 +252,8 @@ public sealed class FlowerBudPower : CultivatePowerBase
 /// <summary>树液：本回合无法栽培（回合结束时移除）。</summary>
 public sealed class NoCultivatePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
     {
         if (participants.Contains(Owner))
@@ -239,6 +264,8 @@ public sealed class NoCultivatePower : CultivatePowerBase
 /// <summary>老树盘根：你的下一次栽培剩余回合为 1（消耗）。</summary>
 public sealed class NextCultivateFastPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
 }
 
 /// <summary>落地生根：自己的牌每命中一名敌人，获得 1 点格挡。</summary>
@@ -251,9 +278,11 @@ public sealed class LandedRootPower : CultivatePowerBase
     }
 }
 
-/// <summary>泥炭：回合结束时若栽培牌库非空，抽 1 张牌（然后移除）。</summary>
+/// <summary>泥炭：回合结束时若栽培区非空，抽 1 张牌（然后移除）。</summary>
 public sealed class DelayedDrawPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
     {
         if (!participants.Contains(Owner))
@@ -270,6 +299,8 @@ public sealed class DelayedDrawPower : CultivatePowerBase
 /// <summary>幼苗移栽：回合结束时生长 1（然后移除）。</summary>
 public sealed class DelayedGrowPower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public override async Task BeforeSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
     {
         if (!participants.Contains(Owner))
@@ -286,6 +317,8 @@ public sealed class DelayedGrowPower : CultivatePowerBase
 /// <summary>年轮循环：每两次自己的回合开始，生长 3。</summary>
 public sealed class SpringCyclePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     private int _turns;
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
@@ -304,6 +337,8 @@ public sealed class SpringCyclePower : CultivatePowerBase
 /// <summary>世界树：回合开始时栽培 1 张手牌；每次收获额外获得 1 张同稀有度牌。</summary>
 public sealed class WorldTreePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
     {
         if (player == Owner.Player)
@@ -311,9 +346,11 @@ public sealed class WorldTreePower : CultivatePowerBase
     }
 }
 
-/// <summary>始祖孢子：栽培牌库被清空时，对所有敌人造成 20 点伤害。</summary>
+/// <summary>始祖孢子：栽培区被清空时，对所有敌人造成 20 点伤害。</summary>
 public sealed class PrimordialSporePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public override async Task OnPileCleared(PlayerChoiceContext ctx, Player player, int count)
     {
         var enemies = player.Creature.CombatState?.HittableEnemies;
@@ -337,9 +374,11 @@ public sealed class PrimordialSporePower : CultivatePowerBase
 /// <summary>腐殖循环：每当你收获 1 张牌，将其复制加入手牌。</summary>
 public sealed class HumusCyclePower : CultivatePowerBase
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
 }
 
-/// <summary>栽培牌库为空时是否允许栽培（树液）。</summary>
+/// <summary>栽培区为空时是否允许栽培（树液）。</summary>
 public static class CultivateFlags
 {
     public static bool CanCultivate(Player player)

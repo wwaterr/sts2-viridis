@@ -35,7 +35,7 @@ public static class CultivateSystem
     public static Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
         => PlantFromHand(ctx, player, source, extraTurns, harvestImmediately: false);
 
-    /// <summary>栽培并立即收获这一次种下的非永久作物（移栽）。</summary>
+    /// <summary>栽培一张牌；若它有倒计时，立即收获它（移栽）。</summary>
     public static Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
         => PlantFromHand(ctx, player, source, extraTurns: 0, harvestImmediately: true);
 
@@ -125,7 +125,7 @@ public static class CultivateSystem
 
     // ---------- 库数 / 生长 / 清库 ----------
 
-    /// <summary>栽培牌库中的牌数（无上限）。</summary>
+    /// <summary>栽培区中的牌数（无上限）。</summary>
     public static int PileCount(Player player)
         => player.Creature?.GetPower<CultivateFieldPower>()?.Pending.Count ?? 0;
 
@@ -168,7 +168,7 @@ public static class CultivateSystem
         CultivatePileUI.Refresh(player);
     }
 
-    /// <summary>清空栽培牌库（不收获），返回清掉的张数。</summary>
+    /// <summary>清空栽培区（不收获），返回移除的牌数。</summary>
     public static async Task<int> ClearPileAsync(PlayerChoiceContext ctx, Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
@@ -248,7 +248,7 @@ public static class CultivateSystem
         return null;
     }
 
-    /// <summary>把栽培牌库中所有牌的剩余回合 +n（延缓）。</summary>
+    /// <summary>把栽培区中所有牌的剩余回合 +n（延缓）。</summary>
     public static async Task DelayAll(PlayerChoiceContext ctx, Player player, int n)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
@@ -263,7 +263,7 @@ public static class CultivateSystem
         await Task.CompletedTask;
     }
 
-    /// <summary>把栽培牌库中所有牌的剩余回合减半（向上取整）。</summary>
+    /// <summary>把栽培区中所有牌的剩余回合减半（向上取整）。</summary>
     public static async Task HalveAll(PlayerChoiceContext ctx, Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
@@ -277,7 +277,7 @@ public static class CultivateSystem
         CultivatePileUI.Refresh(player);
     }
 
-    /// <summary>复制栽培牌库中的一张，复制品剩余回合为 1。</summary>
+    /// <summary>复制栽培区中的一张，复制品剩余回合为 1。</summary>
     public static int DuplicateOne(Player player)
     {
         var power = player.Creature?.GetPower<CultivateFieldPower>();
@@ -404,7 +404,7 @@ public static class CultivateSystem
                 await cultivatedCard.OnCultivated(ctx, player);
 
             Log.Info($"[Cultivate] planted {target.Id} from {sourcePile.Type} X={x} count={planting.Count}");
-            // 栽培触发可能已收获或移除这株作物。
+            // 栽培触发可能已收获或移除这张牌。
             if ((harvestImmediately || extraTurns != 0) && power.Pending.Contains(planting))
             {
                 if (harvestImmediately)
@@ -734,7 +734,7 @@ public sealed class Planting
     public string Title { get; }
     public int TurnsLeft { get; set; }
 
-    /// <summary>被栽培时的玩家回合号；直接复制的作物没有栽培动作。</summary>
+    /// <summary>被栽培时的玩家回合号；直接复制进栽培区的牌没有栽培动作。</summary>
     public int? CultivatedOnTurn { get; init; }
 
     /// <summary>永久栽培：不参与倒计时和收获。</summary>

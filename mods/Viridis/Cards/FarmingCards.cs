@@ -21,6 +21,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class FarmerForm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public FarmerForm()
         : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
@@ -43,6 +45,8 @@ public sealed class FarmerForm : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ScaleInsect : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Wither];
+
     public ScaleInsect()
         : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
@@ -82,8 +86,9 @@ public sealed class CultivationMastery : CultivateCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
     {
-        HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
+        CultivateTips.Cultivate,
+        CultivateTips.Wither,
+        HoverTipFactory.FromKeyword(CardKeyword.Exhaust)
     };
 
     protected override CardLocation GetResultLocationForCardPlay()

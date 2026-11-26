@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -17,6 +18,8 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class AncientTree : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public AncientTree() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -36,6 +39,8 @@ public sealed class AncientTree : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ForestLord : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public ForestLord() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -47,6 +52,8 @@ public sealed class ForestLord : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class AllGrowth : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public AllGrowth() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
@@ -63,6 +70,8 @@ public sealed class AllGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class RainOfChange : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public RainOfChange() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -91,6 +100,8 @@ public sealed class RainOfChange : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Canopy : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Canopy() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -141,6 +152,8 @@ public sealed class Clone : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringRitual : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public SpringRitual() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -152,6 +165,8 @@ public sealed class SpringRitual : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class StranglerFig : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public StranglerFig() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -172,6 +187,8 @@ public sealed class StranglerFig : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class DeepRoot : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public DeepRoot() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -183,6 +200,8 @@ public sealed class DeepRoot : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringCycle : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Grow];
+
     public SpringCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -194,6 +213,8 @@ public sealed class SpringCycle : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafStorm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public LeafStorm() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -240,6 +261,8 @@ public sealed class MotherPlant : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ExtremeGrowth : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public ExtremeGrowth() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
@@ -253,6 +276,8 @@ public sealed class ExtremeGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafVein : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public LeafVein() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -282,6 +307,8 @@ public sealed class Lignify : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Symbiosis : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Symbiosis() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<SymbiosisPower>(3m)];
@@ -295,6 +322,8 @@ public sealed class Symbiosis : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class HumusCycle : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public HumusCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -359,6 +388,8 @@ public sealed class Catkin : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class WitherBloom : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public WitherBloom() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -377,6 +408,8 @@ public sealed class WitherBloom : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class PhotosyntheticStorm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public PhotosyntheticStorm() : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
