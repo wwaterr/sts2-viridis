@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Pools;
 using Viridis.Cultivate;
+using Viridis.Hype;
 using Viridis.Powers;
 
 namespace Viridis.Cards;
@@ -116,7 +117,7 @@ public sealed class FriedEgg : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class KitaBlessing : CultivateCard
 {
-    public KitaBlessing() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public KitaBlessing() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
@@ -124,23 +125,14 @@ public sealed class KitaBlessing : CultivateCard
         HoverTipFactory.FromPower<StretchPower>(),
     ];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<VigorPower>(5m),
-        new PowerVar<StretchPower>(5m),
-    ];
-
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Apply<VigorPower>(ctx, play, play.Player.Creature, DynamicVars["VigorPower"].BaseValue);
-        await Apply<StretchPower>(ctx, play, play.Player.Creature, DynamicVars["StretchPower"].BaseValue);
+        var amount = HypeSystem.GetAmount(play.Player);
+        await Apply<VigorPower>(ctx, play, play.Player.Creature, amount);
+        await Apply<StretchPower>(ctx, play, play.Player.Creature, amount);
     }
 
-    protected override void OnUpgrade()
-    {
-        DynamicVars["VigorPower"].UpgradeValueBy(3m);
-        DynamicVars["StretchPower"].UpgradeValueBy(3m);
-    }
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }
 
 /// <summary>杀植物：令栽培区所有牌枯萎；每枯萎 1 张获得 1 能量与 3 格挡。</summary>
@@ -170,35 +162,6 @@ public sealed class MeltToWater : PlaceholderArtCard
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
-}
-
-/// <summary>光合脉冲：3（4）伤害，每株作物多攻击一次。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class PhotosyntheticPulse : CultivateCard
-{
-    public PhotosyntheticPulse() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-
-    private const string HitsKey = "CalculatedHits";
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(3m, ValueProp.Move),
-        new CalculationBaseVar(1m),
-        new CalculationExtraVar(1m),
-        new CalculatedVar(HitsKey).WithMultiplier((card, _) => FieldCount.For(card))
-    ];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        if (play.Target is null)
-            return;
-
-        int hits = (int)((CalculatedVar)DynamicVars[HitsKey]).Calculate(play.Target);
-        for (int i = 0; i < hits && play.Target.IsAlive; i++)
-            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }
 
 /// <summary>荆刺：6（9）伤害，获得 2 格挡，每株作物额外 1 格挡。</summary>

@@ -68,5 +68,7 @@
     "VIRIDIS_POWER_LEAF_LITTER_POWER.title":  "落叶层",
     "VIRIDIS_POWER_LEAF_LITTER_POWER.description":  "在你的回合开始时，获得{Amount}点[gold]格挡[/gold]，并[gold]生长[/gold]1。",
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.title":  "老树盘根",
-    "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "在你的回合结束时，获得{Amount}点[gold]格挡[/gold]。受到未被格挡的伤害时失去此效果。"
+    "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "在你的回合结束时，获得{Amount}点[gold]格挡[/gold]。受到未被格挡的伤害时失去此效果。",
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "本质调情",
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "你获得[gold]反踩[/gold]时，改为获得等量的[gold]考子[/gold]。"
 }

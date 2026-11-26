@@ -72,3 +72,25 @@ soft_green_blanket, card_art, fantasy, painterly, dark_background
 
 忙碌 / Busy（原杀植物 / Melt to Water）
 1girl, solo, viridis_(character), green_hair, gardener_outfit, golden_resin, trapping_a_boar, tree_stump, twilight_forest, mushroom, card_art, fantasy, painterly
+
+
+## 2026-11-27 批量移除（14 张普通/罕见/稀有牌）
+
+| 文件 | 原卡名 | 内容 | 可复用方向 |
+|---|---|---|---|
+| photosynthetic_pulse | 光合脉冲 | 角色与植物光合脉冲 | 能量/生命回复 |
+| pinecone_burst | 松塔爆裂 | 松果爆裂 | 爆发/随机伤害 |
+| vernalization | 春化 | 低温催花 | 生长/延缓 |
+| germinate | 催芽 | 种子发芽 | 栽培/生长 |
+| sap | 树液 | 树液采集 | 能量/粘稠 |
+| compost | 腐熟 | 堆肥腐熟 | 成长/收获 |
+| fern_spread | 蕨类蔓延 | 蕨叶铺展 | 多段/蔓延 |
+| cork_layer | 木栓层 | 树皮木栓层 | 格挡/护甲 |
+| peat | 泥炭 | 泥炭沼泽 | 格挡/拖延 |
+| borax | 硼砂 | 硼砂结晶 | 生长/强化 |
+| seedling_transplant | 幼苗移栽 | 移栽幼苗 | 栽培/移栽 |
+| resin_seal | 黑屏版聊 | 树脂封存/聊天画面 | 控制/封存 |
+| tree_ring_mark | 年轮刻印 | 年轮刻印 | 格挡/成长 |
+| tundra | 苔原 | 苔原雪景 | 格挡/寒冷 |
+
+上述卡牌已从卡池与本地化移除，PNG 与 ctex 保留在本目录，复用时按原名放回 `art_source/cards/` 与 `assets/images/cards/`。

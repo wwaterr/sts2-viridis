@@ -175,40 +175,6 @@ public sealed class Division : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class PineconeBurst : CultivateCard
-{
-    public PineconeBurst() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[]
-        {
-            new CalculationBaseVar(8m),
-            new ExtraDamageVar(2m),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => CultivateSystem.PileCount(card.Owner))
-        };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await HitAll(ctx, play, DynamicVars.CalculatedDamage.Calculate(play.Target));
-
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class Sap : CultivateCard
-{
-    public Sap() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new EnergyVar(1) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Energy(ctx, play, DynamicVars.Energy.IntValue);
-
-    protected override void OnUpgrade() => DynamicVars.Energy.UpgradeValueBy(1m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class TerminalBud : CultivateCard
 {
     public TerminalBud() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
@@ -229,30 +195,6 @@ public sealed class TerminalBud : CultivateCard
     }
 
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class TreeRingMark : CultivateCard
-{
-    public TreeRingMark() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<TreeRingMarkPower>(),
-    ];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new PowerVar<TreeRingMarkPower>(2m) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        var owner = play.Player.Creature;
-        decimal increase = DynamicVars["TreeRingMarkPower"].BaseValue - owner.GetPowerAmount<TreeRingMarkPower>();
-        if (increase > 0m)
-            await Apply<TreeRingMarkPower>(ctx, play, owner, increase);
-    }
-
-    protected override void OnUpgrade() => DynamicVars["TreeRingMarkPower"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -281,24 +223,6 @@ public sealed class LeafWhirl : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class Tundra : CultivateCard
-{
-    public Tundra() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<TundraPower>(),
-    ];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<TundraPower>(3m) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<TundraPower>(ctx, play, play.Player.Creature, DynamicVars["TundraPower"].BaseValue);
-
-    protected override void OnUpgrade() => DynamicVars["TundraPower"].UpgradeValueBy(1m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class Sucker : CultivateCard
 {
     public Sucker() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
@@ -312,25 +236,6 @@ public sealed class Sucker : CultivateCard
             ctx, play.Player, this, DynamicVars["Count"].IntValue);
 
     protected override void OnUpgrade() => DynamicVars["Count"].UpgradeValueBy(1m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class FernSpread : CultivateCard
-{
-    public FernSpread() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new CardsVar(2) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
-        var prefs = new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, 1);
-        var discarded = (await CardSelectCmd.FromHandForDiscard(ctx, play.Player, prefs, null, this)).FirstOrDefault();
-        if (discarded is not null)
-            await CardCmd.Discard(ctx, discarded);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -409,30 +314,6 @@ public sealed class Pollen : CultivateCard
         DynamicVars["WeakPower"].UpgradeValueBy(1m);
         DynamicVars["VulnerablePower"].UpgradeValueBy(1m);
     }
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class CorkLayer : CultivateCard
-{
-    public CorkLayer() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<ArtifactPower>(),
-    ];
-
-    public override bool GainsBlock => true;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new BlockVar(7m, ValueProp.Move) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await Apply<ArtifactPower>(ctx, play, play.Player.Creature, 1m);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -559,30 +440,6 @@ public sealed class NeedleRain : CultivateCard
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class Peat : CultivateCard
-{
-    public Peat() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<DrawCardsNextTurnPower>(),
-    ];
-
-    public override bool GainsBlock => true;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new BlockVar(6m, ValueProp.Move) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await Apply<DrawCardsNextTurnPower>(ctx, play, play.Player.Creature, 1m);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class Trunk : CultivateCard
 {
     public Trunk() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies) { }
@@ -622,48 +479,4 @@ public sealed class LeafLitter : CultivateCard
     }
 
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class ResinSeal : CultivateCard
-{
-    public ResinSeal() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<WeakPower>(),
-    ];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<WeakPower>(2m) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        if (play.Target is not null)
-            await Apply<WeakPower>(ctx, play, play.Target, DynamicVars["WeakPower"].BaseValue);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
-    }
-
-    protected override void OnUpgrade() => DynamicVars["WeakPower"].UpgradeValueBy(1m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
-public sealed class SeedlingTransplant : CultivateCard
-{
-    public SeedlingTransplant() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
-
-    public override bool GainsBlock => true;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new BlockVar(6m, ValueProp.Move) };
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await Block(ctx, play, DynamicVars.Block.BaseValue);
-        var pile = PileType.Discard.GetPile(play.Player);
-        var prefs = new CardSelectorPrefs(new LocString("cards", "HEADBUTT.selectionScreenPrompt"), 0, 1);
-        var chosen = (await CardSelectCmd.FromCombatPile(ctx, pile, play.Player, prefs)).FirstOrDefault();
-        if (chosen is not null)
-            await CardPileCmd.Add(chosen, PileType.Draw, CardPilePosition.Top);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }

@@ -68,5 +68,7 @@
     "VIRIDIS_POWER_LEAF_LITTER_POWER.title":  "Leaf Litter",
     "VIRIDIS_POWER_LEAF_LITTER_POWER.description":  "At the start of your turn, gain {Amount} [gold]Block[/gold] and [gold]Grow[/gold] 1.",
     "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.title":  "Old Tree Roots",
-    "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "At the end of your turn, gain {Amount} [gold]Block[/gold]. Lose this effect when you take unblocked damage."
+    "VIRIDIS_POWER_OLD_TREE_ROOTS_POWER.description":  "At the end of your turn, gain {Amount} [gold]Block[/gold]. Lose this effect when you take unblocked damage.",
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "Essential Flirting",
+    "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "Whenever you gain [gold]Anti-Stomp[/gold], gain that much [gold]Kaozi[/gold] instead."
 }
