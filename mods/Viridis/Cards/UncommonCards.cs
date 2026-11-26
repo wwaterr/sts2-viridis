@@ -161,10 +161,12 @@ public sealed class Division : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.CultivateMultiple(ctx, play.Player, this, 2, 1);
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("Copies", 1m)];
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+        => await CultivateSystem.CultivateWithCopies(ctx, play.Player, this, DynamicVars["Copies"].IntValue);
+
+    protected override void OnUpgrade() => DynamicVars["Copies"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -368,25 +370,38 @@ public sealed class Pollen : CultivateCard
 {
     public Pollen() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
+        HoverTipFactory.FromPower<WeakPower>(),
         HoverTipFactory.FromPower<VulnerablePower>(),
     ];
 
     protected override bool ShowsCultivateKeyword => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new PowerVar<VulnerablePower>(2m) };
+    [
+        new PowerVar<WeakPower>(2m),
+        new PowerVar<VulnerablePower>(2m),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is not null)
+        {
+            await Apply<WeakPower>(ctx, play, play.Target, DynamicVars["WeakPower"].BaseValue);
             await Apply<VulnerablePower>(ctx, play, play.Target, DynamicVars["VulnerablePower"].BaseValue);
+        }
 
         await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
     }
 
-    protected override void OnUpgrade() => DynamicVars["VulnerablePower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["WeakPower"].UpgradeValueBy(1m);
+        DynamicVars["VulnerablePower"].UpgradeValueBy(1m);
+    }
 }
 
 [RegisterCard(typeof(ViridisCardPool))]

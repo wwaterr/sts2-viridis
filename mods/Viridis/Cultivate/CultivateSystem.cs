@@ -35,11 +35,15 @@ public static class CultivateSystem
     public static Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
         => PlantFromHand(ctx, player, source, extraTurns, harvestImmediately: false);
 
+    /// <summary>栽培一张手牌，并把它的若干复制一并放进栽培区。</summary>
+    public static Task<bool> CultivateWithCopies(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraCopies, int extraTurns = 0)
+        => PlantFromHand(ctx, player, source, extraTurns, harvestImmediately: false, extraCopies);
+
     /// <summary>栽培并立即收获这一次种下的牌（移栽）。</summary>
     public static Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
         => PlantFromHand(ctx, player, source, extraTurns: 0, harvestImmediately: true);
 
-    private static async Task<bool> PlantFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns, bool harvestImmediately)
+    private static async Task<bool> PlantFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns, bool harvestImmediately, int extraCopies = 0)
     {
         if (!CultivateFlags.CanCultivate(player))
         {
@@ -70,7 +74,7 @@ public static class CultivateSystem
             return false;
         }
 
-        return await PlantCard(ctx, player, target, hand, extraTurns, harvestImmediately);
+        return await PlantCard(ctx, player, target, hand, extraTurns, harvestImmediately, extraCopies);
     }
 
     // ---------- 事件通知 ----------
@@ -320,7 +324,7 @@ public static class CultivateSystem
             : Task.CompletedTask;
 
     private static async Task<bool> PlantCard(PlayerChoiceContext ctx, Player player, CardModel target,
-        CardPile sourcePile, int extraTurns = 0, bool harvestImmediately = false)
+        CardPile sourcePile, int extraTurns = 0, bool harvestImmediately = false, int extraCopies = 0)
     {
         try
         {
@@ -349,7 +353,7 @@ public static class CultivateSystem
                 target.Id,
                 TargetRarity(target.Rarity),
                 x,
-                isAncient ? 2 : 1,
+                isAncient ? 2 + extraCopies : 1 + extraCopies,
                 target.Rarity,
                 target.IsUpgraded,
                 target.Title + (target.IsUpgraded ? "+" : ""))

@@ -57,6 +57,21 @@ public sealed class SurpriseStream : CultivateCard, IHypeCard
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         new[] { ViewerCountKeyword.Value };
 
+    protected override bool ShouldGlowGoldInternal => !HasDealtDamageThisTurn;
+
+    private bool HasDealtDamageThisTurn
+    {
+        get
+        {
+            if (CombatState is not { } state)
+                return false;
+
+            return CombatManager.Instance.History.Entries
+                .OfType<DamageReceivedEntry>()
+                .Any(e => e.HappenedThisTurn(state) && e.Dealer == Owner.Creature);
+        }
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         if (play.Target is null)
@@ -67,9 +82,7 @@ public sealed class SurpriseStream : CultivateCard, IHypeCard
             return;
 
         var history = CombatManager.Instance.History;
-        var dealtDamageBefore = history.Entries
-            .OfType<DamageReceivedEntry>()
-            .Any(e => e.HappenedThisTurn(state) && e.Dealer == play.Player.Creature);
+        var dealtDamageBefore = HasDealtDamageThisTurn;
 
         await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue, hits: dealtDamageBefore ? 1 : 2);
 

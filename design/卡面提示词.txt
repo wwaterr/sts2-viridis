@@ -109,10 +109,6 @@ breakfast, warm_colors, card_art, fantasy, painterly, dark_background
 1girl, solo, viridis_(character), green_hair, blessing, glowing_aura, gentle_smile, hands_clasped,
 light_particles, card_art, fantasy, painterly, dark_background
 
-杀植物 / Melt to Water
-1girl, solo, viridis_(character), green_hair, dissolving, turning_into_water, liquid_body,
-calm_expression, card_art, fantasy, painterly, dark_background
-
 催芽 / Germinate
 1girl, solo, viridis_(character), green_hair, sprouting_seed, fast_growth, glowing_sprout,
 excited_expression, card_art, fantasy, painterly, dark_background

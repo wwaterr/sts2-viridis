@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -90,23 +91,25 @@ public sealed class WaterDrawing : CultivateCard
 }
 
 /// <summary>煎蛋！：本回合获得 3（5）点力量。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
+[RegisterCard(typeof(TokenCardPool))]
 public sealed class FriedEgg : CultivateCard
 {
-    public FriedEgg() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public FriedEgg() : base(0, CardType.Skill, CardRarity.Token, TargetType.Self) { }
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { CardKeyword.Retain, CardKeyword.Exhaust };
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<TempStrengthPower>(),
     ];
 
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>(3m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<TempStrengthPower>(5m)];
 
     protected override Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => Apply<TempStrengthPower>(ctx, play, play.Player.Creature, DynamicVars.Strength.BaseValue);
+        => Apply<TempStrengthPower>(ctx, play, play.Player.Creature, DynamicVars["TempStrengthPower"].BaseValue);
 
-    protected override void OnUpgrade() => DynamicVars.Strength.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => DynamicVars["TempStrengthPower"].UpgradeValueBy(2m);
 }
 
 /// <summary>喜多护佑：获得 7（10）点格挡，移除自己的虚弱。</summary>
@@ -130,13 +133,13 @@ public sealed class KitaBlessing : CultivateCard
 
 /// <summary>杀植物：令栽培区所有牌枯萎；每枯萎 1 张获得 1 能量与 3 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class MeltToWater : CultivateCard
+public sealed class MeltToWater : PlaceholderArtCard
 {
-    public MeltToWater() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public MeltToWater() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override bool GainsBlock => true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockPerCrop", 3m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
     {
@@ -150,10 +153,11 @@ public sealed class MeltToWater : CultivateCard
             return;
 
         await PlayerCmd.GainEnergy(n, play.Player);
-        await Block(ctx, play, DynamicVars["BlockPerCrop"].BaseValue * n);
+        await Block(ctx, play, DynamicVars.Block.BaseValue * n);
+        await CardPileCmd.Draw(ctx, n, play.Player);
     }
 
-    protected override void OnUpgrade() => DynamicVars["BlockPerCrop"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
 }
 
 /// <summary>光合脉冲：3（4）伤害，每株作物多攻击一次。</summary>

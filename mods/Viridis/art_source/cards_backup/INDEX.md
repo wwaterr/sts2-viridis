@@ -26,6 +26,7 @@
 | `resin_trap.png` / `.ctex` | 树脂陷阱 / Resin Trap | 普通 / 攻击 | 小松绿在森林里用金色树脂绳困住一头野猪，背景是暮色山峦。横版 500×380。 | 陷阱、狩猎、控制 | 2026-11-25 |
 | `earthworm.png` / `.ctex` | 蚯蚓松土 / Earthworm | 普通 / 技能 | 土壤剖面里一条粉色蚯蚓穿过松软泥土，右侧幼苗根须伸展，上方有白花。横版 500×380。 | 地底、土壤、生长、抽牌 | 2026-11-25 |
 | `moss_cover.png` / `.ctex` | 苔藓覆盖 / Moss Cover | 普通 / 技能 | 林间岩石与厚苔藓，阳光斜照，前景有蕨芽与落叶，静谧绿色。横版 500×380。 | 苔藓、森林地面、格挡、隐蔽 | 2026-11-25 |
+| `melt_to_water.png` / `.ctex` | 忙碌 / Busy（原杀植物 / Melt to Water） | 罕见 / 技能 | 小松绿蹲在树根旁，用金色树脂/黏液把一头野猪缠在树桩之间，背景是暮色山林与蘑菇。横版 500×380。 | 树脂、陷阱、控制、野猪、暮色森林 | 2026-11-26 |
 
 ## 原卡面提示词
 
@@ -68,3 +69,6 @@ card_art, fantasy, painterly, dark_background
 苔藓覆盖 / Moss Cover
 1girl, solo, viridis_(character), green_hair, moss, mossy_ground, lying_down, camouflage,
 soft_green_blanket, card_art, fantasy, painterly, dark_background
+
+忙碌 / Busy（原杀植物 / Melt to Water）
+1girl, solo, viridis_(character), green_hair, gardener_outfit, golden_resin, trapping_a_boar, tree_stump, twilight_forest, mushroom, card_art, fantasy, painterly
