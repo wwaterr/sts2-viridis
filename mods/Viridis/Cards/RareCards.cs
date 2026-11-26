@@ -125,12 +125,16 @@ public sealed class Canopy : CultivateCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<CanopyPower>(2m)];
+        [new PowerVar<CanopyPower>(2m), new EnergyVar(2)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<CanopyPower>(ctx, play, play.Player.Creature, DynamicVars["CanopyPower"].BaseValue);
 
-    protected override void OnUpgrade() => DynamicVars["CanopyPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["CanopyPower"].UpgradeValueBy(1m);
+        DynamicVars["Energy"].UpgradeValueBy(1m);
+    }
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
