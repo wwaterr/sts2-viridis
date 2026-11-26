@@ -1,3 +1,4 @@
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -104,10 +105,12 @@ public sealed class Bolting : CultivateCard
     }
 }
 
-/// <summary>腐熟：把非永久作物的剩余回合设为 1，然后抽 1 张牌。</summary>
+/// <summary>腐熟：将栽培区内的倒计时设为 1 回合，然后抽 1 张牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Compost : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Compost() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];

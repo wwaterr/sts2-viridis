@@ -95,7 +95,8 @@ public sealed class Documentary : PlaceholderArtCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<NextCultivateEnergyPower>()
+        HoverTipFactory.FromPower<NextCultivateEnergyPower>(),
+        CultivateTips.Cultivate
     ];
 
     public override bool GainsBlock => true;

@@ -7,6 +7,7 @@
   3. 各语言的键集合一致（漏翻会报错）
   4. 每个 [RegisterCard] / [RegisterCharacter] / [RegisterPotion] 类都有对应的 title / description
   5. 自定义能力的名称和说明能在 powers.json 中找到
+  6. 注册的卡牌关键词在每种语言中都有悬浮标题和说明
 
 用法：
   python tools/check_loc.py
@@ -182,6 +183,23 @@ def check_power_keys(loc: dict[str, dict[str, dict[str, str]]]) -> None:
                 errors.append(f"{lang}/powers.json 缺少能力文本: {key}")
 
 
+def check_keyword_text(loc: dict[str, dict[str, dict[str, str]]]) -> None:
+    stems = set()
+    for path in MOD.rglob("*.cs"):
+        if "bin" in path.parts or "obj" in path.parts:
+            continue
+        source = strip_comments(path.read_text(encoding="utf-8-sig"))
+        stems.update(re.findall(r'\[RegisterOwnedCardKeyword\(\s*"([^"]+)"', source))
+
+    for lang, files in loc.items():
+        keywords = files.get("card_keywords.json", {})
+        for stem in sorted(stems):
+            for field in ("title", "description"):
+                key = f"VIRIDIS_KEYWORD_{snake(stem)}.{field}"
+                if not keywords.get(key, "").strip():
+                    errors.append(f"{lang}/card_keywords.json 缺少关键词文本: {key}")
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -195,6 +213,7 @@ def main() -> int:
     check_parity(loc)
     check_keys(loc)
     check_power_keys(loc)
+    check_keyword_text(loc)
 
     for w in warnings:
         print(f"warning: {w}")

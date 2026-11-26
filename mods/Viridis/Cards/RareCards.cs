@@ -23,6 +23,7 @@ public sealed class AncientTree : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<AncientTreePower>(),
+        CultivateTips.Cultivate
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -47,6 +48,8 @@ public sealed class ForestLord : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<ForestLordPower>(),
+        CultivateTips.Cultivate,
+        CultivateTips.Harvest
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -81,10 +84,11 @@ public sealed class RainOfChange : CultivateCard
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new DamageVar(8m, ValueProp.Move) };
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-    {
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
-    };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(WitherKeyword.Value),
+        CultivateTips.Cultivate
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -114,6 +118,7 @@ public sealed class Canopy : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<CanopyPower>(),
+        CultivateTips.Cultivate
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -164,6 +169,8 @@ public sealed class Clone : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringRitual : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public SpringRitual() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -180,6 +187,7 @@ public sealed class StranglerFig : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<VulnerablePower>(),
+        CultivateTips.Cultivate
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -205,6 +213,7 @@ public sealed class DeepRoot : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<DeepRootPower>(),
+        CultivateTips.Cultivate
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -222,11 +231,9 @@ public sealed class SpringCycle : CultivateCard
 
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-
     [
-
         HoverTipFactory.FromPower<SpringCyclePower>(),
-
+        ..base.AdditionalHoverTips
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -238,6 +245,8 @@ public sealed class SpringCycle : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafStorm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public LeafStorm() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -260,6 +269,7 @@ public sealed class MotherPlant : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<MotherPlantPower>(),
+        ..base.AdditionalHoverTips
     ];
 
     protected override bool ShowsCultivateKeyword => true;
@@ -273,6 +283,8 @@ public sealed class MotherPlant : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ExtremeGrowth : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public ExtremeGrowth() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
@@ -291,6 +303,8 @@ public sealed class LeafVein : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<LeafVeinPower>(),
+        CultivateTips.Cultivate,
+        CultivateTips.Harvest
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -325,6 +339,7 @@ public sealed class Symbiosis : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<SymbiosisPower>(),
+        CultivateTips.Cultivate
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<SymbiosisPower>(3m)];
@@ -343,6 +358,8 @@ public sealed class HumusCycle : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<HumusCyclePower>(),
+        CultivateTips.Cultivate,
+        CultivateTips.Harvest
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
@@ -394,10 +411,11 @@ public sealed class WitherBloom : CultivateCard
 {
     public WitherBloom() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-    {
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
-    };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(WitherKeyword.Value),
+        CultivateTips.Cultivate
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -415,6 +433,8 @@ public sealed class WitherBloom : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class PhotosyntheticStorm : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public PhotosyntheticStorm() : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

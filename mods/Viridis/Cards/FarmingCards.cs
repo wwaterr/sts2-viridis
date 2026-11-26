@@ -29,6 +29,8 @@ public sealed class FarmerForm : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<FarmerFormPower>(),
+        CultivateTips.Cultivate,
+        CultivateTips.Harvest
     ];
 
     public override CardAssetProfile AssetProfile =>
@@ -59,10 +61,11 @@ public sealed class ScaleInsect : CultivateCard
         new PowerVar<VulnerablePower>(2m)
     };
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-    {
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
-    };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(WitherKeyword.Value),
+        CultivateTips.Cultivate
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -90,11 +93,12 @@ public sealed class CultivationMastery : CultivateCard
     public override CardAssetProfile AssetProfile =>
         new(PortraitPath: $"{ModEntry.ResPath}/images/cards/cultivation_mastery.ctex");
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-    {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
         HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
-    };
+        HoverTipFactory.FromKeyword(WitherKeyword.Value),
+        CultivateTips.Cultivate
+    ];
 
     protected override CardLocation GetResultLocationForCardPlay()
         => new(Owner, PileType.Exhaust, CardPilePosition.Bottom);

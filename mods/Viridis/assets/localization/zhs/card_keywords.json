@@ -1,10 +1,10 @@
 {
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "栽培",
-    "VIRIDIS_KEYWORD_CULTIVATE.description":  "将牌移入栽培区。生长期按基础费用计算（1～3回合，X费算1）。你的回合开始时倒计时减1，成熟时通常收获一张高一级稀有度的牌。\n按种下时的倒计时结算，提前收获仍可减费。2回合的牌首次打出至多1费。3回合的牌通常优先从2费和3费牌中随机收获一张，首次打出0费。\n先古牌成熟时收获两张同名牌。生长期至少2回合时，两张牌首次打出均至多1费。",
+    "VIRIDIS_KEYWORD_CULTIVATE.description":  "将选中的牌放入栽培区。倒计时等于其基础费用，最少1回合，最多3回合（X费算1回合）。在你的回合开始时，倒计时减1，减至0时立即收获。",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "永久栽培",
-    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "被栽培时，永久留在栽培区，不会收获成卡牌。直接打出不会触发栽培。其它效果仍可将其移出栽培区。",
+    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "将此牌栽培后，它留在栽培区并按牌面说明触发效果。它没有倒计时，无法收获。直接打出此牌不会将它栽培。",
     "VIRIDIS_KEYWORD_WITHER.title":  "枯萎",
-    "VIRIDIS_KEYWORD_WITHER.description":  "移除一张栽培区中的卡牌，不会收获，也不会将原卡牌返回。",
+    "VIRIDIS_KEYWORD_WITHER.description":  "将指定的牌移出栽培区，本场战斗中失去这张牌，不触发收获。",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "同接",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "一种计数。你的回合内每打出一张牌，同接 +1；回合结束时清零。",
     "VIRIDIS_KEYWORD_KAOZI.title":  "考子",
@@ -14,7 +14,14 @@
     "VIRIDIS_KEYWORD_CHUANZI.title":  "串子",
     "VIRIDIS_KEYWORD_CHUANZI.description":  "回合开始时，随机获得 X 次 1 点活力或 1 点拉伸。",
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "老农形态",
-    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。",
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每层老农形态使栽培区的倒计时在你的回合开始时额外减1。每当一张牌的倒计时归零，每层多收获一张牌。",
     "VIRIDIS_KEYWORD_GROW.title":  "生长",
-    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有非永久作物的剩余回合数减少 X。X 由卡牌效果决定。"
+    "VIRIDIS_KEYWORD_GROW.description":  "将栽培区中所有牌的倒计时减少指定的回合数。减至0时立即收获。",
+    "VIRIDIS_KEYWORD_HARVEST.title":  "收获",
+    "VIRIDIS_KEYWORD_HARVEST.description":  "通常生成1张比原牌高一级稀有度的牌加入手牌，手牌已满则放入弃牌堆。新牌继承原牌的升级。先古牌改为生成2张同名牌。\n若原牌的基础费用至少为2，新牌首次打出至多1费。若原牌为3费及以上的初始、普通、罕见、稀有、事件或衍生牌，则优先收获2或3费牌，首次打出0费。提前收获仍享受减费。",
+    "VIRIDIS_CULTIVATE_PILE.title":  "栽培区",
+    "VIRIDIS_CULTIVATE_PILE.count":  "栽培区（{Count}）",
+    "VIRIDIS_CULTIVATE_PILE.empty":  "栽培区中没有牌。",
+    "VIRIDIS_CULTIVATE_PILE.permanent":  "{CardTitle}　永久栽培",
+    "VIRIDIS_CULTIVATE_PILE.turns":  "{CardTitle}　剩余{Turns}回合"
 }

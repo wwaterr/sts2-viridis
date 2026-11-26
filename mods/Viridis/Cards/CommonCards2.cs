@@ -41,6 +41,8 @@ public sealed class VineWhip : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Photosynthesis : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Photosynthesis() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1), new CardsVar(1)];
@@ -152,6 +154,8 @@ public sealed class Resin : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Bud : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, ..base.AdditionalHoverTips];
+
     public Bud() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override bool ShowsCultivateKeyword => true;
