@@ -104,7 +104,7 @@ public sealed class Bolting : CultivateCard
     }
 }
 
-/// <summary>腐熟：把非永久作物的剩余回合设为 1，然后抽 1 张牌。</summary>
+/// <summary>腐熟：把栽培区内牌的剩余回合设为 1，然后抽 1 张牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Compost : CultivateCard
 {

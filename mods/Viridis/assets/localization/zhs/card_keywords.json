@@ -16,5 +16,5 @@
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "老农形态",
     "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。",
     "VIRIDIS_KEYWORD_GROW.title":  "生长",
-    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有非永久牌的剩余回合数减少 X。X 由卡牌效果决定。"
+    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有牌的剩余回合数减少 X。X 由卡牌效果决定。"
 }

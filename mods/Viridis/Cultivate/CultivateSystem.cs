@@ -35,7 +35,7 @@ public static class CultivateSystem
     public static Task<bool> CultivateFromHand(PlayerChoiceContext ctx, Player player, AbstractModel source, int extraTurns = 0)
         => PlantFromHand(ctx, player, source, extraTurns, harvestImmediately: false);
 
-    /// <summary>栽培并立即收获这一次种下的非永久作物（移栽）。</summary>
+    /// <summary>栽培并立即收获这一次种下的牌（移栽）。</summary>
     public static Task<bool> CultivateNow(PlayerChoiceContext ctx, Player player, AbstractModel source)
         => PlantFromHand(ctx, player, source, extraTurns: 0, harvestImmediately: true);
 

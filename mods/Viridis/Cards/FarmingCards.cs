@@ -26,6 +26,9 @@ public sealed class FarmerForm : CultivateCard
     {
     }
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        base.CanonicalKeywords.Append(GrowKeyword.Value);
+
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<FarmerFormPower>(),
