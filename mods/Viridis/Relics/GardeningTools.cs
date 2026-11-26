@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
@@ -32,6 +33,9 @@ public sealed class GardeningTools : RelicModel
     public override string PackedIconPath => IconArt + ".ctex";
     protected override string PackedIconOutlinePath => IconArt + "_outline.ctex";
     protected override string BigIconPath => IconArt + "_big.ctex";
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        new[] { HoverTipFactory.FromKeyword(CultivateKeyword.Value) };
 
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {

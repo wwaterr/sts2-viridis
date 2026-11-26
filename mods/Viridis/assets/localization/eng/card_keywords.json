@@ -1,6 +1,6 @@
 {
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "Cultivate",
-    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Cultivate: Put a card into your Cultivate Pile. After X of your turns, harvest. X = the card's original cost, with a minimum of 1 and a maximum of 3 (0-cost and X-cost cards count as 1).\nNon-Ancient cards yield 1 Viridis class card of one rarity higher with the same base cost; if X > 1, its cost is reduced to 1 before its first play. Ancient cards yield 2 copies of the same card. The original card is not returned; the product keeps its upgrade but not its enchantment.",
+    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Cultivate: Move the selected card into your Cultivate Pile and gain X turns of wait time, where X is the card's base Energy cost before upgrades, with a minimum of 1 and a maximum of 3 (0-cost and X-cost cards count as 1). At the start of your turn, its remaining turns decrease by 1; when they reach 0, harvest. Non-Ancient cards yield 1 Viridis class card of one rarity higher with the same base cost; if X > 1, its cost is reduced to 1 before its first play. Ancient cards yield 2 copies of the same card. The original card is not returned; the product keeps its upgrade but not its enchantment.",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "Permanent Cultivate",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "When cultivated, this card stays in your Cultivate Pile permanently and never yields a card. Playing it does not cultivate it. Other effects can still remove it.",
     "VIRIDIS_KEYWORD_WITHER.title":  "Wither",
@@ -16,5 +16,5 @@
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
     "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
     "VIRIDIS_KEYWORD_GROW.title":  "Grow",
-    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all non-permanent crops in your Cultivate Pile by X. X is set by the card."
+    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all non-permanent cards in your Cultivate Pile by X. X is set by the card."
 }

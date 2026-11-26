@@ -1,6 +1,6 @@
 {
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "栽培",
-    "VIRIDIS_KEYWORD_CULTIVATE.description":  "栽培：将一张牌移入栽培区，X 次你的回合开始后收获。X = 原牌基础费用且最低 1最高 3（0 费与 X 费牌按 1）。\n非先古牌收获 1 张稀有度高一级、基础费用相同的小松绿职业牌且若X>1打出一次前费用降为1；先古牌收获 2 张同名先古牌。原牌不返回，产物保留升级不保留附魔。",
+    "VIRIDIS_KEYWORD_CULTIVATE.description":  "栽培：将选中的牌移入栽培区并获得X回合等待时间，X按该牌的未升级时的基础能量费用计算且最低 1最高 3（0 费与 X 费牌按 1）。在你的回合开始时的剩余回合数减少 1，变为0时收获。非先古牌收获 1 张稀有度高一级、基础费用相同的小松绿职业牌且若X>1打出一次前费用降为1；先古牌收获 2 张同名先古牌。原牌不返回，产物保留升级不保留附魔。",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "永久栽培",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "被栽培时，永久留在栽培区，不会收获成卡牌。直接打出不会触发栽培。其它效果仍可将其移出栽培区。",
     "VIRIDIS_KEYWORD_WITHER.title":  "枯萎",
@@ -16,5 +16,5 @@
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "老农形态",
     "VIRIDIS_KEYWORD_FARMER_FORM.description":  "每回合的栽培进度和栽培产物数量 +1。",
     "VIRIDIS_KEYWORD_GROW.title":  "生长",
-    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有非永久作物的剩余回合数减少 X。X 由卡牌效果决定。"
+    "VIRIDIS_KEYWORD_GROW.description":  "使栽培区中所有非永久牌的剩余回合数减少 X。X 由卡牌效果决定。"
 }

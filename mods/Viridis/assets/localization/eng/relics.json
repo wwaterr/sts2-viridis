@@ -1,9 +1,9 @@
 {
     "VIRIDIS_RELIC_GARDENING_TOOLS.title":  "Gardener's Gloves",
-    "VIRIDIS_RELIC_GARDENING_TOOLS.description":  "On the first turn of each combat, draw 1 additional card, then cultivate 1 card from your hand.",
+    "VIRIDIS_RELIC_GARDENING_TOOLS.description":  "At the start of each combat, draw 1 additional card, then [gold]Cultivate[/gold] 1 card from your hand.",
     "VIRIDIS_RELIC_GARDENING_TOOLS.flavor":  "Worn leather gloves, still carrying the smell of damp soil.",
     "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.title":  "Gardening Tools",
-    "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.description":  "At the start of your turn, draw 1 additional card, then cultivate 1 card from your hand.",
+    "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.description":  "At the start of your turn, draw 1 additional card, then [gold]Cultivate[/gold] 1 card from your hand.",
     "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.flavor":  "Orobas polished the blades, and the gloves fit better than before.",
     "VIRIDIS_RELIC_HARVEST_CHARM.title":  "Harvest Charm",
     "VIRIDIS_RELIC_HARVEST_CHARM.description":  "The first time you harvest a card each combat, gain {Block} Block.",
