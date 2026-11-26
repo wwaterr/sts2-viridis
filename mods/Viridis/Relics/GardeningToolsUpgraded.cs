@@ -29,9 +29,6 @@ public sealed class GardeningToolsUpgraded : RelicModel
     protected override string PackedIconOutlinePath => IconArt + "_outline.ctex";
     protected override string BigIconPath => IconArt + "_big.ctex";
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        new[] { HoverTipFactory.FromKeyword(CultivateKeyword.Value) };
-
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {
         try
