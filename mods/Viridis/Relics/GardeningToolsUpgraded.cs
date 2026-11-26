@@ -2,6 +2,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
@@ -17,6 +18,8 @@ namespace Viridis.Relics;
 [RegisterRelic(typeof(ViridisRelicPool))]
 public sealed class GardeningToolsUpgraded : RelicModel
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     public override LocString Title => new("relics", "VIRIDIS_RELIC_GARDENING_TOOLS_UPGRADED.title");
 
     public override RelicRarity Rarity => RelicRarity.Starter;
