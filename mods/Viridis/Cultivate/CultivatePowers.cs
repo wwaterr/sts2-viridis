@@ -49,18 +49,9 @@ public sealed class TempStrengthPower : TemporaryStrengthPower
 }
 
 /// <summary>本回合敏捷（回合结束时移除）。</summary>
-public sealed class TempDexterityPower : CultivatePowerBase
+public sealed class TempDexterityPower : TemporaryDexterityPower
 {
-    public decimal Value { get; set; } = 1m;
-
-    public override async Task BeforeSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (!participants.Contains(Owner))
-            return;
-
-        await PowerCmd.Apply<DexterityPower>(ctx, Owner, -Value, Owner, null);
-        await PowerCmd.Remove(this);
-    }
+    public override AbstractModel OriginModel => ModelDb.Card<Viridis.Cards.Weasel>();
 }
 
 /// <summary>共生：每次栽培成功后，对一个随机敌人造成等同于层数的伤害。</summary>

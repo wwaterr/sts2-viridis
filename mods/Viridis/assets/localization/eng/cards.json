@@ -84,8 +84,8 @@
     "VIRIDIS_CARD_EXTREME_GROWTH.description":  "Immediately harvest ALL cards in your Cultivate Pile.",
     "VIRIDIS_CARD_EXTREME_GROWTH.smartDescription":  "Immediately harvest ALL cards in your Cultivate Pile.",
     "VIRIDIS_CARD_FRIED_EGG.title":  "Fried Egg!",
-    "VIRIDIS_CARD_FRIED_EGG.description":  "Gain {StrengthPower:diff()} [gold]Strength[/gold] this turn.",
-    "VIRIDIS_CARD_FRIED_EGG.smartDescription":  "Gain {StrengthPower:diff()} [gold]Strength[/gold] this turn.",
+    "VIRIDIS_CARD_FRIED_EGG.description":  "Gain {TempStrengthPower:diff()} [gold]Strength[/gold] this turn.",
+    "VIRIDIS_CARD_FRIED_EGG.smartDescription":  "Gain {TempStrengthPower:diff()} [gold]Strength[/gold] this turn.",
     "VIRIDIS_CARD_STRANGLER_FIG.title":  "Strangler Fig",
     "VIRIDIS_CARD_STRANGLER_FIG.description":  "Deal {Damage:diff()} damage.\nApply [gold]Vulnerable[/gold] equal to the number of cards in your Cultivate Pile.",
     "VIRIDIS_CARD_STRANGLER_FIG.smartDescription":  "Deal {Damage:diff()} damage.\nApply [gold]Vulnerable[/gold] equal to the number of cards in your Cultivate Pile.",
@@ -377,6 +377,6 @@
     "VIRIDIS_CARD_NICHE_TASTE.description":  "Exhaust all cards in your hand except [gold]Uncommon[/gold], [gold]Rare[/gold], and [gold]Ancient[/gold] cards. Add {IfUpgraded:show:an [gold]Upgraded[/gold]|a} Fried Egg! and a Weasel! to your [gold]hand[/gold].",
     "VIRIDIS_CARD_NICHE_TASTE.smartDescription":  "Exhaust all cards in your hand except [gold]Uncommon[/gold], [gold]Rare[/gold], and [gold]Ancient[/gold] cards. Add {IfUpgraded:show:an [gold]Upgraded[/gold]|a} Fried Egg! and a Weasel! to your [gold]hand[/gold].",
     "VIRIDIS_CARD_WEASEL.title":  "Weasel!",
-    "VIRIDIS_CARD_WEASEL.description":  "Gain {DexterityPower:diff()} [gold]Dexterity[/gold] this turn.",
-    "VIRIDIS_CARD_WEASEL.smartDescription":  "Gain {DexterityPower:diff()} [gold]Dexterity[/gold] this turn."
+    "VIRIDIS_CARD_WEASEL.description":  "Gain {TempDexterityPower:diff()} [gold]Dexterity[/gold] this turn.",
+    "VIRIDIS_CARD_WEASEL.smartDescription":  "Gain {TempDexterityPower:diff()} [gold]Dexterity[/gold] this turn."
 }
