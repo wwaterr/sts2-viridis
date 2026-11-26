@@ -15,24 +15,6 @@ namespace Viridis.Cards;
 // ---------- 第三组普通牌 ----------
 
 [RegisterCard(typeof(ViridisCardPool))]
-public sealed class ToiletPaper : PlaceholderArtCard
-{
-    public ToiletPaper() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) { }
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { BacklashKeyword.Value };
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
-
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
-        await Apply<BacklashPower>(ctx, play, play.Player.Creature, 3m);
-    }
-
-    protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
-}
-
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class Protection : PlaceholderArtCard
 {
     public Protection() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
@@ -110,7 +92,7 @@ public sealed class Documentary : PlaceholderArtCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await Apply<EarwormPower>(ctx, play, play.Player.Creature, DynamicVars["EarwormPower"].BaseValue);
+        await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
         await Apply<NextCultivateEnergyPower>(ctx, play, play.Player.Creature, 1m);
     }
 
@@ -156,7 +138,7 @@ public sealed class Confrontation : PlaceholderArtCard
             return;
 
         await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-        await Apply<BacklashPower>(ctx, play, play.Player.Creature, DynamicVars["BacklashPower"].BaseValue);
+        await HypeSystem.GainBacklash(ctx, play.Player, (int)DynamicVars["BacklashPower"].BaseValue);
     }
 
     protected override void OnUpgrade()

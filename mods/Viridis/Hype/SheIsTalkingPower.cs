@@ -16,7 +16,7 @@ namespace Viridis.Hype;
 /// </summary>
 public sealed class SheIsTalkingPower : ModPowerTemplate
 {
-    private bool _pending;
+    private readonly HashSet<int> _qualifiedRounds = new();
 
     public override PowerType Type => PowerType.Buff;
 
@@ -30,15 +30,16 @@ public sealed class SheIsTalkingPower : ModPowerTemplate
     public void NotifyHype(int total)
     {
         if (total >= Amount)
-            _pending = true;
+            _qualifiedRounds.Add(Owner.CombatState?.RoundNumber ?? 0);
     }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        if (player != Owner.Player || !_pending)
+        if (player != Owner.Player || _qualifiedRounds.Count == 0)
             return;
 
-        _pending = false;
-        await CultivateSystem.Grow(choiceContext, player, 1);
+        int currentRound = Owner.CombatState?.RoundNumber ?? 0;
+        if (_qualifiedRounds.RemoveWhere(r => r < currentRound) > 0)
+            await CultivateSystem.Grow(choiceContext, player, 1);
     }
 }

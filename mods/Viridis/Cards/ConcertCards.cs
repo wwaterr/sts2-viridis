@@ -90,7 +90,7 @@ public sealed class HeavenlyMelody : CultivateCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         HypeSystem.Add(play.Player, (int)DynamicVars["Viewer"].BaseValue);
-        await Apply<EarwormPower>(ctx, play, play.Player.Creature, DynamicVars["EarwormPower"].BaseValue);
+        await HypeSystem.GainEarworm(ctx, play.Player, (int)DynamicVars["EarwormPower"].BaseValue);
         await Energy(ctx, play, (int)DynamicVars.Energy.BaseValue);
         await CardPileCmd.Draw(ctx, 1m, play.Player);
     }

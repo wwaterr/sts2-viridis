@@ -18,6 +18,7 @@ public sealed class NoChlorophyll : CultivateCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new IHoverTip[]
     {
+        HoverTipFactory.FromKeyword(ViewerCountKeyword.Value),
         HoverTipFactory.FromKeyword(EarwormKeyword.Value),
         HoverTipFactory.FromKeyword(BacklashKeyword.Value),
         HoverTipFactory.FromKeyword(LurkingKeyword.Value),

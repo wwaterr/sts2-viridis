@@ -157,8 +157,12 @@ public sealed class EarwormSlayer : CultivateCard, IHypeCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        var kaozi = play.Player.Creature.GetPower<EarwormPower>();
-        await PowerCmd.Remove(kaozi);
+        var earworm = play.Player.Creature.GetPower<EarwormPower>();
+        if (earworm is not null)
+        {
+            await PowerCmd.Remove(earworm);
+            PolarityBarUI.Refresh(play.Player);
+        }
 
         if (CombatState is not { } combat || combat.HittableEnemies.Count == 0)
             return;

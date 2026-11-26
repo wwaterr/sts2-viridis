@@ -30,9 +30,8 @@ public sealed class TreatYourself : CultivateCard
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int amount = IsUpgraded ? 3 : 2;
-        await CardPileCmd.Draw(ctx, amount, play.Player);
-        await Energy(ctx, play, amount);
+        await CardPileCmd.Draw(ctx, DynamicVars.Cards.BaseValue, play.Player);
+        await Energy(ctx, play, (int)DynamicVars.Energy.BaseValue);
         await HypeSystem.GainEarworm(ctx, play.Player, 3);
     }
 

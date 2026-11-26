@@ -51,7 +51,7 @@ public sealed class Unicycle : PlaceholderArtCard
         if (stacks <= 0)
             return;
 
-        await PowerCmd.Apply<VigorPower>(ctx, player, stacks, player.Creature, this);
+        await PowerCmd.Apply<VigorPower>(ctx, player.Creature, stacks, player.Creature, this);
     }
 }
 */
