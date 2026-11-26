@@ -1,6 +1,6 @@
 {
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "Cultivate",
-    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Put the selected card in your Cultivate Pile. At the start of your turn, reduce its remaining turns by 1. The wait is based on the card’s base Energy cost, with a minimum of 1 and a maximum of 3. X-cost cards take 1 turn. When ready, you usually harvest a card one rarity higher. Ancient cards yield two copies of the same card instead.",
+    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Put the card in your Cultivate Pile for 1–3 turns based on its base cost (X counts as 1). Count down by 1 at the start of your turn. You usually harvest a card one rarity higher.\nA card planted for 2 turns yields a card that costs at most 1 on its first play. At 3 turns, you usually receive a 2- or 3-cost card, free on its first play. Growing the card early keeps this benefit.\nHarvesting an Ancient yields two copies of it. For a 2- or 3-turn Ancient, each costs at most 1 on its first play.",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "Permanent Cultivate",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "When cultivated, this card stays in your Cultivate Pile permanently and never yields a card. Playing it does not cultivate it. Other effects can still remove it.",
     "VIRIDIS_KEYWORD_WITHER.title":  "Wither",
