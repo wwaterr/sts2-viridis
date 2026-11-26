@@ -14,6 +14,11 @@ public sealed class CultivateFieldPower : PowerModel
 
     protected override object InitInternalData() => new List<Planting>();
 
+    /// <summary>本场战斗累计收获的牌数（含先古牌的两张）。</summary>
+    public int HarvestCount { get; private set; }
+
+    public void RegisterHarvest() => HarvestCount++;
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Single;

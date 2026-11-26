@@ -96,6 +96,8 @@ public static class CultivateSystem
 
     private static async Task NotifyHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
     {
+        player.Creature.GetPower<CultivateFieldPower>()?.RegisterHarvest();
+
         foreach (var p in player.Creature.Powers.OfType<CultivatePowerBase>().ToList())
         {
             try

@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -124,17 +125,30 @@ public sealed class AncientTreePower : CultivatePowerBase
     }
 }
 
-/// <summary>冠层：回合开始时按库数获得能量（无上限）。</summary>
+/// <summary>冠层：回合开始时按栽培区牌数与本次收获数获得能量。</summary>
 public sealed class CanopyPower : CultivatePowerBase
 {
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    private int _harvested;
+
+    public override Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
+    {
+        if (player == Owner.Player)
+            _harvested++;
+        return Task.CompletedTask;
+    }
+
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
         if (player != Owner.Player)
             return;
 
-        int n = Pile(player);
+        int n = Pile(player) + _harvested;
+        _harvested = 0;
+
         if (n > 0)
-            await PlayerCmd.GainEnergy(n, player);
+            await PlayerCmd.GainEnergy(n * Amount, player);
     }
 }
 
@@ -182,18 +196,38 @@ public sealed class TreeRingMarkPower : CultivatePowerBase
         => await Block(player, Amount);
 }
 
-/// <summary>叶脉：每当你收获 1 张牌，抽 1 张牌。</summary>
+/// <summary>叶脉：每当你打出一张先古牌，获得 1 点能量。</summary>
 public sealed class LeafVeinPower : CultivatePowerBase
 {
-    public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
-        => await Draw(ctx, player, 1);
+    public override async Task AfterCardPlayed(PlayerChoiceContext ctx, CardPlay cardPlay)
+    {
+        if (cardPlay.Card.Owner == Owner.Player && cardPlay.Card.Rarity == CardRarity.Ancient)
+            await PlayerCmd.GainEnergy(1m, Owner.Player);
+    }
 }
 
-/// <summary>森林之主：每当你收获 1 张牌，获得 2 点力量。</summary>
+/// <summary>丰饶：每当你收获 1 张牌，随机获得 1 点力量或 1 点敏捷；升级后两者都获得。</summary>
 public sealed class ForestLordPower : CultivatePowerBase
 {
+    public bool Both { get; set; }
+
     public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
-        => await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, 2m, player.Creature, null);
+    {
+        if (player != Owner.Player)
+            return;
+
+        if (Both)
+        {
+            await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, 1m, player.Creature, null);
+            await PowerCmd.Apply<DexterityPower>(ctx, player.Creature, 1m, player.Creature, null);
+            return;
+        }
+
+        if (player.RunState.Rng.Niche.NextBool())
+            await PowerCmd.Apply<StrengthPower>(ctx, player.Creature, 1m, player.Creature, null);
+        else
+            await PowerCmd.Apply<DexterityPower>(ctx, player.Creature, 1m, player.Creature, null);
+    }
 }
 
 /// <summary>深根：每当你栽培 1 张牌，获得 1 点力量与 1 点敏捷。</summary>

@@ -229,26 +229,35 @@ public sealed class ResinShell : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
 }
 
-/// <summary>叶绿素爆发：对单个敌人造成每株作物 6 点伤害，至少 12 点。</summary>
+/// <summary>枼绿素爆发：按当前同接造成伤害，每有 1 层考子重复 1 次。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ChlorophyllBurst : CultivateCard
 {
-    public ChlorophyllBurst() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new CalculationBaseVar(12m),
-        new ExtraDamageVar(6m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) => Math.Max(0, FieldCount.For(card) - 2))
-    ];
+    public ChlorophyllBurst() : base(3, CardType.Attack, CardRarity.Rare, TargetType.RandomEnemy) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.CalculatedDamage.Calculate(play.Target));
+        var player = play.Player;
+        var enemies = player.Creature.CombatState?.HittableEnemies;
+        if (enemies is null || enemies.Count == 0)
+            return;
+
+        int damage = HypeSystem.GetAmount(player);
+        if (damage <= 0)
+            return;
+
+        int kaozi = player.Creature.GetPower<KaoziPower>()?.Amount ?? 0;
+        for (int i = 0; i <= kaozi; i++)
+        {
+            var target = player.RunState.Rng.CombatTargets.NextItem(enemies);
+            if (target is null)
+                break;
+
+            await Hit(ctx, play, target, damage);
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(4m);
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 }
 
 /// <summary>老根：10（13）格挡，每株作物额外 4 格挡。</summary>

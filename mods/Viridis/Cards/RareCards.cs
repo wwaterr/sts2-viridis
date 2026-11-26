@@ -5,11 +5,13 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
 using Viridis.Pools;
+using Viridis.Hype;
 
 namespace Viridis.Cards;
 
@@ -42,7 +44,7 @@ public sealed class AncientTree : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ForestLord : CultivateCard
 {
-    public ForestLord() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
+    public ForestLord() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
@@ -50,9 +52,15 @@ public sealed class ForestLord : CultivateCard
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<ForestLordPower>(ctx, play, play.Player.Creature, 1m);
+    {
+        var power = await PowerCmd.Apply<ForestLordPower>(ctx, play.Player.Creature, 1m, play.Player.Creature, this);
+        if (power is not null)
+            power.Both = IsUpgraded;
+    }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade()
+    {
+    }
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -116,10 +124,13 @@ public sealed class Canopy : CultivateCard
         HoverTipFactory.FromPower<CanopyPower>(),
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<CanopyPower>(ctx, play, play.Player.Creature, 1m);
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new PowerVar<CanopyPower>(2m)];
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+        => await Apply<CanopyPower>(ctx, play, play.Player.Creature, DynamicVars["CanopyPower"].BaseValue);
+
+    protected override void OnUpgrade() => DynamicVars["CanopyPower"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -148,17 +159,25 @@ public sealed class Clone : CultivateCard
 {
     public Clone() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new IntVar("Copies", 1m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_CLONE.selectionScreenPrompt"), 1);
         var selected = await CardSelectCmd.FromHand(ctx, play.Player, prefs, null, this);
-        if (selected.FirstOrDefault() is { } card)
-            await CardPileCmd.AddGeneratedCardToCombat(card.CreateClone(), PileType.Hand, play.Player);
+        if (selected.FirstOrDefault() is not { } card)
+            return;
+
+        int copies = (int)DynamicVars["Copies"].BaseValue;
+        var clones = new List<CardModel>();
+        for (int i = 0; i < copies; i++)
+            clones.Add(card.CreateClone());
+
+        await CardPileCmd.AddGeneratedCardsToCombat(clones, PileType.Hand, play.Player);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["Copies"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -238,18 +257,18 @@ public sealed class SpringCycle : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafStorm : CultivateCard
 {
-    public LeafStorm() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies) { }
+    public LeafStorm() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new DamageVar(4m, ValueProp.Move) };
+        new[] { new DamageVar(8m, ValueProp.Move) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        int hits = 1 + Pile(play);
-        await HitAll(ctx, play, DynamicVars.Damage.BaseValue, hits);
+        int harvests = play.Player.Creature.GetPower<CultivateFieldPower>()?.HarvestCount ?? 0;
+        await HitAll(ctx, play, DynamicVars.Damage.BaseValue, 1 + harvests);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -296,7 +315,7 @@ public sealed class LeafVein : CultivateCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
         => await Apply<LeafVeinPower>(ctx, play, play.Player.Creature, 1m);
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -370,34 +389,46 @@ public sealed class GrowthPeriod : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Catkin : CultivateCard
 {
-    public Catkin() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
+    public Catkin() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        base.CanonicalKeywords.Append(CardKeyword.Exhaust);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new DamageVar(6m, ValueProp.Move) };
+        [new IntVar("Count", 1m)];
 
     protected override bool ShowsCultivateKeyword => true;
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        var hand = play.Player.PlayerCombatState?.Hand;
+        int missing = CardPile.MaxCardsInHand - (hand?.Cards.Count ?? CardPile.MaxCardsInHand);
+        if (missing > 0)
+            await CardPileCmd.Draw(ctx, missing, play.Player);
 
-        await CultivateSystem.CultivateFromHand(ctx, play.Player, this);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        int count = (int)DynamicVars["Count"].BaseValue;
+        for (int i = 0; i < count; i++)
+        {
+            if (!await CultivateSystem.CultivateFromHand(ctx, play.Player, this))
+                break;
+        }
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["Count"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class WitherBloom : CultivateCard
 {
-    public WitherBloom() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
+    public WitherBloom() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
     {
         HoverTipFactory.FromKeyword(WitherKeyword.Value)
     };
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new IntVar("Gain", 2m)];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -405,11 +436,12 @@ public sealed class WitherBloom : CultivateCard
         if (n <= 0)
             return;
 
-        await PowerCmd.Apply<StrengthPower>(ctx, play.Player.Creature, 2m * n, play.Player.Creature, this);
-        await PowerCmd.Apply<DexterityPower>(ctx, play.Player.Creature, 2m * n, play.Player.Creature, this);
+        int gain = (int)DynamicVars["Gain"].BaseValue;
+        await PowerCmd.Apply<StrengthPower>(ctx, play.Player.Creature, gain * n, play.Player.Creature, this);
+        await PowerCmd.Apply<DexterityPower>(ctx, play.Player.Creature, gain * n, play.Player.Creature, this);
     }
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["Gain"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
