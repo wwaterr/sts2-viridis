@@ -341,12 +341,16 @@ public sealed class LandedRoot : CultivateCard
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<LandedRootPower>(),
+        HoverTipFactory.FromPower<PlatingPower>(),
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<LandedRootPower>(ctx, play, play.Player.Creature, 1m);
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new[] { new PowerVar<PlatingPower>(1m) };
 
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+        => await Apply<LandedRootPower>(ctx, play, play.Player.Creature, DynamicVars["PlatingPower"].BaseValue);
+
+    protected override void OnUpgrade() => DynamicVars["PlatingPower"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]

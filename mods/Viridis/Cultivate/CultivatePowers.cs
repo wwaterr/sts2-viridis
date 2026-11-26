@@ -281,11 +281,10 @@ public sealed class NextCultivateEnergyPower : CultivatePowerBase
 /// <summary>落地生根：自己的牌每命中一名敌人，获得 1 点格挡。</summary>
 public sealed class LandedRootPower : CultivatePowerBase
 {
-    public override async Task AfterDamageGiven(PlayerChoiceContext ctx, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
-    {
-        if (dealer == Owner && cardSource?.Owner.Creature == Owner && target.Side == CombatSide.Enemy)
-            await CreatureCmd.GainBlock(Owner, 1m, ValueProp.Unpowered, null);
-    }
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
+        => await PowerCmd.Apply<PlatingPower>(ctx, Owner, Amount, Owner, null);
 }
 
 /// <summary>泥炭：回合结束时若栽培牌库非空，抽 1 张牌（然后移除）。</summary>
