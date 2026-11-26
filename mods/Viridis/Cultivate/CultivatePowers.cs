@@ -10,6 +10,8 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Scaffolding.Content;
+using Viridis.Hype;
+using Viridis.Powers;
 
 namespace Viridis.Cultivate;
 
@@ -73,16 +75,23 @@ public sealed class SymbiosisPower : CultivatePowerBase
     }
 }
 
-/// <summary>根系网络：自然成熟后，获得基础格挡，每株留田作物额外提供 1 点。</summary>
+/// <summary>根系网络：自己的回合结束时，栽培区每有1张牌便获得等同层数的格挡。</summary>
 public sealed class RootNetworkPower : CultivatePowerBase
 {
     public override PowerStackType StackType => PowerStackType.Counter;
 
-
-    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
     {
-        if (player == Owner.Player)
-            await Block(player, Amount + Pile(player));
+        if (!participants.Contains(Owner))
+            return;
+
+        var player = Owner.Player;
+        if (player is null)
+            return;
+
+        int n = Pile(player);
+        if (n > 0)
+            await Block(player, Amount * n);
     }
 }
 
@@ -154,11 +163,13 @@ public sealed class TundraPower : CultivatePowerBase
     }
 }
 
-/// <summary>菌根：每当你栽培 1 张牌，抽 1 张牌。</summary>
+/// <summary>菌根：每当你栽培 1 张牌，抽等同层数的牌。</summary>
 public sealed class MycorrhizaPower : CultivatePowerBase
 {
+    public override PowerStackType StackType => PowerStackType.Counter;
+
     public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
-        => await Draw(ctx, player, 1);
+        => await Draw(ctx, player, Amount);
 }
 
 /// <summary>年轮刻印：每张主收获品产生一次格挡。</summary>
@@ -198,22 +209,46 @@ public sealed class DeepRootPower : CultivatePowerBase
 /// <summary>花芽分化：每回合第一次栽培时，生长 1。</summary>
 public sealed class FlowerBudPower : CultivatePowerBase
 {
-    private bool _used;
+    public decimal DamageValue { get; set; }
+    public bool CountHarvested { get; set; }
+    private int _harvested;
 
-    public override Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
+    public override async Task OnHarvested(PlayerChoiceContext ctx, Player player, CardModel card)
     {
-        if (player == Owner.Player)
-            _used = false;
-        return Task.CompletedTask;
+        if (CountHarvested && player == Owner.Player)
+            _harvested++;
     }
 
-    public override async Task OnCultivated(PlayerChoiceContext ctx, Player player)
+    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext ctx, Player player)
     {
-        if (_used)
+        if (player != Owner.Player)
             return;
 
-        _used = true;
-        await CultivateSystem.Grow(ctx, player, 1);
+        int targets = Pile(player) + (CountHarvested ? _harvested : 0);
+        if (targets <= 0)
+        {
+            await PowerCmd.Remove(this);
+            return;
+        }
+
+        var enemies = Owner.CombatState?.HittableEnemies;
+        if (enemies is null || enemies.Count == 0)
+        {
+            await PowerCmd.Remove(this);
+            return;
+        }
+
+        Flash();
+        for (int i = 0; i < targets; i++)
+        {
+            var target = player.RunState.Rng.CombatTargets.NextItem(enemies);
+            if (target is null)
+                break;
+
+            await CreatureCmd.Damage(ctx, target, DamageValue, ValueProp.Unpowered, Owner);
+        }
+
+        await PowerCmd.Remove(this);
     }
 }
 
@@ -342,6 +377,52 @@ public sealed class HumusCyclePower : CultivatePowerBase
 }
 
 /// <summary>栽培牌库为空时是否允许栽培（树液）。</summary>
+/// <summary>骡子职务：你的回合开始时获得等同层数的考子。</summary>
+public sealed class MuleDutyPower : CultivatePowerBase
+{
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
+    {
+        if (player == Owner.Player)
+            await PowerCmd.Apply<KaoziPower>(ctx, player.Creature, Amount, Owner, null);
+    }
+}
+
+/// <summary>落叶层：下个回合开始时获得格挡并生长 1。</summary>
+public sealed class LeafLitterPower : CultivatePowerBase
+{
+    public decimal BlockValue { get; set; }
+
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext ctx, Player player)
+    {
+        if (player != Owner.Player)
+            return;
+
+        await Block(player, BlockValue);
+        await CultivateSystem.Grow(ctx, player, 1);
+        await PowerCmd.Remove(this);
+    }
+}
+
+/// <summary>老树盘根：回合结束时获得格挡；受到未被格挡的伤害时移除。</summary>
+public sealed class OldTreeRootsPower : CultivatePowerBase
+{
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext ctx, CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (participants.Contains(Owner))
+            await Block(Owner.Player!, Amount);
+    }
+
+    public override async Task AfterDamageReceived(PlayerChoiceContext ctx, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+    {
+        if (target == Owner && result.UnblockedDamage > 0m)
+            await PowerCmd.Remove(this);
+    }
+}
+
 public static class CultivateFlags
 {
     public static bool CanCultivate(Player player)

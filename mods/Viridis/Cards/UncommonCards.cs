@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Cultivate;
+using Viridis.Hype;
 using Viridis.Pools;
 using Viridis.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -21,35 +22,21 @@ namespace Viridis.Cards;
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Gymnosperm : CultivateCard
 {
-    public Gymnosperm() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public Gymnosperm() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<MuleDutyPower>(),
+        HoverTipFactory.FromPower<KaoziPower>(),
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new[] { new PowerVar<MuleDutyPower>(4m) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        var player = play.Player;
-        var field = player.Creature.GetPower<CultivateFieldPower>();
-        if (field is null || !field.Pending.Any(planting => !planting.Permanent))
-            return;
+        => await Apply<MuleDutyPower>(ctx, play, play.Player.Creature, DynamicVars["MuleDutyPower"].BaseValue);
 
-        // 选项只用于选择界面，不加入任何牌堆或牌表。
-        var accelerate = ModelDb.Card<GymnospermAccelerateOption>().ToMutable();
-        accelerate.Owner = player;
-        var delay = ModelDb.Card<GymnospermDelayOption>().ToMutable();
-        delay.Owner = player;
-        var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_GYMNOSPERM.select_prompt"), 1)
-        {
-            Cancelable = false,
-            RequireManualConfirmation = false
-        };
-
-        var choices = new[] { accelerate, delay };
-        var selected = (await CardSelectCmd.FromSimpleGrid(ctx, choices, player, prefs)).FirstOrDefault();
-        if (ReferenceEquals(selected, accelerate))
-            await CultivateSystem.Grow(ctx, player, 1);
-        else if (ReferenceEquals(selected, delay))
-            await CultivateSystem.DelayAll(ctx, player, 1);
-    }
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override void OnUpgrade() => DynamicVars["MuleDutyPower"].UpgradeValueBy(2m);
 }
 
 [RegisterCard(typeof(TokenCardPool))]
@@ -75,10 +62,30 @@ public sealed class Transplant : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.CultivateNow(ctx, play.Player, this);
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        var hand = play.Player.PlayerCombatState?.Hand;
+        if (hand is null || hand.Cards.Count == 0)
+            return;
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_TRANSPLANT_PROMPT"), 1)
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+        var selected = await CardSelectCmd.FromHand(ctx, play.Player, prefs, c => c != this, this);
+        var card = selected?.FirstOrDefault();
+        if (card is null)
+            return;
+
+        await CardCmd.AutoPlay(ctx, card, null);
+        if (card.Pile is { IsCombatPile: true })
+            await CultivateSystem.Cultivate(ctx, play.Player, card);
+    }
+
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -92,15 +99,10 @@ public sealed class RootNetwork : CultivateCard
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new PowerVar<RootNetworkPower>(1m) };
+        new[] { new PowerVar<RootNetworkPower>(3m) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        var owner = play.Player.Creature;
-        decimal increase = DynamicVars["RootNetworkPower"].BaseValue - owner.GetPowerAmount<RootNetworkPower>();
-        if (increase > 0m)
-            await Apply<RootNetworkPower>(ctx, play, owner, increase);
-    }
+        => await Apply<RootNetworkPower>(ctx, play, play.Player.Creature, DynamicVars["RootNetworkPower"].BaseValue);
 
     protected override void OnUpgrade() => DynamicVars["RootNetworkPower"].UpgradeValueBy(1m);
 }
@@ -108,17 +110,20 @@ public sealed class RootNetwork : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Mycorrhiza : CultivateCard
 {
-    public Mycorrhiza() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
+    public Mycorrhiza() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<MycorrhizaPower>(),
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<MycorrhizaPower>(ctx, play, play.Player.Creature, 1m);
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new[] { new PowerVar<MycorrhizaPower>(1m) };
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+        => await Apply<MycorrhizaPower>(ctx, play, play.Player.Creature, DynamicVars["MycorrhizaPower"].BaseValue);
+
+    protected override void OnUpgrade() => DynamicVars["MycorrhizaPower"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -300,10 +305,13 @@ public sealed class Sucker : CultivateCard
 
     protected override bool ShowsCultivateKeyword => true;
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await CultivateSystem.CultivateFromDrawPile(ctx, play.Player, this);
+    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new IntVar("Count", 1m) };
 
-    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+        => await CultivateSystem.CultivateFromAllPiles(
+            ctx, play.Player, this, DynamicVars["Count"].IntValue);
+
+    protected override void OnUpgrade() => DynamicVars["Count"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -348,21 +356,16 @@ public sealed class OldTreeRoots : CultivateCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<BlockNextTurnPower>(),
+        HoverTipFactory.FromPower<OldTreeRootsPower>(),
     ];
 
-    public override bool GainsBlock => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new[] { new BlockVar(12m, ValueProp.Move) };
+        new[] { new PowerVar<OldTreeRootsPower>(10m) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-    {
-        await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await Apply<BlockNextTurnPower>(ctx, play, play.Player.Creature, 4m);
-    }
+        => await Apply<OldTreeRootsPower>(ctx, play, play.Player.Creature, DynamicVars["OldTreeRootsPower"].BaseValue);
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars["OldTreeRootsPower"].UpgradeValueBy(3m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -469,23 +472,28 @@ public sealed class ApicalGrowth : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class FlowerBud : CultivateCard
 {
-    protected override bool ShowsGrowKeyword => true;
-
     public FlowerBud() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
-
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-
     [
-
         HoverTipFactory.FromPower<FlowerBudPower>(),
-
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Apply<FlowerBudPower>(ctx, play, play.Player.Creature, 1m);
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new[] { new DamageVar(6m, ValueProp.Move) };
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
+    {
+        var power = await PowerCmd.Apply<FlowerBudPower>(ctx, play.Player.Creature,
+            DynamicVars.Damage.BaseValue, play.Player.Creature, this);
+        if (power is not null)
+        {
+            power.DamageValue = DynamicVars.Damage.BaseValue;
+            power.CountHarvested = IsUpgraded;
+        }
+    }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
@@ -589,47 +597,57 @@ public sealed class Trunk : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class LeafLitter : CultivateCard
 {
-    public LeafLitter() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public LeafLitter() : base(3, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override bool GainsBlock => true;
 
+    protected override bool ShowsGrowKeyword => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[]
-        {
-            new CalculationBaseVar(5m),
-            new CalculationExtraVar(1m),
-            new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => CultivateSystem.PileCount(card.Owner))
-        };
+        new[] { new BlockVar(15m, ValueProp.Move) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, DynamicVars.CalculatedBlock.Calculate(play.Target));
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        await Block(ctx, play, DynamicVars.Block.BaseValue);
+        await CultivateSystem.Grow(ctx, play.Player, 1);
+
+        var power = await PowerCmd.Apply<LeafLitterPower>(ctx, play.Player.Creature,
+            DynamicVars.Block.BaseValue, play.Player.Creature, this);
+        if (power is not null)
+            power.BlockValue = DynamicVars.Block.BaseValue;
     }
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ResinSeal : CultivateCard
 {
-    public ResinSeal() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    public ResinSeal() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<WeakPower>(),
+        HoverTipFactory.FromPower<VigorPower>(),
     ];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<WeakPower>(2m) };
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        new DynamicVar[]
+        {
+            new DamageVar(28m, ValueProp.Move),
+            new PowerVar<VigorPower>(4m),
+        };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is not null)
-            await Apply<WeakPower>(ctx, play, play.Target, DynamicVars["WeakPower"].BaseValue);
-        await CardPileCmd.Draw(ctx, 1m, play.Player);
+        if (play.Target is null)
+            return;
+
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (play.Target.IsAlive)
+            await Apply<VigorPower>(ctx, play, play.Target, DynamicVars["VigorPower"].BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars["WeakPower"].UpgradeValueBy(1m);
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]

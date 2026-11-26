@@ -305,6 +305,42 @@ public static class CultivateSystem
         return await PlantCard(ctx, player, target, pile);
     }
 
+    /// <summary>从抽牌堆、手牌和弃牌堆中选牌栽培。</summary>
+    public static async Task<int> CultivateFromAllPiles(PlayerChoiceContext ctx, Player player, AbstractModel source, int count)
+    {
+        if (!CultivateFlags.CanCultivate(player) || count <= 0)
+            return 0;
+
+        var state = player.PlayerCombatState;
+        if (state is null)
+            return 0;
+
+        var cards = state.Hand.Cards
+            .Concat(state.DrawPile.Cards)
+            .Concat(state.DiscardPile.Cards)
+            .ToList();
+        if (cards.Count == 0)
+            return 0;
+
+        var prefs = new CardSelectorPrefs(new LocString("cards", "VIRIDIS_CARD_SUCKER_PROMPT"), Math.Min(count, cards.Count))
+        {
+            Cancelable = false,
+            RequireManualConfirmation = false
+        };
+        var selected = await CardSelectCmd.FromSimpleGrid(ctx, cards, player, prefs);
+
+        int done = 0;
+        foreach (var card in selected.ToList())
+        {
+            if (card.Pile is not { IsCombatPile: true })
+                continue;
+
+            await Cultivate(ctx, player, card);
+            done++;
+        }
+        return done;
+    }
+
     /// <summary>连续栽培若干张手牌。</summary>
     public static async Task<int> CultivateMultiple(PlayerChoiceContext ctx, Player player, AbstractModel source, int count, int extraTurns = 0)
     {
@@ -353,7 +389,7 @@ public static class CultivateSystem
                 target.Id,
                 TargetRarity(target.Rarity),
                 x,
-                isAncient ? 2 + extraCopies : 1 + extraCopies,
+                isAncient ? 2 : 1,
                 target.Rarity,
                 target.IsUpgraded,
                 target.Title + (target.IsUpgraded ? "+" : ""))
@@ -385,7 +421,27 @@ public static class CultivateSystem
             if (target is CultivateCard cultivatedCard)
                 await cultivatedCard.OnCultivated(ctx, player);
 
-            Log.Info($"[Cultivate] planted {target.Id} from {sourcePile.Type} X={x} count={planting.Count}");
+            // 分株：复制是真正独立种下的作物，各自在栽培区显示并独立倒计时。
+            for (int i = 0; i < extraCopies; i++)
+            {
+                var copy = new Planting(
+                    target.Id,
+                    TargetRarity(target.Rarity),
+                    x,
+                    isAncient ? 2 : 1,
+                    target.Rarity,
+                    target.IsUpgraded,
+                    target.Title + (target.IsUpgraded ? "+" : ""))
+                {
+                    CultivatedOnTurn = planting.CultivatedOnTurn
+                };
+                copy.TurnsLeft = planting.TurnsLeft;
+                power.Pending.Add(copy);
+                await NotifyCultivated(ctx, player);
+            }
+            CultivatePileUI.Refresh(player);
+
+            Log.Info($"[Cultivate] planted {target.Id} from {sourcePile.Type} X={x} count={planting.Count} copies={extraCopies}");
             // 栽培触发可能已收获或移除这株作物。
             if ((harvestImmediately || extraTurns != 0) && power.Pending.Contains(planting))
             {

@@ -112,23 +112,35 @@ public sealed class FriedEgg : CultivateCard
     protected override void OnUpgrade() => DynamicVars["TempStrengthPower"].UpgradeValueBy(2m);
 }
 
-/// <summary>喜多护佑：获得 7（10）点格挡，移除自己的虚弱。</summary>
+/// <summary>喜多：获得 5（8）点活力与拉伸。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class KitaBlessing : CultivateCard
 {
     public KitaBlessing() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VigorPower>(),
+        HoverTipFactory.FromPower<StretchPower>(),
+    ];
 
-    public override bool GainsBlock => true;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(7m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new PowerVar<VigorPower>(5m),
+        new PowerVar<StretchPower>(5m),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        await Block(ctx, play, DynamicVars.Block.BaseValue);
-        await PowerCmd.Remove(play.Player.Creature.GetPower<WeakPower>());
+        await Apply<VigorPower>(ctx, play, play.Player.Creature, DynamicVars["VigorPower"].BaseValue);
+        await Apply<StretchPower>(ctx, play, play.Player.Creature, DynamicVars["StretchPower"].BaseValue);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(3m);
+    protected override void OnUpgrade()
+    {
+        DynamicVars["VigorPower"].UpgradeValueBy(3m);
+        DynamicVars["StretchPower"].UpgradeValueBy(3m);
+    }
 }
 
 /// <summary>杀植物：令栽培区所有牌枯萎；每枯萎 1 张获得 1 能量与 3 格挡。</summary>
