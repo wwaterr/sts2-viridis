@@ -236,25 +236,34 @@ public sealed class Thorns : CultivateCard
     }
 }
 
-/// <summary>树脂护壳：14（17）格挡，每株作物额外 2 格挡。</summary>
+/// <summary>树脂！！！：造成 28（34）点伤害，给予目标 4 点活力。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ResinShell : CultivateCard
 {
-    public ResinShell() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public ResinShell() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
-    public override bool GainsBlock => true;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VigorPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(14m),
-        new CalculationExtraVar(2m),
-        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) => FieldCount.For(card))
+        new DamageVar(28m, ValueProp.Move),
+        new PowerVar<VigorPower>(4m),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
-        => await Block(ctx, play, DynamicVars.CalculatedBlock.Calculate(play.Target));
+    {
+        if (play.Target is null)
+            return;
 
-    protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
+        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
+        if (play.Target.IsAlive)
+            await Apply<VigorPower>(ctx, play, play.Target, DynamicVars["VigorPower"].BaseValue);
+    }
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
 }
 
 /// <summary>叶绿素爆发：对单个敌人造成每株作物 6 点伤害，至少 12 点。</summary>

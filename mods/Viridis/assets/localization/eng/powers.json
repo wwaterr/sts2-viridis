@@ -24,7 +24,7 @@
     "VIRIDIS_POWER_DEEP_ROOT_POWER.title":  "Deep Root",
     "VIRIDIS_POWER_DEEP_ROOT_POWER.description":  "Whenever you [gold]Cultivate[/gold] a card, gain 1 [gold]Strength[/gold] and 1 [gold]Dexterity[/gold].",
     "VIRIDIS_POWER_FLOWER_BUD_POWER.title":  "Flower Bud",
-    "VIRIDIS_POWER_FLOWER_BUD_POWER.description":  "At the start of your turn, deal {Amount} damage to a random enemy for each card in your Cultivate Pile. Upgraded: cards harvested this turn also count.",
+    "VIRIDIS_POWER_FLOWER_BUD_POWER.description":  "At the start of your turn, deal {Amount} damage to a random enemy for each card in your Cultivate Pile. Cards harvested this turn also count.",
     "VIRIDIS_POWER_NO_CULTIVATE_POWER.title":  "Cannot Cultivate",
     "VIRIDIS_POWER_NO_CULTIVATE_POWER.description":  "You cannot [gold]Cultivate[/gold] this turn.",
     "VIRIDIS_POWER_NEXT_CULTIVATE_FAST_POWER.title":  "Accelerated Cultivation",

@@ -489,7 +489,7 @@ public sealed class FlowerBud : CultivateCard
         if (power is not null)
         {
             power.DamageValue = DynamicVars.Damage.BaseValue;
-            power.CountHarvested = IsUpgraded;
+            power.CountHarvested = true;
         }
     }
 
@@ -623,31 +623,23 @@ public sealed class LeafLitter : CultivateCard
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ResinSeal : CultivateCard
 {
-    public ResinSeal() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    public ResinSeal() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<VigorPower>(),
+        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        new DynamicVar[]
-        {
-            new DamageVar(28m, ValueProp.Move),
-            new PowerVar<VigorPower>(4m),
-        };
+    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new PowerVar<WeakPower>(2m) };
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
-        if (play.Target is null)
-            return;
-
-        await Hit(ctx, play, play.Target, DynamicVars.Damage.BaseValue);
-        if (play.Target.IsAlive)
-            await Apply<VigorPower>(ctx, play, play.Target, DynamicVars["VigorPower"].BaseValue);
+        if (play.Target is not null)
+            await Apply<WeakPower>(ctx, play, play.Target, DynamicVars["WeakPower"].BaseValue);
+        await CardPileCmd.Draw(ctx, 1m, play.Player);
     }
 
-    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
+    protected override void OnUpgrade() => DynamicVars["WeakPower"].UpgradeValueBy(1m);
 }
 
 [RegisterCard(typeof(ViridisCardPool))]

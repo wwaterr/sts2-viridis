@@ -24,7 +24,7 @@
     "VIRIDIS_POWER_DEEP_ROOT_POWER.title":  "深根",
     "VIRIDIS_POWER_DEEP_ROOT_POWER.description":  "每当你[gold]栽培[/gold]一张牌，获得1点[gold]力量[/gold]和1点[gold]敏捷[/gold]。",
     "VIRIDIS_POWER_FLOWER_BUD_POWER.title":  "花芽分化",
-    "VIRIDIS_POWER_FLOWER_BUD_POWER.description":  "在你的回合开始时，栽培区每有1张牌，对随机敌人造成{Amount}点伤害。升级后本回合收获的牌也会计入。",
+    "VIRIDIS_POWER_FLOWER_BUD_POWER.description":  "在你的回合开始时，栽培区每有1张牌，对随机敌人造成{Amount}点伤害。本回合收获的牌也会计入。",
     "VIRIDIS_POWER_NO_CULTIVATE_POWER.title":  "无法栽培",
     "VIRIDIS_POWER_NO_CULTIVATE_POWER.description":  "本回合无法[gold]栽培[/gold]。",
     "VIRIDIS_POWER_NEXT_CULTIVATE_FAST_POWER.title":  "加速栽培",
