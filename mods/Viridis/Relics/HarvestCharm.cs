@@ -1,10 +1,12 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using Viridis.Cultivate;
 using Viridis.Pools;
 
 namespace Viridis.Relics;
@@ -12,6 +14,8 @@ namespace Viridis.Relics;
 [RegisterRelic(typeof(ViridisRelicPool))]
 public sealed class HarvestCharm : ModRelicTemplate
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate, CultivateTips.Harvest];
+
     private bool _triggeredThisCombat;
 
     public override RelicRarity Rarity => RelicRarity.Common;

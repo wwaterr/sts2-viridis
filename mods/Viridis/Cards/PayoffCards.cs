@@ -18,10 +18,12 @@ file static class FieldCount
         card.IsMutable && card.Owner is { } player ? CultivateSystem.PileCount(player) : 0;
 }
 
-/// <summary>气生根：5（8）格挡，每株作物额外 2 格挡。</summary>
+/// <summary>气生根：如果栽培区有牌，再获得一次格挡；否则抽牌。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class AerialRoot : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public AerialRoot() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     public override bool GainsBlock => true;
@@ -48,10 +50,12 @@ public sealed class AerialRoot : CultivateCard
     }
 }
 
-/// <summary>顶端优势：5（8）伤害，有作物时额外 5 点。</summary>
+/// <summary>顶端优势：若栽培区有牌，再攻击一次。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ApicalDominance : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public ApicalDominance() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
@@ -69,10 +73,12 @@ public sealed class ApicalDominance : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
-/// <summary>引水：获得 1 能量；库数非空时抽 1 张。</summary>
+/// <summary>引水：对所有敌人造成伤害，栽培区每有一张牌获得 1 点能量。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class WaterDrawing : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public WaterDrawing() : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12m, ValueProp.Move)];
@@ -137,10 +143,11 @@ public sealed class MeltToWater : CultivateCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("BlockPerCrop", 3m)];
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-    {
-        HoverTipFactory.FromKeyword(WitherKeyword.Value)
-    };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(WitherKeyword.Value),
+        CultivateTips.Cultivate
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
@@ -155,10 +162,12 @@ public sealed class MeltToWater : CultivateCard
     protected override void OnUpgrade() => DynamicVars["BlockPerCrop"].UpgradeValueBy(1m);
 }
 
-/// <summary>光合脉冲：3（4）伤害，每株作物多攻击一次。</summary>
+/// <summary>光合脉冲：3（4）伤害，栽培区每有一张牌，多攻击一次。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class PhotosyntheticPulse : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public PhotosyntheticPulse() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     private const string HitsKey = "CalculatedHits";
@@ -184,10 +193,12 @@ public sealed class PhotosyntheticPulse : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(1m);
 }
 
-/// <summary>荆刺：6（9）伤害，获得 2 格挡，每株作物额外 1 格挡。</summary>
+/// <summary>荆刺：6（9）伤害，获得 2 格挡，栽培区每有一张牌额外 1 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class Thorns : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public Thorns() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
 
     public override bool GainsBlock => true;
@@ -212,10 +223,12 @@ public sealed class Thorns : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
-/// <summary>树脂护壳：14（17）格挡，每株作物额外 2 格挡。</summary>
+/// <summary>树脂护壳：14（17）格挡，栽培区每有一张牌额外 2 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ResinShell : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public ResinShell() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     public override bool GainsBlock => true;
@@ -233,10 +246,12 @@ public sealed class ResinShell : CultivateCard
     protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(3m);
 }
 
-/// <summary>叶绿素爆发：对单个敌人造成每株作物 6 点伤害，至少 12 点。</summary>
+/// <summary>叶绿素爆发：造成单体伤害，栽培区从第 3 张牌起每张额外造成 6 点。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class ChlorophyllBurst : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public ChlorophyllBurst() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -255,10 +270,12 @@ public sealed class ChlorophyllBurst : CultivateCard
     protected override void OnUpgrade() => DynamicVars.CalculationBase.UpgradeValueBy(4m);
 }
 
-/// <summary>老根：10（13）格挡，每株作物额外 4 格挡。</summary>
+/// <summary>老根：10（13）格挡，栽培区每有一张牌额外 4 格挡。</summary>
 [RegisterCard(typeof(ViridisCardPool))]
 public sealed class OldRoots : CultivateCard
 {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [CultivateTips.Cultivate];
+
     public OldRoots() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
 
     public override bool GainsBlock => true;

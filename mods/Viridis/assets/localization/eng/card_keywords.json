@@ -1,10 +1,10 @@
 {
     "VIRIDIS_KEYWORD_CULTIVATE.title":  "Cultivate",
-    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Put the selected card in your Cultivate Pile. At the start of your turn, reduce its remaining turns by 1. The wait is based on the card’s base Energy cost, with a minimum of 1 and a maximum of 3. X-cost cards take 1 turn. When ready, you usually harvest a card one rarity higher. Ancient cards yield two copies of the same card instead.",
+    "VIRIDIS_KEYWORD_CULTIVATE.description":  "Put the chosen card in your Cultivate Pile. Its countdown is its base cost, with a minimum of 1 turn and a maximum of 3 (X counts as 1). At the start of your turn, reduce the countdown by 1. Harvest the card when it reaches 0.",
     "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.title":  "Permanent Cultivate",
-    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "When cultivated, this card stays in your Cultivate Pile permanently and never yields a card. Playing it does not cultivate it. Other effects can still remove it.",
+    "VIRIDIS_KEYWORD_PERMANENT_CULTIVATE.description":  "When Cultivated, this card stays in your Cultivate Pile and triggers its listed effect there. It has no countdown and cannot be Harvested. Playing it does not Cultivate it.",
     "VIRIDIS_KEYWORD_WITHER.title":  "Wither",
-    "VIRIDIS_KEYWORD_WITHER.description":  "Remove a card from your Cultivate Pile. It is not harvested, and the original card is not returned.",
+    "VIRIDIS_KEYWORD_WITHER.description":  "Remove the specified card from your Cultivate Pile for the rest of combat without Harvesting it.",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.title":  "Viewer",
     "VIRIDIS_KEYWORD_VIEWER_COUNT.description":  "A counter. Whenever you play a card during your turn, gain 1 Viewer. Viewers reset to 0 at the end of your turn.",
     "VIRIDIS_KEYWORD_KAOZI.title":  "Kaozi",
@@ -14,7 +14,14 @@
     "VIRIDIS_KEYWORD_CHUANZI.title":  "Troll",
     "VIRIDIS_KEYWORD_CHUANZI.description":  "At the start of your turn, gain X random stacks of Vigor or Stretch.",
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
-    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
+    "VIRIDIS_KEYWORD_FARMER_FORM.description":  "At the start of your turn, reduce all countdowns in your Cultivate Pile by 1 more per stack. Each time a countdown reaches 0, Harvest 1 additional card per stack.",
     "VIRIDIS_KEYWORD_GROW.title":  "Grow",
-    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all non-permanent crops in your Cultivate Pile by X. X is set by the card."
+    "VIRIDIS_KEYWORD_GROW.description":  "Reduce all countdowns in your Cultivate Pile by the listed number of turns. Immediately Harvest cards that reach 0.",
+    "VIRIDIS_KEYWORD_HARVEST.title":  "Harvest",
+    "VIRIDIS_KEYWORD_HARVEST.description":  "Add a new card to your Hand, or to your Discard Pile if your Hand is full. It is usually one rarity higher and inherits the original card’s upgrade. An Ancient yields 2 cards of the same name instead.\nIf the original card’s base cost was 2 or higher, each harvested card costs at most 1 Energy the first time you play it.",
+    "VIRIDIS_CULTIVATE_PILE.title":  "Cultivate Pile",
+    "VIRIDIS_CULTIVATE_PILE.count":  "Cultivate Pile ({Count})",
+    "VIRIDIS_CULTIVATE_PILE.empty":  "Your Cultivate Pile is empty.",
+    "VIRIDIS_CULTIVATE_PILE.permanent":  "{CardTitle}  Permanent Cultivate",
+    "VIRIDIS_CULTIVATE_PILE.turns":  "{CardTitle}  {Turns} {Turns:plural:turn|turns} remaining"
 }
