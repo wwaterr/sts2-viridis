@@ -16,5 +16,7 @@
     "VIRIDIS_KEYWORD_FARMER_FORM.title":  "Farmer Form",
     "VIRIDIS_KEYWORD_FARMER_FORM.description":  "Cultivate progress and harvested card count are increased by 1 each turn.",
     "VIRIDIS_KEYWORD_GROW.title":  "Grow",
-    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all cards in your Cultivate Pile by X. X is set by the card."
+    "VIRIDIS_KEYWORD_GROW.description":  "Reduce the remaining turns of all cards in your Cultivate Pile by X. X is set by the card.",
+    "VIRIDIS_KEYWORD_GYMNOSPERM.title": "Gymnosperm",
+    "VIRIDIS_KEYWORD_GYMNOSPERM.description": "Cards with this trait interact with Gymnosperm effects."
 }

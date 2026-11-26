@@ -1,3 +1,4 @@
+using System.Linq;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -29,6 +30,9 @@ public sealed class Gymnosperm : CultivateCard
         HoverTipFactory.FromPower<MuleDutyPower>(),
         HoverTipFactory.FromPower<KaoziPower>(),
     ];
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        base.CanonicalKeywords.Append(GymnospermKeyword.Value);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new PowerVar<MuleDutyPower>(4m) };

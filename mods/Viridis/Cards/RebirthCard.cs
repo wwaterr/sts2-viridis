@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 using Viridis.Pools;
@@ -16,6 +17,11 @@ public sealed class Rebirth : PlaceholderArtCard
         : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
     {
     }
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<RebirthPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         new[] { new PowerVar<RebirthPower>(3m) };

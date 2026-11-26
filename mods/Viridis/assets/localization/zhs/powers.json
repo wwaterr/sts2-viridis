@@ -72,5 +72,15 @@
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "本质调情",
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "你获得[gold]反踩[/gold]时，改为获得等量的[gold]考子[/gold]。",
     "VIRIDIS_POWER_REBIRTH_POWER.title": "转世",
-    "VIRIDIS_POWER_REBIRTH_POWER.description": "在你的回合内，当一张栽培区的牌枯萎后，消耗一层转世并栽培一张那张牌的复制。\n在你的回合内，当你的生命值将被减少至0或以下时，将你回复到你最大生命值的100%并失去拥有的所有效果。"
+    "VIRIDIS_POWER_REBIRTH_POWER.description": "在你的回合内，当一张栽培区的牌枯萎后，消耗一层转世并栽培一张那张牌的复制。\n在你的回合内，当你的生命值将被减少至0或以下时，将你回复到你最大生命值的100%并失去拥有的所有效果。",
+    "VIRIDIS_POWER_CEDAR_POWER.title": "雪松",
+    "VIRIDIS_POWER_CEDAR_POWER.description": "每当你被攻击命中时，获得{Amount}点格挡。",
+    "VIRIDIS_POWER_FLIGHT_POWER.title": "飞行",
+    "VIRIDIS_POWER_FLIGHT_POWER.description": "受到的攻击伤害减半。每次受到未被格挡的攻击伤害时，减少1层。",
+    "VIRIDIS_POWER_EMPEROR_POWER.title": "直播间皇帝",
+    "VIRIDIS_POWER_EMPEROR_POWER.description": "在你的回合开始时，失去2考子并获得2反踩，获得1点能量并额外抽1张牌。",
+    "VIRIDIS_POWER_OVERWATER_POWER.title": "养啥死啥",
+    "VIRIDIS_POWER_OVERWATER_POWER.description": "当你栽培一张牌后，令其枯萎，获得{Amount}点能量并抽1张牌。",
+    "VIRIDIS_POWER_DAY0_POWER.title": "Day0",
+    "VIRIDIS_POWER_DAY0_POWER.description": "下个回合开始时失去2点能量，少抽2张牌。"
 }

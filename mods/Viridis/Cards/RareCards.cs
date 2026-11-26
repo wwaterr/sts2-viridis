@@ -17,7 +17,6 @@ namespace Viridis.Cards;
 
 // ---------- 稀有牌 ----------
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class AncientTree : CultivateCard
 {
     public AncientTree() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -63,7 +62,6 @@ public sealed class ForestLord : CultivateCard
     }
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class AllGrowth : CultivateCard
 {
     protected override bool ShowsGrowKeyword => true;
@@ -81,7 +79,6 @@ public sealed class AllGrowth : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Cards.UpgradeValueBy(1m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class RainOfChange : CultivateCard
 {
     public RainOfChange() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
@@ -137,7 +134,6 @@ public sealed class Canopy : CultivateCard
     }
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class SporeCloud : CultivateCard
 {
     public SporeCloud() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AllEnemies) { }
@@ -184,7 +180,6 @@ public sealed class Clone : CultivateCard
     protected override void OnUpgrade() => DynamicVars["Copies"].UpgradeValueBy(1m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringRitual : CultivateCard
 {
     public SpringRitual() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
@@ -195,7 +190,6 @@ public sealed class SpringRitual : CultivateCard
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class StranglerFig : CultivateCard
 {
     public StranglerFig() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }
@@ -220,7 +214,6 @@ public sealed class StranglerFig : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(3m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class DeepRoot : CultivateCard
 {
     public DeepRoot() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -236,7 +229,6 @@ public sealed class DeepRoot : CultivateCard
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class SpringCycle : CultivateCard
 {
     protected override bool ShowsGrowKeyword => true;
@@ -275,7 +267,6 @@ public sealed class LeafStorm : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(2m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class MotherPlant : CultivateCard
 {
     public MotherPlant() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -322,7 +313,6 @@ public sealed class LeafVein : CultivateCard
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class Lignify : CultivateCard
 {
     public Lignify() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }
@@ -340,7 +330,6 @@ public sealed class Lignify : CultivateCard
     protected override void OnUpgrade() => DynamicVars.Block.UpgradeValueBy(4m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class Symbiosis : CultivateCard
 {
     public Symbiosis() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -358,7 +347,6 @@ public sealed class Symbiosis : CultivateCard
     protected override void OnUpgrade() => DynamicVars["SymbiosisPower"].UpgradeValueBy(1m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class HumusCycle : CultivateCard
 {
     public HumusCycle() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -374,7 +362,6 @@ public sealed class HumusCycle : CultivateCard
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class GrowthPeriod : CultivateCard
 {
     public GrowthPeriod() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self) { }
@@ -448,7 +435,6 @@ public sealed class WitherBloom : CultivateCard
     protected override void OnUpgrade() => DynamicVars["Gain"].UpgradeValueBy(1m);
 }
 
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class PhotosyntheticStorm : CultivateCard
 {
     public PhotosyntheticStorm() : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy) { }

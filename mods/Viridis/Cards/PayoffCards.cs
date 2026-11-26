@@ -261,7 +261,6 @@ public sealed class ChlorophyllBurst : CultivateCard
 }
 
 /// <summary>老根：10（13）格挡，每株作物额外 4 格挡。</summary>
-[RegisterCard(typeof(ViridisCardPool))]
 public sealed class OldRoots : CultivateCard
 {
     public OldRoots() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self) { }

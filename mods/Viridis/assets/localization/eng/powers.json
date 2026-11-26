@@ -72,5 +72,15 @@
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.title":  "Essential Flirting",
     "VIRIDIS_POWER_ESSENTIAL_FLIRTING_POWER.description":  "Whenever you gain [gold]Anti-Stomp[/gold], gain that much [gold]Kaozi[/gold] instead.",
     "VIRIDIS_POWER_REBIRTH_POWER.title": "Rebirth",
-    "VIRIDIS_POWER_REBIRTH_POWER.description": "During your turn, when a card in your Cultivate Pile is withered, spend 1 Rebirth to cultivate a copy of that card.\nDuring your turn, when your HP would be reduced to 0 or below, heal to 100% of your Max HP and lose all of your Powers."
+    "VIRIDIS_POWER_REBIRTH_POWER.description": "During your turn, when a card in your Cultivate Pile is withered, spend 1 Rebirth to cultivate a copy of that card.\nDuring your turn, when your HP would be reduced to 0 or below, heal to 100% of your Max HP and lose all of your Powers.",
+    "VIRIDIS_POWER_CEDAR_POWER.title": "Cedar",
+    "VIRIDIS_POWER_CEDAR_POWER.description": "Whenever you are hit by an attack, gain {Amount} Block.",
+    "VIRIDIS_POWER_FLIGHT_POWER.title": "Flight",
+    "VIRIDIS_POWER_FLIGHT_POWER.description": "Attack damage you take is halved. Lose 1 stack whenever you take unblocked attack damage.",
+    "VIRIDIS_POWER_EMPEROR_POWER.title": "Stream Emperor",
+    "VIRIDIS_POWER_EMPEROR_POWER.description": "At the start of your turn, lose 2 Kaozi, gain 2 Anti-Stomp, gain 1 Energy, and draw 1 additional card.",
+    "VIRIDIS_POWER_OVERWATER_POWER.title": "Overwater",
+    "VIRIDIS_POWER_OVERWATER_POWER.description": "Whenever you Cultivate a card, Wither it to gain {Amount} Energy and draw 1 card.",
+    "VIRIDIS_POWER_DAY0_POWER.title": "Day0",
+    "VIRIDIS_POWER_DAY0_POWER.description": "At the start of next turn, lose 2 Energy and draw 2 fewer cards."
 }

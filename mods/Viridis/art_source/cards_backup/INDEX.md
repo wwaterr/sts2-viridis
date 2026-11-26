@@ -94,3 +94,21 @@ soft_green_blanket, card_art, fantasy, painterly, dark_background
 | tundra | 苔原 | 苔原雪景 | 格挡/寒冷 |
 
 上述卡牌已从卡池与本地化移除，PNG 与 ctex 保留在本目录，复用时按原名放回 `art_source/cards/` 与 `assets/images/cards/`。
+
+## 2026-11-27 移除的 15 张卡
+
+- **绞杀榕**（`strangler_fig.png` / `strangler_fig.ctex`）：小松绿立于缠绕绞杀的榕根与藤蔓之间，神情阴沉。 原卡已移除，专属插画保留备复用。
+- **光合风暴**（`photosynthetic_storm.png` / `photosynthetic_storm.ctex`）：绿色光合风暴盘旋，小松绿在风暴中摆出强力姿势。 原卡已移除，专属插画保留备复用。
+- **化雨**（`rain_of_change.png` / `rain_of_change.ctex`）：小松绿化作光雨消散，宁静的转化场景。 原卡已移除，专属插画保留备复用。
+- **孢子云**（`spore_cloud.png` / `spore_cloud.ctex`）：小松绿在孢子云中呼吸，毒绿色雾气弥漫。 原卡已移除，专属插画保留备复用。
+- **春之祭**（`spring_ritual.png` / `spring_ritual.ctex`）：小松绿在春日花圃的仪式圆环中张开双臂。 原卡已移除，专属插画保留备复用。
+- **老根**（`old_roots.png` / `old_roots.ctex`）：盘根错节的巨大根墙，小松绿以防御姿态站在根前。 原卡已移除，专属插画保留备复用。
+- **木质化**（`lignify.png` / `lignify.ctex`）：小松绿皮肤木质化，身体覆上树皮纹理。 原卡已移除，专属插画保留备复用。
+- **生长期**（`growth_period.png` / `growth_period.ctex`）：小松绿安静地拔高生长，枝芽初绽。 原卡已移除，专属插画保留备复用。
+- **万物生长**（`all_growth.png` / `all_growth.ctex`）：万物爆发生长，丛林繁花，小松绿高举双臂。 原卡已移除，专属插画保留备复用。
+- **腐殖循环**（`humus_cycle.png` / `humus_cycle.ctex`）：落叶分解、腐殖循环的螺旋构图，小松绿位于循环中。 原卡已移除，专属插画保留备复用。
+- **共生**（`symbiosis.png` / `symbiosis.ctex`）：小松绿与植物融合共生，两颗心发光。 原卡已移除，专属插画保留备复用。
+- **年轮循环**（`spring_cycle.png` / `spring_cycle.ctex`）：年轮旋转如时间循环，小松绿置身其中。 原卡已移除，专属插画保留备复用。
+- **千年古树**（`ancient_tree.png` / `ancient_tree.ctex`）：小松绿站在参天巨树前，巨树古老而庞大。 原卡已移除，专属插画保留备复用。
+- **深根**（`deep_root.png` / `deep_root.ctex`）：小松绿双手贴地，根系深入地下，力量增长。 原卡已移除，专属插画保留备复用。
+- **母株**（`mother_plant.png` / `mother_plant.ctex`）：小松绿如母株般孕育周围植物，暖光笼罩。 原卡已移除，专属插画保留备复用。
