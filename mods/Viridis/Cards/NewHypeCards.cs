@@ -65,18 +65,25 @@ public sealed class HateYou : PlaceholderArtCard, IHypeCard
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<VulnerablePower>(),
-        HoverTipFactory.FromPower<DebilitatePower>(),
-        HoverTipFactory.FromPower<KaoziPower>(),
-    ];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => IsUpgraded
+        ?
+        [
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.FromPower<DebilitatePower>(),
+            HoverTipFactory.FromPower<KaoziPower>(),
+        ]
+        :
+        [
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.FromPower<KaoziPower>(),
+        ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         await Hit(ctx, play, play.Target!, DynamicVars.Damage.BaseValue);
         await Apply<VulnerablePower>(ctx, play, play.Target!, DynamicVars["VulnerablePower"].BaseValue);
-        await Apply<DebilitatePower>(ctx, play, play.Target!, DynamicVars["DebilitatePower"].BaseValue);
+        if (IsUpgraded)
+            await Apply<DebilitatePower>(ctx, play, play.Target!, DynamicVars["DebilitatePower"].BaseValue);
         await Apply<KaoziPower>(ctx, play, play.Player.Creature, DynamicVars["KaoziPower"].BaseValue);
     }
 
@@ -247,7 +254,7 @@ public sealed class Slg : PlaceholderArtCard, IHypeCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay play)
     {
         var target = play.Target!;
-        await CreatureCmd.GainBlock(target, DynamicVars.Block.BaseValue, BlockProps.card, play);
+        await CreatureCmd.GainBlock(target, IsUpgraded ? 10m : 7m, BlockProps.card, play);
         await Block(ctx, play, target.Block * 2m);
     }
 
