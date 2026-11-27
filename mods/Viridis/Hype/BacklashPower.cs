@@ -63,11 +63,14 @@ public sealed class BacklashPower : ModPowerTemplate
 
         await PowerCmd.Apply<VigorPower>(choiceContext, player.Creature, stacks, player.Creature, null);
 
-        if (stacks <= 1)
+        bool droppedToZero = stacks <= 1;
+        if (droppedToZero)
             await PowerCmd.Remove(this);
         else
             SetAmount(stacks - 1);
 
         PolarityBarUI.Refresh(player);
+        if (droppedToZero)
+            await HypeSystem.NotifyPolarityReachedZero(choiceContext, player);
     }
 }

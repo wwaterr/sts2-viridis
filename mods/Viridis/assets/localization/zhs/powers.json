@@ -68,5 +68,5 @@
     "VIRIDIS_POWER_SHE_IS_TALKING.title":  "她在和谁说话",
     "VIRIDIS_POWER_SHE_IS_TALKING.description":  "每当回合结束前[gold]同接[/gold]达到{Amount}，次回合开始时生长1。",
     "VIRIDIS_POWER_STREAM_EMPEROR.title":  "直播间皇帝",
-    "VIRIDIS_POWER_STREAM_EMPEROR.description":  "锡纸帽和独轮车进入手牌时被升级。"
+    "VIRIDIS_POWER_STREAM_EMPEROR.description":  "每回合首次获得[gold]入脑[/gold]或[gold]反踩[/gold]时，[gold]生长[/gold]{Amount}。每回合[gold]入脑[/gold]或[gold]反踩[/gold]首次降为0时，[gold]生长[/gold]{Amount}。"
 }

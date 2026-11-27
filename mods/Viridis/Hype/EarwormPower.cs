@@ -44,11 +44,14 @@ public sealed class EarwormPower : ModPowerTemplate
         await PowerCmd.Apply<StretchPower>(choiceContext, player.Creature, stacks, player.Creature, null);
         HypeSystem.Add(player, 3);
 
-        if (stacks <= 1)
+        bool droppedToZero = stacks <= 1;
+        if (droppedToZero)
             await PowerCmd.Remove(this);
         else
             SetAmount(stacks - 1);
 
         PolarityBarUI.Refresh(player);
+        if (droppedToZero)
+            await HypeSystem.NotifyPolarityReachedZero(choiceContext, player);
     }
 }

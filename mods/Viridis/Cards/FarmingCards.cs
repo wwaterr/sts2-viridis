@@ -160,8 +160,11 @@ public sealed class EarwormSlayer : CultivateCard, IHypeCard
         var earworm = play.Player.Creature.GetPower<EarwormPower>();
         if (earworm is not null)
         {
+            bool hadStacks = earworm.Amount > 0;
             await PowerCmd.Remove(earworm);
             PolarityBarUI.Refresh(play.Player);
+            if (hadStacks)
+                await HypeSystem.NotifyPolarityReachedZero(ctx, play.Player);
         }
 
         if (CombatState is not { } combat || combat.HittableEnemies.Count == 0)

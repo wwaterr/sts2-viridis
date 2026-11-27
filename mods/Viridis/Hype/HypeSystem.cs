@@ -157,7 +157,7 @@ public static class HypeSystem
         watcher?.NotifyHype((int)power.Amount);
     }
 
-    /// <summary>生成一张衍生牌并加入手牌；直播间皇帝会在此时把它升级。</summary>
+    /// <summary>生成一张衍生牌并加入手牌。</summary>
     public static async Task GiveToken<T>(PlayerChoiceContext ctx, Player player) where T : CardModel
     {
         var state = player.Creature?.CombatState;
@@ -165,9 +165,6 @@ public static class HypeSystem
             return;
 
         var card = state.CreateCard<T>(player);
-        if (!card.IsUpgraded && player.Creature?.GetPower<StreamEmperorPower>() is not null)
-            CardCmd.Upgrade(card, CardPreviewStyle.None);
-
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player, CardPilePosition.Top);
     }
 
@@ -205,31 +202,45 @@ public static class HypeSystem
         return value;
     }
 
+    /// <summary>通知直播间皇帝：本回合获得了入脑或反踩。</summary>
+    public static async Task NotifyPolarityGained(PlayerChoiceContext ctx, Player player)
+    {
+        if (player.Creature?.GetPower<StreamEmperorPower>() is { } emperor)
+            await emperor.OnPolarityGained(ctx, player);
+    }
+
+    /// <summary>通知直播间皇帝：入脑或反踩从大于 0 降为了 0。</summary>
+    public static async Task NotifyPolarityReachedZero(PlayerChoiceContext ctx, Player player)
+    {
+        if (player.Creature?.GetPower<StreamEmperorPower>() is { } emperor)
+            await emperor.OnPolarityReachedZero(ctx, player);
+    }
+
     /// <summary>获得入脑：先抵掉等量反踩，剩余部分上限 8，溢出转化为拉伸。</summary>
     public static async Task GainEarworm(PlayerChoiceContext ctx, Player player, int amount)
     {
         if (amount <= 0)
             return;
 
-        int remain = await ReduceOpposite<BacklashPower>(ctx, player, amount);
-        if (remain <= 0)
+        var (remain, oppositeDroppedToZero) = await ReduceOpposite<BacklashPower>(ctx, player, amount);
+        if (remain > 0)
         {
-            PolarityBarUI.Refresh(player);
-            return;
+            int current = EarwormStacks(player);
+            int room = Math.Max(0, MaxPolarityStacks - current);
+            int apply = Math.Min(remain, room);
+            int overflow = remain - apply;
+
+            if (apply > 0)
+                await PowerCmd.Apply<EarwormPower>(ctx, player.Creature, apply, player.Creature, null);
+
+            if (overflow > 0)
+                await PowerCmd.Apply<StretchPower>(ctx, player.Creature, overflow, player.Creature, null);
         }
 
-        int current = EarwormStacks(player);
-        int room = Math.Max(0, MaxPolarityStacks - current);
-        int apply = Math.Min(remain, room);
-        int overflow = remain - apply;
-
-        if (apply > 0)
-            await PowerCmd.Apply<EarwormPower>(ctx, player.Creature, apply, player.Creature, null);
-
-        if (overflow > 0)
-            await PowerCmd.Apply<StretchPower>(ctx, player.Creature, overflow, player.Creature, null);
-
         PolarityBarUI.Refresh(player);
+        await NotifyPolarityGained(ctx, player);
+        if (oppositeDroppedToZero)
+            await NotifyPolarityReachedZero(ctx, player);
     }
 
     /// <summary>获得反踩：先抵掉等量入脑，剩余部分上限 8，溢出转化为活力。</summary>
@@ -238,42 +249,48 @@ public static class HypeSystem
         if (amount <= 0)
             return;
 
-        int remain = await ReduceOpposite<EarwormPower>(ctx, player, amount);
-        if (remain <= 0)
+        var (remain, oppositeDroppedToZero) = await ReduceOpposite<EarwormPower>(ctx, player, amount);
+        if (remain > 0)
         {
-            PolarityBarUI.Refresh(player);
-            return;
+            int current = BacklashStacks(player);
+            int room = Math.Max(0, MaxPolarityStacks - current);
+            int apply = Math.Min(remain, room);
+            int overflow = remain - apply;
+
+            if (apply > 0)
+                await PowerCmd.Apply<BacklashPower>(ctx, player.Creature, apply, player.Creature, null);
+
+            if (overflow > 0)
+                await PowerCmd.Apply<VigorPower>(ctx, player.Creature, overflow, player.Creature, null);
         }
 
-        int current = BacklashStacks(player);
-        int room = Math.Max(0, MaxPolarityStacks - current);
-        int apply = Math.Min(remain, room);
-        int overflow = remain - apply;
-
-        if (apply > 0)
-            await PowerCmd.Apply<BacklashPower>(ctx, player.Creature, apply, player.Creature, null);
-
-        if (overflow > 0)
-            await PowerCmd.Apply<VigorPower>(ctx, player.Creature, overflow, player.Creature, null);
-
         PolarityBarUI.Refresh(player);
+        await NotifyPolarityGained(ctx, player);
+        if (oppositeDroppedToZero)
+            await NotifyPolarityReachedZero(ctx, player);
     }
 
-    private static async Task<int> ReduceOpposite<TOpposite>(PlayerChoiceContext ctx, Player player, int amount)
+    private static async Task<(int Remain, bool DroppedToZero)> ReduceOpposite<TOpposite>(PlayerChoiceContext ctx, Player player, int amount)
         where TOpposite : PowerModel
     {
         var opposite = player.Creature?.GetPower<TOpposite>();
         if (opposite is null)
-            return amount;
+            return (amount, false);
 
         int current = (int)opposite.Amount;
         int reduced = Math.Min(current, amount);
         int left = current - reduced;
+        bool droppedToZero = false;
         if (left <= 0)
+        {
             await PowerCmd.Remove(opposite);
+            droppedToZero = current > 0;
+        }
         else
+        {
             opposite.SetAmount(left);
+        }
 
-        return amount - reduced;
+        return (amount - reduced, droppedToZero);
     }
 }

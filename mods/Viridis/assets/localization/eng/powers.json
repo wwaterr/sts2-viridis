@@ -68,5 +68,5 @@
     "VIRIDIS_POWER_SHE_IS_TALKING.title":  "Who Is She Talking To",
     "VIRIDIS_POWER_SHE_IS_TALKING.description":  "Whenever your [gold]Viewer[/gold] reaches {Amount} before your turn ends, Grow 1 at the start of next turn.",
     "VIRIDIS_POWER_STREAM_EMPEROR.title":  "Stream Emperor",
-    "VIRIDIS_POWER_STREAM_EMPEROR.description":  "Foil Hat and Unicycle are upgraded when they enter your hand."
+    "VIRIDIS_POWER_STREAM_EMPEROR.description":  "The first time you gain [gold]Earworm[/gold] or [gold]Backlash[/gold] each turn, [gold]Grow[/gold] {Amount}. The first time [gold]Earworm[/gold] or [gold]Backlash[/gold] drops to 0 each turn, [gold]Grow[/gold] {Amount}."
 }
